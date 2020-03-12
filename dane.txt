@@ -1,0 +1,14 @@
+Temat projektu na "Projektowanie aplikacji internetowych 2" := "Aplikacja zarządzająca firmą świadczącą usługi pielęgnacji samochodów osobowych";
+Front-end := React;
+Back-end := Spring Boot;
+Baza danych := PostgreSQL;
+Skład zespółu := Bartłomiej Kotarski, Marcin Kroczak;
+
+Projekty były robione wspólnie: 
+Inżynieria systemów informacyjnych := "System dietetyczny";
+Podstawy inżynierii programowania := "Zarządzanie siecią restauracji";
+Praca inżynierska := Brak;
+
+Podział prac: 
+Bartłomiej Kotarski: warstwa danych, encje, serwisy, dyniamiczne elementy na stronie (React), kontrolery, obsługa zalogownaych użytkowników(EMPLOYEE);
+Marcin Kroczak: bezpieczeństwo, serwisy , statyczne strony (React), obsługa zalogownaych użytkowników (USER - zalogowany, niezalogowany);
