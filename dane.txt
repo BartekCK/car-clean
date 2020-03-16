@@ -1,14 +1,48 @@
-Temat projektu na "Projektowanie aplikacji internetowych 2" := "Aplikacja zarządzająca firmą świadczącą usługi pielęgnacji samochodów osobowych";
+# uzgodniony z prowadzącym temat:
+"Aplikacja zarządzająca firmą świadczącą usługi pielęgnacji samochodów osobowych";
+
+# zakres projektu, czyli opisać jaka będzie funkcjonalność opracowanego systemu:
+Klienci przez Interent będą mieli możliwość rejesterowania się na usługi pielegnacyjne ich samochodów osobowych za opłatą. 
+Będzie możliwa przedpłata internetowa. Dodatkowo system oferuje sklep sprzedający produkty czyszące dot. tematyki motoryzacyjnej.
+Podczas trwania czyszczenia pracownicy ustawiają status usługi, aby klient nie czekał i miał dostęp na bieżąco do wykonywanych prac. 
+Zarejestrownai kliecni będą mogli wystawić ocenę usługi wraz ze zdjęciem przed/po.
+
+# kategorie użytkowników i ich funkcjonalności:
+Niezalogowany klient:
+Przeglądanie opinii salonu (zdjęcia aut przed/po + opis użytkowników),
+Przeglądanie rodzajów usług,
+Zakup produktów kosmetycznych wraz z płatnością (mini sklep).
+
+Klient zalogowany:
+Wystawianie opinii,
+Obsługa danych swoich pojazdów w bazie danych,
+Rejestrowanie się na konkretą usługę z przedpłatnością internetową lub gotówką w salonie,
+Sprawdzedzenie statusu ukończenia usługi za pomocą komunikatów,
+Emailowe potwierdzenia i przypomnienie o terminie usuługi,
+Zakup produktów kosmetycznych wraz z płatnością (mini sklep).
+
+Pracownik:
+Rejestrowanie klientów (niezalogowanych/zalogowanych) na konkretną uslugę (telefoniczni klienci),
+Ustawienie statusu usługi (który potem jest odczytywnay przez klientów),
+Przeglądanie danych o klientach pojazdach i usługach.
+
+# wykorzystywane technologie (fron-end, back-end, baza danych):
 Front-end := React;
 Back-end := Spring Boot;
 Baza danych := PostgreSQL;
-Skład zespółu := Bartłomiej Kotarski, Marcin Kroczak;
 
-Projekty były robione wspólnie: 
+# skład zespół i podział prac:
+Skład zespółu := Bartłomiej Kotarski, Marcin Kroczak;
+Bartłomiej Kotarski: warstwa danych, encje, serwisy, dyniamiczne elementy na stronie (React), kontrolery, obsługa zalogownaych użytkowników(EMPLOYEE);
+Marcin Kroczak: bezpieczeństwo, serwisy , statyczne strony (React), obsługa zalogownaych użytkowników (USER - zalogowany, niezalogowany);
+
+# dla każdego studenta należy podać zrealizowany temat z przedmiotów: "Inżynieria systemów informacyjnych", "Podstawy inżynierii programowania" / "Inżynieria programowania" oraz temat pracy inżynierskiej (jeżeli został już wybrany):
+Projekty Bartłomieja i Marcina (były robione razem): 
 Inżynieria systemów informacyjnych := "System dietetyczny";
 Podstawy inżynierii programowania := "Zarządzanie siecią restauracji";
 Praca inżynierska := Brak;
 
-Podział prac: 
-Bartłomiej Kotarski: warstwa danych, encje, serwisy, dyniamiczne elementy na stronie (React), kontrolery, obsługa zalogownaych użytkowników(EMPLOYEE);
-Marcin Kroczak: bezpieczeństwo, serwisy , statyczne strony (React), obsługa zalogownaych użytkowników (USER - zalogowany, niezalogowany);
+
+
+
+
