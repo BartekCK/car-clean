@@ -1,5 +1,6 @@
 package com.carwash.server.models;
 
+import com.carwash.server.models.enums.PaidStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -18,12 +19,14 @@ public class Order {
 
     //private int user_id;
     private int bill;
+    private String car_parameters;
+    private PaidStatus paid_status;
 
     @ManyToMany
     @JoinTable(name = "order_product")
     private List<Product> orderProducts;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 }

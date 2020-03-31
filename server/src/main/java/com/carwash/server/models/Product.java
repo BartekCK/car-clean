@@ -1,5 +1,6 @@
 package com.carwash.server.models;
 
+import com.carwash.server.models.enums.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -26,4 +27,6 @@ public class Product {
 
     @Column(nullable = false)
     private String prod_photo;
+
+    private ProductCategory category;
 }

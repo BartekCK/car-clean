@@ -23,6 +23,6 @@ public class User {
     @OneToMany(mappedBy = "id")
     private Set<Car> cars;
 
-    @OneToOne(mappedBy = "id", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user_id")
     private Employee employee;
 }

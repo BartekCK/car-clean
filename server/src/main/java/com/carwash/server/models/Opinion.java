@@ -17,8 +17,10 @@ public class Opinion {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
+
+    private int mark;
 
     private LocalDateTime date;
     private String text_content;

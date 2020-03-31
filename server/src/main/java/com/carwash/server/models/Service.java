@@ -21,23 +21,25 @@ public class Service {
     //private int employee_id;
     //private int services_id;
     private LocalDateTime date;
+    private int time;
+    private String description;
 
     @Enumerated(value = EnumType.STRING)
     private ServiceStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "car_id")
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "service_id")
     private Service service;
 }
