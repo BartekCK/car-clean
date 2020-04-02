@@ -2,6 +2,7 @@ package com.carwash.server.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "opinion")
 public class Opinion {

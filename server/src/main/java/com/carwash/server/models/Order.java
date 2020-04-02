@@ -3,6 +3,7 @@ package com.carwash.server.models;
 import com.carwash.server.models.enums.PaidStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -10,14 +11,14 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //private int user_id;
     private int bill;
     private String car_parameters;
     private PaidStatus paid_status;

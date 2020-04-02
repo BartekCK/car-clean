@@ -3,12 +3,15 @@ package com.carwash.server.models;
 import com.carwash.server.models.enums.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "product")
 public class Product {
@@ -29,4 +32,10 @@ public class Product {
     private String prod_photo;
 
     private ProductCategory category;
+
+    @ManyToMany(mappedBy = "orderProducts")
+    private Set<Order> prods;
+
+    @ManyToMany(mappedBy = "basketProducts")
+    private Set<Basket> basks;
 }
