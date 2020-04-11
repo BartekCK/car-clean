@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
 import {Home} from "./pages/Home"
 import {AppNav} from "./containers/Navigation"
 import {Shop} from "./pages/Shop";
+import { Basket } from './pages/Basket';
 
 class App extends React.Component {
   render() {
@@ -14,6 +15,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/sklep" component={Shop} />
+          <Route path="/koszyk" component={Basket} />
         </Switch>
       </Router>
     )
