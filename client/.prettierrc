@@ -1,7 +1,7 @@
 {
-  "printWidth": 85,
-  "arrowParens": "always",
-  "semi": false,
+  "trailingComma": "es5",
   "tabWidth": 2,
-  "Semicolons": true
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": true
 }
