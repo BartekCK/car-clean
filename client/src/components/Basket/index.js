@@ -39,7 +39,7 @@ export const PaymentButton = () => (
           <Button className='mr-1' variant='outline-primary'>
             Płatność przelewem
           </Button>
-          <Button variant='outline-success'>Płatność przy odbiorze</Button>
+          <Button variant='outline-success' >Płatność przy odbiorze</Button>
         </Card.Body>
       </Accordion.Collapse>
     </Card>
