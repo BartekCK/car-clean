@@ -1,6 +1,5 @@
 import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-
+import { Container, Row } from 'react-bootstrap';
 import { OfferDiv } from '../../components/Offer';
 import { offers } from '../../data/temp/OffersTemp';
 
@@ -10,7 +9,7 @@ export class Offer extends React.Component {
   };
 
   componentDidMount = () => {
-    this.setState({ offers: offers });
+    this.setState({ offers: offers }); //GET FROM API
   };
 
   render() {
@@ -20,14 +19,14 @@ export class Offer extends React.Component {
         <Row md={1} lg={2} xl={3}>
           {offers &&
             offers.map((offer) => (
-              <Col>
-                <OfferDiv
-                  title={offer.name}
-                  photo={offer.image}
-                  description={offer.description}
-                  price={offer.price}
-                />
-              </Col>
+              <OfferDiv
+                key={offer.id}
+                id={offer.id}
+                title={offer.name}
+                photo={offer.image}
+                description={offer.description}
+                price={offer.price}
+              />
             ))}
         </Row>
       </Container>

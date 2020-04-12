@@ -28,6 +28,7 @@ export const AppNav = () => (
         <Nav.Link href='/sklep'>Sklep</Nav.Link>
         <Nav.Link href='/oferta'>Oferta</Nav.Link>
         <Nav.Link href='/kontakt'>Kontakt</Nav.Link>
+        <Nav.Link href='/opinie'>Opinie</Nav.Link>
       </Nav>
       <Nav className='mr-1'>
         {/*IF USER NO SIGN IN */}
