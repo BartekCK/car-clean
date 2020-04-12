@@ -31,7 +31,7 @@ export const CarTable = ({ userId, actionStart, actionTitle }) => {
           </thead>
           <tbody>
             {cars.map((car) => (
-              <tr>
+              <tr key={car.id}>
                 <td>{car.brand}</td>
                 <td>{car.plates_number}</td>
                 <td>
