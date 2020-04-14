@@ -10,6 +10,8 @@ import {Offer} from './pages/Offer';
 import {ChosenOffer} from './pages/ChosenOffer';
 import {SignIn} from './pages/SignIn';
 import {SignUp} from './pages/SignUp';
+import {Contact} from "./pages/Contact";
+import {Opinions} from "./pages/Opinions";
 
 class App extends React.Component {
   render() {
@@ -20,6 +22,8 @@ class App extends React.Component {
           <Route exact path='/' component={Home} />
           <Route path='/sklep' component={Shop} />
           <Route path='/koszyk' component={Basket} />
+          <Route path='/kontakt' component={Contact} />
+          <Route path='/opinie' component={Opinions} />
           <Route exact path='/oferta' component={Offer} />
           {/*//PRIVATE ROUTE*/}
           <Route exact path='/oferta/:id' component={ChosenOffer} />
