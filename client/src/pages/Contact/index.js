@@ -17,7 +17,7 @@ export class Contact extends React.Component {
                                 <img
                                     width={64}
                                     height={64}
-                                    className="align-self-start mr-3"
+                                    className="align-Ąself-start mr-3"
                                     src= {local}
                                     alt="Generic placeholder"
                                 />
@@ -69,7 +69,7 @@ export class Contact extends React.Component {
                                 />
                                 <Media.Body>
                                     <h5>Facebook</h5>
-                                    <a href={""}><p>link</p></a>
+                                    <a href={"/sklep"}><p>link</p></a>
                                 </Media.Body>
                             </Media>
                             <br/>
@@ -77,7 +77,7 @@ export class Contact extends React.Component {
                                 <img
                                     width={64}
                                     height={64}
-                                    className="align-self-end mr-3"
+                                    className="align-Ąself-end mr-3"
                                     src= {insta}
                                     alt="Generic placeholder"
                                 />
