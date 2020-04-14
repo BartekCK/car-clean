@@ -1,6 +1,6 @@
-import {Badge, Button, Card, Col} from 'react-bootstrap';
+import { Badge, Button, Card, Col } from 'react-bootstrap';
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const OfferDiv = ({
   id,
@@ -13,7 +13,7 @@ export const OfferDiv = ({
   return (
     <Col>
       <Card
-        className='bg-dark text-white my-2 text-c'
+        className='bg-dark text-white my-2 mx-auto'
         style={{ width: '320px', height: '280px' }}
       >
         <Card.Img

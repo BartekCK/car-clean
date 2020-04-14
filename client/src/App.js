@@ -10,6 +10,7 @@ import {Offer} from './pages/Offer';
 import {ChosenOffer} from './pages/ChosenOffer';
 import {SignIn} from './pages/SignIn';
 import {SignUp} from './pages/SignUp';
+import {UserCar} from './pages/UserCar';
 
 class App extends React.Component {
   render() {
@@ -25,6 +26,8 @@ class App extends React.Component {
           <Route exact path='/oferta/:id' component={ChosenOffer} />
           <Route path='/zaloguj' component={SignIn} />
           <Route path='/zarejestruj' component={SignUp} />
+          {/*//PRIVATE ROUTE*/}
+          <Route exact path='/pojazdy' component={UserCar} />
         </Switch>
       </Router>
     );
