@@ -1,6 +1,5 @@
-import {Accordion, Button, Card, FormControl, InputGroup,} from 'react-bootstrap';
+import {Card} from 'react-bootstrap';
 import React from 'react';
-import styled from 'styled-components';
 
 export const SingleOpinion = ({ id, name ,mark ,date, content, imgc1, imgc2, imgc3 }) => (
     <Card style={{ width: '68rem', marginTop: '10px' }}>

@@ -1,8 +1,7 @@
 import React from 'react';
-import {Container, Accordion, Card, Button, Form, Col, Row} from 'react-bootstrap';
-import {AddImage, SingleInputProduct} from "../../components/Basket";
-import BasketImage from "../../resources/img/basket.png";
+import {Container, Accordion, Card, Button, Form, Col, Modal, FormControl} from 'react-bootstrap';
 import {SingleOpinion} from "../../components/Opinion";
+import {ErrorModal} from "../../helpers/error";
 
 export class Opinions extends React.Component {
     state = {
@@ -59,13 +58,31 @@ export class Opinions extends React.Component {
                 img_content3: '../../resources/img/opinions/15.jpg',
             },
         ],
+        formcontent: '',
+        errormodal: null,
+    };
+
+    updateCredentials = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+    addOpinion = () => {
+        const { formcontent, errormodal } = this.state;
+        if (formcontent.length > 0) {
+            //POST TO API WITH DATA LOCATED IN STATE
+            console.log(formcontent);
+            console.log(errormodal)
+            this.setState({ errormodal: true }); //IF GOOD
+            // this.setState({ showModal: false }); //IF WRONG
+        }
+        else {this.setState({ errormodal: false });}
     };
 
     componentDidMount = () => {
         // GET FROM API OPINIONS WITH NAME OF USER
     };
     render() {
-        const { topinions } = this.state;
+        const { topinions, formcontent, errormodal } = this.state;
         return (
             <Container className='mt-4'>
 
@@ -83,7 +100,12 @@ export class Opinions extends React.Component {
                                     <Form>
                                         <Form.Group>
                                             <Form.Label>Treść</Form.Label>
-                                            <Form.Control as="textarea" rows="3" /><br/>
+                                            <FormControl
+                                                value={formcontent}
+                                                name='formcontent'
+                                                onChange={this.updateCredentials}
+                                                placeholder='opinia'
+                                            /><br/>
                                             <Form.Label>Wystaw ocenę</Form.Label>
                                             <Form.Control as="select" size="sm" custom>
                                                 <option>1</option>
@@ -101,7 +123,7 @@ export class Opinions extends React.Component {
                                                 <Form.File.Input />
                                             </Form.File>
                                         </div>
-                                        <Button variant="primary" type="submit">
+                                        <Button onClick={this.addOpinion} variant="primary" type="submit">
                                             Wyślij
                                         </Button>
                                     </Form>
@@ -121,7 +143,7 @@ export class Opinions extends React.Component {
                                 content={opinion.text_content}
                                 imgc1 = {opinion.img_content1}
                                 imgc2 = {opinion.img_content2}
-                                imgc2 = {opinion.img_content3}
+                                imgc3 = {opinion.img_content3}
                             />
                         ))
                     ) : (
@@ -130,7 +152,24 @@ export class Opinions extends React.Component {
                         </>
                     )}
                 </Col>
+                {errormodal === true && (
+                    <AddOpinionModal onHide={() => this.setState({ errormodal: null })} />
+                )}
+                {errormodal === false && (
+                    <ErrorModal onHide={() => this.setState({ errormodal: null })} />
+                )}
             </Container>
         );
     }
 }
+
+export const AddOpinionModal = ({ onHide }) => (
+    <Modal size='lg' centered show={true}>
+        <Modal.Header>
+            <p>Pomyślnie dodano opinie</p>
+            <Button variant='success' onClick={onHide}>
+                Dalej
+            </Button>
+        </Modal.Header>
+    </Modal>
+);

@@ -1,13 +1,37 @@
 import React from 'react';
-import { Container, Row, Col, Button, Media, Form } from 'react-bootstrap';
+import {Container, Row, Col, Button, Media, Form, FormControl, Modal} from 'react-bootstrap';
 import tel from '../../resources/img/contact/tel.svg';
 import mail from '../../resources/img/contact/mail.svg';
 import fb from '../../resources/img/contact/fb.svg';
 import local from '../../resources/img/contact/local.svg';
 import insta from '../../resources/img/contact/insta.svg';
+import {ErrorModal} from "../../helpers/error";
 
 export class Contact extends React.Component {
+    state = {
+        name: '',
+        email: '',
+        topic: '',
+        content: '',
+        errormodal: null,
+    }
+
+    updateCredentials = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+    sendmail = () => {
+        const { name, email, topic, content } = this.state;
+        if (name.length > 0 && email.length > 0 && topic.length > 0 && content.length > 0) {
+            //SEND EMAIL
+            this.setState({ errormodal: true }); //IF GOOD
+            // this.setState({ showModal: false }); //IF WRONG
+        }
+        else {this.setState({ errormodal: false });}
+    };
+
     render() {
+        const {name, email, topic, content, errormodal} = this.state;
         return (
             <Container className='mt-4'>
                 <Row>
@@ -93,21 +117,58 @@ export class Contact extends React.Component {
                         <Form>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Imie</Form.Label>
-                                <Form.Control type="text"/><br/>
+                                <FormControl
+                                    value={name}
+                                    name='name'
+                                    onChange={this.updateCredentials}
+                                    placeholder='imie'
+                                /><br/>
                                 <Form.Label>Adres E-mail</Form.Label>
-                                <Form.Control type="email"/><br/>
+                                <FormControl
+                                    value={email}
+                                    name='email'
+                                    onChange={this.updateCredentials}
+                                    placeholder='email'
+                                /><br/>
                                 <Form.Label>Temat</Form.Label>
-                                <Form.Control type="text"/><br/>
+                                <FormControl
+                                    value={topic}
+                                    name='topic'
+                                    onChange={this.updateCredentials}
+                                    placeholder='temat'
+                                /><br/>
                                 <Form.Label>Treść</Form.Label>
-                                <Form.Control as="textarea" rows="3" />
+                                <FormControl
+                                    value={content}
+                                    name='content'
+                                    onChange={this.updateCredentials}
+                                    placeholder='tresc'
+                                /><br/>
                             </Form.Group>
-                            <Button variant="primary" type="submit">
+                            <Button onClick={this.sendmail} variant="primary" type="submit">
                                 Wyślij
                             </Button>
                         </Form>
                     </Col>
                 </Row>
+                {errormodal === true && (
+                    <MailModal onHide={() => this.setState({ errormodal: null })} />
+                )}
+                {errormodal === false && (
+                    <ErrorModal onHide={() => this.setState({ errormodal: null })} />
+                )}
             </Container>
         );
     }
 }
+
+export const MailModal = ({ onHide }) => (
+    <Modal size='lg' centered show={true}>
+        <Modal.Header>
+            <p>Pomyślnie wysłano wiadomość E-mail</p>
+            <Button variant='success' onClick={onHide}>
+                Dalej
+            </Button>
+        </Modal.Header>
+    </Modal>
+);
