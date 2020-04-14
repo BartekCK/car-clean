@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Col, Modal } from 'react-bootstrap';
+import {Badge, Button, Card, Col, Modal} from 'react-bootstrap';
 import React from 'react';
 
 const MyVerticallyCenteredModal = ({ name, price, onHide, show }) => (

@@ -1,13 +1,7 @@
 import Payments24 from '../../resources/img/add/przelewy24.png';
 import MastercardImage from '../../resources/img/add/mastercard.png';
 import VisaImage from '../../resources/img/add/visa.png';
-import {
-  Accordion,
-  Button,
-  Card,
-  FormControl,
-  InputGroup,
-} from 'react-bootstrap';
+import {Accordion, Button, Card, FormControl, InputGroup,} from 'react-bootstrap';
 import React from 'react';
 import styled from 'styled-components';
 

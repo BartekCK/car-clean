@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import {Image, Nav, Navbar, NavDropdown} from 'react-bootstrap';
 import Logo from './../../resources/img/logo.png';
 import User from './../../resources/img/user.png';
 
@@ -29,6 +29,8 @@ export const AppNav = () => (
         <Nav.Link href='/oferta'>Oferta</Nav.Link>
         <Nav.Link href='/kontakt'>Kontakt</Nav.Link>
         <Nav.Link href='/opinie'>Opinie</Nav.Link>
+        {/*ONLY FOR EMPLOYESS*/}
+        <Nav.Link href='/serwisy' >Przegląd serwisów</Nav.Link>
       </Nav>
       <Nav className='mr-1'>
         {/*IF USER NO SIGN IN */}
@@ -45,6 +47,9 @@ export const AppNav = () => (
           drop='left'
         >
           <NavDropdown.Item href='/koszyk'>Koszyk</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href='/pojazdy'>Moje pojazdy</NavDropdown.Item>
+          <NavDropdown.Item href='/historia'>Historia serwisów</NavDropdown.Item>
           <NavDropdown.Divider />
           <NavDropdown.Item href='/wylogowanie'>Wyloguj się</NavDropdown.Item>
         </NavDropdown>

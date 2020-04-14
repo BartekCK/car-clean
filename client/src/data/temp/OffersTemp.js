@@ -2,7 +2,8 @@ import ColorCorrectImage from '../../resources/img/offer/korekta-lakieru.jpg';
 import WheelDetalingImage from '../../resources/img/offer/ochronna-felg-600x577.jpg';
 import LiteCarImage from '../../resources/img/offer/regeneracja-lamp-samochodowych-600x534.jpg';
 import DetalingImage from '../../resources/img/offer/tani-auto-detailing-600x404.jpg';
-import HydroWindowImage from '../../resources/img/offer/auto-detailing-hydrofobizacja-szyb-gtechniq-clearvision-600x404.jpg';
+import HydroWindowImage
+    from '../../resources/img/offer/auto-detailing-hydrofobizacja-szyb-gtechniq-clearvision-600x404.jpg';
 import WoskImage from '../../resources/img/offer/auto-detailing-woskowanie-lakieru-600x404.jpg';
 
 export const offers = [

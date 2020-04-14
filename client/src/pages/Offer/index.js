@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container, Row } from 'react-bootstrap';
-import { OfferDiv } from '../../components/Offer';
-import { offers } from '../../data/temp/OffersTemp';
+import {Container, Row} from 'react-bootstrap';
+import {OfferDiv} from '../../components/Offer';
+import {offers} from '../../data/temp/OffersTemp';
 
 export class Offer extends React.Component {
   state = {

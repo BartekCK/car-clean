@@ -1,8 +1,8 @@
 import React from 'react';
-import { Container, Row } from 'react-bootstrap';
+import {Container, Row} from 'react-bootstrap';
 import styled from 'styled-components';
-import { ProductCard } from '../../components/Product';
-import { ProductNav } from '../../components/ProductNav';
+import {ProductCard} from '../../components/Product';
+import {ProductNav} from '../../components/ProductNav';
 
 export class Shop extends React.Component {
   state = {
