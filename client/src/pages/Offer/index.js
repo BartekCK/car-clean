@@ -16,7 +16,7 @@ export class Offer extends React.Component {
     const { offers } = this.state;
     return (
       <Container className='mt-1'>
-        <Row md={1} lg={2} xl={3}>
+        <Row sm={1} md={2} xl={3} >
           {offers &&
             offers.map((offer) => (
               <OfferDiv

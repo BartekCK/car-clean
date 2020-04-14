@@ -13,7 +13,7 @@ export const OfferDiv = ({
   return (
     <Col>
       <Card
-        className='bg-dark text-white my-2 text-c'
+        className='bg-dark text-white my-2 mx-auto'
         style={{ width: '320px', height: '280px' }}
       >
         <Card.Img

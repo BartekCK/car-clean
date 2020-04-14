@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Button, Col, Row } from 'react-bootstrap';
-import { CredentialsWrapper } from '../SignIn';
+import React, {useEffect, useState} from 'react';
+import {Alert, Button, Col, Row} from 'react-bootstrap';
+import {CredentialsWrapper} from '../SignIn';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import { MdAccountCircle, MdLock, MdMail, MdPhone } from 'react-icons/md';
-import { Redirect } from 'react-router-dom';
-import { ErrorModal } from '../../helpers/error';
+import {MdAccountCircle, MdLock, MdMail, MdPhone} from 'react-icons/md';
+import {Redirect} from 'react-router-dom';
+import {ErrorModal} from '../../helpers/error';
 
-const MyInput = ({
+export const MyInput = ({
   value,
   name,
   placeholder,

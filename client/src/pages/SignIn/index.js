@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, Col, Image, Row } from 'react-bootstrap';
+import {Button, Col, Image, Row} from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import { MdAccountCircle, MdLock } from 'react-icons/md';
+import {MdAccountCircle, MdLock} from 'react-icons/md';
 import styled from 'styled-components';
 import Logo from '../../resources/img/logo.png';
-import { ErrorModal } from '../../helpers/error';
-import { Redirect } from 'react-router-dom';
+import {ErrorModal} from '../../helpers/error';
+import {Redirect} from 'react-router-dom';
 
 export class SignIn extends React.Component {
   state = {
