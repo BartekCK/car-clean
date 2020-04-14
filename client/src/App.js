@@ -11,6 +11,7 @@ import {ChosenOffer} from './pages/ChosenOffer';
 import {SignIn} from './pages/SignIn';
 import {SignUp} from './pages/SignUp';
 import {UserCar} from './pages/UserCar';
+import {UserService} from "./pages/UserService";
 
 class App extends React.Component {
   render() {
@@ -28,6 +29,8 @@ class App extends React.Component {
           <Route path='/zarejestruj' component={SignUp} />
           {/*//PRIVATE ROUTE*/}
           <Route exact path='/pojazdy' component={UserCar} />
+          {/*//PRIVATE ROUTE*/}
+          <Route exact path='/historia' component={UserService} />
         </Switch>
       </Router>
     );

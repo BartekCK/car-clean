@@ -1,11 +1,11 @@
 import React from 'react';
-import { Badge, Button, Col, Container, Modal, Row } from 'react-bootstrap';
-import { CarTable } from '../../components/CarTable';
-import { MyInput } from '../SignUp';
-import { MdLocalCarWash, TiBusinessCard } from 'react-icons/all';
+import {Badge, Button, Col, Container, Modal, Row} from 'react-bootstrap';
+import {CarTable} from '../../components/CarTable';
+import {MyInput} from '../SignUp';
+import {MdLocalCarWash, TiBusinessCard} from 'react-icons/all';
 import styled from 'styled-components';
 import CarImage from '../../resources/img/car/car-credentials.jpeg';
-import { ErrorModal } from '../../helpers/error';
+import {ErrorModal} from '../../helpers/error';
 
 export class UserCar extends React.Component {
   state = {

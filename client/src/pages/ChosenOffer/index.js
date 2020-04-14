@@ -1,12 +1,12 @@
 import React from 'react';
-import { Badge, Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
-import { offers } from '../../data/temp/OffersTemp';
-import { OfferDiv } from '../../components/Offer';
-import { CarTable } from '../../components/CarTable';
-import { Calendar } from 'react-calendar';
+import {Badge, Button, Col, Container, ListGroup, Row} from 'react-bootstrap';
+import {offers} from '../../data/temp/OffersTemp';
+import {OfferDiv} from '../../components/Offer';
+import {CarTable} from '../../components/CarTable';
+import {Calendar} from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { Redirect } from 'react-router-dom';
-import { ErrorModal } from '../../helpers/error';
+import {Redirect} from 'react-router-dom';
+import {ErrorModal} from '../../helpers/error';
 
 export class ChosenOffer extends React.Component {
   state = {
