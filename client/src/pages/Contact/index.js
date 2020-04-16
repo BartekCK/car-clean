@@ -78,8 +78,8 @@ export class Contact extends React.Component {
                                 />
                                 <Media.Body>
                                     <h5>E-mail</h5>
-                                    <p>marycc.gorek@gmai.com</p>
-                                    <p>michalina.conv2@gmai.com</p>
+                                    <p>bkotarski1@gmail.com</p>
+                                    <p>marcink1303@gmail.com</p>
                                 </Media.Body>
                             </Media>
                             <br/>
