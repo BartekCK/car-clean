@@ -1,11 +1,11 @@
 import React from 'react';
-import {Badge, Button, Col, Container, Modal, Row} from 'react-bootstrap';
-import {CarTable} from '../../components/CarTable';
-import {MyInput} from '../SignUp';
-import {MdLocalCarWash, TiBusinessCard} from 'react-icons/all';
+import { Badge, Button, Col, Container, Modal, Row } from 'react-bootstrap';
+import { CarTable } from '../../components/CarTable';
+import { MyInput } from '../SignUp';
+import { MdLocalCarWash, TiBusinessCard } from 'react-icons/all';
 import styled from 'styled-components';
 import CarImage from '../../resources/img/car/car-credentials.jpeg';
-import {ErrorModal} from '../../helpers/error';
+import { ErrorModal } from '../../helpers/error';
 
 export class UserCar extends React.Component {
   state = {
@@ -43,30 +43,40 @@ export class UserCar extends React.Component {
     return (
       <Container>
         <Row className='d-flex flex-column'>
-          <Col className='p-0'>
-            <CarAddWrapper>
-              <Badge variant='primary'>Dodawanie pojazdu</Badge>
-              <MyInput
-                name='brand'
-                placeholder='Marka pojazdu'
-                SpecialIcon={MdLocalCarWash}
-                value={brand}
-                updateCredentials={this.updateCredentials}
-              />
-              <MyInput
-                name='plates_number'
-                placeholder='Numery rejestracyjne'
-                SpecialIcon={TiBusinessCard}
-                value={plates_number}
-                updateCredentials={this.updateCredentials}
-              />
-              <Button onClick={this.addUserCar} variant='success'>
+          <CarAddWrapper className='p-0'>
+            <Col>
+              <Badge variant='primary' className='my-2'>
+                Dodawanie pojazdu
+              </Badge>
+            </Col>
+            <MyInput
+              name='brand'
+              placeholder='Marka pojazdu'
+              SpecialIcon={MdLocalCarWash}
+              value={brand}
+              updateCredentials={this.updateCredentials}
+            />
+            <MyInput
+              name='plates_number'
+              placeholder='Numery rejestracyjne'
+              SpecialIcon={TiBusinessCard}
+              value={plates_number}
+              updateCredentials={this.updateCredentials}
+            />
+            <Col>
+              <Button
+                className='my-2 float-right'
+                onClick={this.addUserCar}
+                variant='success'
+              >
                 Dodaj pojazd
               </Button>
-            </CarAddWrapper>
-          </Col>
+            </Col>
+          </CarAddWrapper>
           <Col className='shadow my-2'>
-            <Badge variant='primary'>Twoje pojazdy</Badge>
+            <Col className='my-2'>
+              <Badge variant='primary'>Twoje pojazdy</Badge>
+            </Col>
             <CarTable
               userId={userId}
               actionStart={this.deleteUserCar}
@@ -85,10 +95,9 @@ export class UserCar extends React.Component {
   }
 }
 
-const CarAddWrapper = styled.div`
+const CarAddWrapper = styled(Col)`
   background: url(${CarImage}) no-repeat;
   background-size: cover;
-  padding: 5px;
 `;
 
 export const AddCarModal = ({ onHide }) => (

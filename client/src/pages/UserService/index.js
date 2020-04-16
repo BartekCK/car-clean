@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const UserService = () => {
   const [servicesData, setServicesData] = useState([
     {
-      serviceUseId: 0,
+      serviceId: 0,
       carId: 0,
       brand: '',
       plates_number: '',
@@ -19,7 +19,7 @@ export const UserService = () => {
     //GET FROM API ALL INF ABOUT USER SERVICES BY USER ID
     setServicesData([
       {
-        serviceUseId: 0,
+        serviceId: 0,
         carId: 0,
         brand: 'Mercedes',
         plates_number: 'THI66666',
@@ -29,7 +29,7 @@ export const UserService = () => {
         status: 'Zakończono',
       },
       {
-        serviceUseId: 1,
+        serviceId: 1,
         carId: 0,
         brand: 'Mercedes',
         plates_number: 'THI66666',
@@ -39,7 +39,7 @@ export const UserService = () => {
         status: 'Anulowano',
       },
       {
-        serviceUseId: 2,
+        serviceId: 2,
         carId: 0,
         brand: 'Mercedes',
         plates_number: 'THI66666',
@@ -53,35 +53,37 @@ export const UserService = () => {
 
   return (
     <Container>
-      <Table responsive hover size='sm' className='text-center'>
-        <thead>
-          <tr>
-            <th>Marka</th>
-            <th>Numer rejestracyjny</th>
-            <th>Serwis</th>
-            <th>Data</th>
-            <th>Czas</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {servicesData.map((service) => (
-            <tr key={service.serviceUseId}>
-              <td>{service.brand}</td>
-              <td>{service.plates_number}</td>
-              <td>{service.serviceName}</td>
-              <td>{service.date}</td>
-              <td>{service.time}</td>
-              <Td title={service.status}>{service.status}</Td>
+      {servicesData.length > 0 && (
+        <Table responsive hover size='sm' className='text-center'>
+          <thead>
+            <tr>
+              <th>Marka</th>
+              <th>Numer rejestracyjny</th>
+              <th>Serwis</th>
+              <th>Data</th>
+              <th>Czas</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {servicesData.map((service) => (
+              <tr key={service.serviceId}>
+                <td>{service.brand}</td>
+                <td>{service.plates_number}</td>
+                <td>{service.serviceName}</td>
+                <td>{service.date}</td>
+                <td>{service.time}</td>
+                <Td title={service.status}>{service.status}</Td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
     </Container>
   );
 };
 
-const Td = styled.td`
+export const Td = styled.td`
   color: ${(props) =>
     props.title === 'Anulowano'
       ? 'red'
