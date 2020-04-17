@@ -15,6 +15,7 @@ import { Contact } from './pages/Contact';
 import { UserCar } from './pages/UserCar';
 import { UserService } from './pages/UserService';
 import { EmployeeService } from './pages/EmployeeServices';
+import {NotFound} from "./pages/NotFound";
 
 class App extends React.Component {
   render() {
@@ -23,21 +24,22 @@ class App extends React.Component {
         <AppNav />
         <Switch>
           <Route exact path='/' component={Home} />
-          <Route path='/sklep' component={Shop} />
-          <Route path='/koszyk' component={Basket} />
-          <Route path='/kontakt' component={Contact} />
-          <Route path='/opinie' component={Opinions} />
+          <Route exact path='/sklep' component={Shop} />
+          <Route exact path='/koszyk' component={Basket} />
+          <Route exact path='/kontakt' component={Contact} />
+          <Route exact path='/opinie' component={Opinions} />
           <Route exact path='/oferta' component={Offer} />
           {/*//PRIVATE ROUTE*/}
           <Route exact path='/oferta/:id' component={ChosenOffer} />
-          <Route path='/zaloguj' component={SignIn} />
-          <Route path='/zarejestruj' component={SignUp} />
+          <Route exact path='/zaloguj' component={SignIn} />
+          <Route exact path='/zarejestruj' component={SignUp} />
           {/*//PRIVATE ROUTE*/}
           <Route exact path='/pojazdy' component={UserCar} />
           {/*//PRIVATE ROUTE*/}
           <Route exact path='/historia' component={UserService} />
           {/*//PRIVATE ROUTE*/}
           <Route exact path='/serwisy' component={EmployeeService} />
+          <Route component={NotFound} />
         </Switch>
       </Router>
     );
