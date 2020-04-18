@@ -1,7 +1,7 @@
 import React from 'react';
-import {Container, Row} from 'react-bootstrap';
-import {OfferDiv} from '../../components/Offer';
-import {offers} from '../../data/temp/OffersTemp';
+import { Container, Row } from 'react-bootstrap';
+import { OfferDiv } from '../../components/Offer';
+import { offers } from '../../data/temp/OffersTemp';
 
 export class Offer extends React.Component {
   state = {
@@ -16,7 +16,7 @@ export class Offer extends React.Component {
     const { offers } = this.state;
     return (
       <Container className='mt-1'>
-        <Row sm={1} md={2} xl={3} >
+        <Row sm={1} md={2} xl={3}>
           {offers &&
             offers.map((offer) => (
               <OfferDiv
