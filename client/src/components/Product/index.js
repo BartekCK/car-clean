@@ -1,5 +1,7 @@
-import {Badge, Button, Card, Col, Modal} from 'react-bootstrap';
-import React from 'react';
+import { Badge, Button, Card, Col, Modal } from 'react-bootstrap';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context';
+import { Redirect } from 'react-router-dom';
 
 const MyVerticallyCenteredModal = ({ name, price, onHide, show }) => (
   <Modal
@@ -24,11 +26,17 @@ const MyVerticallyCenteredModal = ({ name, price, onHide, show }) => (
 
 export const ProductCard = ({ id, name, price, prod_photo, description }) => {
   const [modalShow, setModalShow] = React.useState(false);
+  const [redirect, setRedirect] = React.useState(false);
+  const { isAuthenticated } = useContext(AuthContext);
 
   const addToBasket = () => {
     //POST PRODUCT BY ID TO BASKET API
     //USE ID !!!
-    setModalShow(true);
+    if (isAuthenticated) {
+      setModalShow(true);
+    } else {
+      setRedirect(true);
+    }
   };
 
   return (
@@ -61,6 +69,7 @@ export const ProductCard = ({ id, name, price, prod_photo, description }) => {
         name={name}
         price={price}
       />
+      {redirect && <Redirect to='zaloguj' />}
     </Col>
   );
 };

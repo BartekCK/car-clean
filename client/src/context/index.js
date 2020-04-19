@@ -23,7 +23,7 @@ export class AuthContextProvider extends React.Component {
       ).data;
       user.roles = tempRoles;
       if (user) {
-        this.setState({
+        await this.setState({
           user,
           isAuthenticated: true,
           error: false,
@@ -45,7 +45,7 @@ export class AuthContextProvider extends React.Component {
     ).data;
     user.roles = tempRoles;
     if (user && token) {
-      this.setState({
+      await this.setState({
         user,
         isAuthenticated: true,
         error: false,
@@ -65,6 +65,7 @@ export class AuthContextProvider extends React.Component {
       isAuthenticated: false,
       token: '',
       roles: [],
+      error: null,
     });
   };
 
@@ -88,8 +89,8 @@ export class AuthContextProvider extends React.Component {
     return this.state.roles;
   };
 
-  resetError = () => {
-    this.setState({ error: null });
+  resetError = async () => {
+    await this.setState({ error: null });
   };
 
   render() {
