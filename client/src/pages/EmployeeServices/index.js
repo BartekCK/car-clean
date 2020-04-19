@@ -61,6 +61,16 @@ export const EmployeeService = () => {
         time: '10:00',
         status: 'Zostało 15 min',
       },
+      {
+        serviceId: 3,
+        carId: 0,
+        brand: 'Mercedes',
+        plates_number: 'THI66666',
+        serviceName: 'Regeneracja kloszy samochodowych',
+        date: '03-01-2021',
+        time: '10:00',
+        status: 'Rezerwacja',
+      },
     ]);
   }, [chosenDate]);
 

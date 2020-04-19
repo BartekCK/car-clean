@@ -41,6 +41,13 @@ export const StatusModal = ({
         </Button>
         <Button
           onClick={setStatusByMethod}
+          name='Rezerwacja'
+          variant='outline-primary'
+        >
+          Rezerwacja
+        </Button>
+        <Button
+          onClick={setStatusByMethod}
           name='Zostalo 15 min'
           variant='outline-warning'
         >
