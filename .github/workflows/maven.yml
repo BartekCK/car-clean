@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ master ]
+    branches: [ server ]
   pull_request:
-    branches: [ master ]
+    branches: [ server ]
 
 jobs:
   build:
@@ -21,4 +21,8 @@ jobs:
       with:
         java-version: 11.0.6
     - name: Build with Maven
+      env:
+        DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+        DATABASE_URL: ${{secrets.DATABASE_URL}}
+        DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
       run: mvn -B package --file server/pom.xml
