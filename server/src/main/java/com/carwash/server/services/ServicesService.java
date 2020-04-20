@@ -1,6 +1,6 @@
 package com.carwash.server.services;
 
-import dto.ServicesDto;
+import com.carwash.server.dto.ServicesDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

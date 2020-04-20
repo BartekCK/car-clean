@@ -1,4 +1,4 @@
-package dto;
+package com.carwash.server.dto;
 
 import com.carwash.server.models.Services;
 import lombok.Value;
