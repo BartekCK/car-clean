@@ -1,0 +1,57 @@
+[
+  {
+    "price": 1500,
+    "name": "Korekta lakieru",
+    "image": "http://localhost:8080/img/services/1.jpg",
+    "description": "Profesjonalna wieloetapowa korekta i pielęgnacja powierzchni lakieru, usuwająca wszelkiego rodzaju niedoskonałości, wraz z zabezpieczeniem karoserii woskiem."
+  },
+  {
+    "price": 350,
+    "name": "Detailing felg",
+    "image": "http://localhost:8080/img/services/2.jpg",
+    "description": "Hydrofobowa, przezroczysta powłoka ochronna zapewniająca łatwe utrzymanie felg w czystości. Chroni przed zanieczyszczeniami drogowymi, pyłem i zarysowaniami."
+  },
+  {
+    "price": 100,
+    "name": "Regeneracja kloszy samochodowych",
+    "image": "http://localhost:8080/img/services/3.jpg",
+    "description": "Przywracanie wyglądu oraz przejrzystości zmatowionym i wypłowiałym kloszom reflektorów. Czyszczenie, polerowanie i regeneracja lamp samochodowych."
+  },
+  {
+    "price": 600,
+    "name": "Minidetailing",
+    "image": "http://localhost:8080/img/services/4.jpg",
+    "description": "Jednoetapowa mechaniczna polerka lakieru, wraz z usunięciem osadów z kamienia, smoły i innych zanieczyszczeń, poprawiająca wygląd samochodu i jego detali."
+  },
+  {
+    "price": 300,
+    "name": "Woskowanie lakieru ",
+    "image": "http://localhost:8080/img/services/5.jpg",
+    "description": "Woskowanie gwarantuje głębie koloru i piękny połysk. Collinite 476s bazuje na brazylijskim wosku Carnauba. Wosk ten jest odporny na sól i detergenty. W zależności od stanu i jakości lakieru możliwość położenia innych wosków lub politur."
+  },
+  {
+    "price": 300,
+    "name": "Hydrofobizacja szyb",
+    "image": "http://localhost:8080/img/services/6.jpg",
+    "description": "Powłoka hydrofobowa poprawiająca widoczność, wiążąc się z szybą samochodową na stałe w procesie chemicznym - jest odporna na wycieraczki i nie smuży się."
+  },
+  {
+    "price": 450,
+    "name": "Detailing wnętrza",
+    "image": "http://localhost:8080/img/services/7.jpg",
+    "description": "Zaawansowane i kompleksowe czyszczenie wnętrza samochodu wraz z ozonowaniem i impregnacją elementów. Sprawdź naszą ofertę Detailingu wnętrza"
+  },
+  {
+    "price": 100,
+    "name": "Ozonowanie",
+    "image": "http://localhost:8080/img/services/8.jpg",
+    "description": "Naturalna i bezpieczna dezynfekcja i usuwane nieprzyjemnych zapachów, odgrzybianie auta za pomocą generatora ozonu. Sprawdź ofertę Detailingu wewnętrznego."
+  },
+  {
+    "price": 300,
+    "name": "Zabezpieczenie skór i tapicerki",
+    "image": "http://localhost:8080/img/services/9.jpg",
+    "description": "Skuteczna ochrona przed transferem barwników z ubrań, w strukturę tapicerki oraz zabezpieczenie przed płynnymi substancjami, resztkami jedzenia, utratą koloru, wnikaniem potu i zapachów."
+  }
+]
+

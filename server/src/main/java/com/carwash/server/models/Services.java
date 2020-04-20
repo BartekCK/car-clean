@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -19,8 +18,16 @@ public class Services {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(unique = true)
     private String name;
+
     private int price;
+
+    @Column(unique = true)
+    private String description;
+
+    @Column(unique = true)
+    private String image;
 
     @OneToMany(mappedBy = "serviceid")
     private Set<Service> service;
