@@ -6,9 +6,9 @@ import javax.validation.constraints.Email;
 
 @Value
 public class SignUpDto {
-    private final String username;
+    private String username;
     @Email
-    private final String email;
-    private final String phone;
-    private final String password;
+    private String email;
+    private String phone;
+    private String password;
 }

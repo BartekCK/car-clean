@@ -1,18 +1,17 @@
 package com.carwash.server.repositories;
 
+import com.carwash.server.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.carwash.server.dto.SignUpDto;
-import com.carwash.server.models.UserPrincipal;
-import org.springframework.http.ResponseEntity;
+import java.util.Optional;
 
-import javax.transaction.Transactional;
+public interface UserRepository extends JpaRepository<User, Long> {
 
+    Optional<User> findByUsername(String username);
 
-public interface UserRepository {
+    Boolean existsByUsername(String username);
 
-    ResponseEntity<String> saveUser(SignUpDto signUpDto);
+    Boolean existsByEmail(String email);
 
-    @Transactional
-    UserPrincipal findByUsername(String username);
-
+    Boolean existsByPhone(String phone);
 }

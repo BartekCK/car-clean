@@ -5,15 +5,15 @@ import lombok.Value;
 
 @Value
 public class ServicesDto {
-    private final int id;
+    private int id;
 
-    private final String name;
+    private String name;
 
-    private final int price;
+    private int price;
 
-    private final String description;
+    private String description;
 
-    private final String image;
+    private String image;
 
     private ServicesDto(Services services) {
         this.id = services.getId();
