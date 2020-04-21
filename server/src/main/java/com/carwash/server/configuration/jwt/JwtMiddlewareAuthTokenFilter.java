@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthTokenFilter extends OncePerRequestFilter {
+public class JwtMiddlewareAuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtProvider provider;
@@ -45,17 +45,14 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
-
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
     private String getJwt(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
-
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             return authHeader.replace("Bearer ", "");
         }
-
         return null;
     }
 }

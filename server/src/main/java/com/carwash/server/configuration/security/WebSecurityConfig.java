@@ -1,13 +1,12 @@
 package com.carwash.server.configuration.security;
 
 
-import com.carwash.server.configuration.jwt.JwtAuthEntryPoint;
-import com.carwash.server.configuration.jwt.JwtAuthTokenFilter;
+import com.carwash.server.configuration.jwt.JwtAuthErrorEntryPoint;
+import com.carwash.server.configuration.jwt.JwtMiddlewareAuthTokenFilter;
 import com.carwash.server.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserServiceImpl userDetailsService;
 
     @Autowired
-    private JwtAuthEntryPoint unauthorizedHandler;
+    private JwtAuthErrorEntryPoint unauthorizedHandler;
 
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
@@ -42,8 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtAuthTokenFilter authTokenFilterBean() {
-        return new JwtAuthTokenFilter();
+    public JwtMiddlewareAuthTokenFilter authTokenFilterBean() {
+        return new JwtMiddlewareAuthTokenFilter();
     }
 
     @Bean

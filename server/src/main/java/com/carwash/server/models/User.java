@@ -43,7 +43,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Basket> baskets;
 
-    public User(String username, @NotBlank String password, @Email String email, String phone, Set<Role> roles) {
+    public User(String username, String password, String email, String phone, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.email = email;

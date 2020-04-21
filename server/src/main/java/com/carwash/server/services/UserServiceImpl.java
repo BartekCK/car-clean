@@ -1,7 +1,7 @@
 package com.carwash.server.services;
 
 
-import com.carwash.server.dto.UserDTO;
+import com.carwash.server.dto.SignUpDto;
 import com.carwash.server.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public ResponseEntity<String> createUser(UserDTO userDTO) {
-        return userRepository.saveUser(userDTO);
+    public ResponseEntity<String> createUser(SignUpDto signUpDto) {
+        return userRepository.saveUser(signUpDto);
     }
 
 

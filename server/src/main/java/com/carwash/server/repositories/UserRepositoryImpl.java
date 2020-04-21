@@ -1,7 +1,7 @@
 package com.carwash.server.repositories;
 
 
-import com.carwash.server.dto.UserDTO;
+import com.carwash.server.dto.SignUpDto;
 import com.carwash.server.models.User;
 import com.carwash.server.models.UserPrincipal;
 import com.carwash.server.models.authority.Role;
@@ -22,23 +22,23 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final UserJPARepository userJPARepository;
 
-    private final RoleJPARepository roleJPARepository;
+    private final RoleRepository roleRepository;
 
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public ResponseEntity<String> saveUser(UserDTO userDTO) {
+    public ResponseEntity<String> saveUser(SignUpDto signUpDto) {
 
 
         Set<Role> roles = new HashSet<>();
-        roles.add(roleJPARepository
+        roles.add(roleRepository
                 .findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("User role not found")));
 
-        User user = new User(userDTO.getUsername(),
-                passwordEncoder.encode(userDTO.getPassword()),
-                userDTO.getEmail(),
-                userDTO.getPhone(),
+        User user = new User(signUpDto.getUsername(),
+                passwordEncoder.encode(signUpDto.getPassword()),
+                signUpDto.getEmail(),
+                signUpDto.getPhone(),
                 roles);
 
         userJPARepository.save(user);
