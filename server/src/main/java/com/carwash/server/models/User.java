@@ -22,10 +22,13 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String username;
+
     @Column(nullable = false)
     private String password;
+
     @Email
     private String email;
+
     @Column(length = 9)
     private String phone;
 
@@ -39,7 +42,7 @@ public class User {
     private Set<Order> orders;
 
     @OneToMany(mappedBy = "user")
-    private Set<Service> services;
+    private Set<OrderService> orderServices;
 
     @OneToMany(mappedBy = "user")
     private Set<Opinion> opinions;

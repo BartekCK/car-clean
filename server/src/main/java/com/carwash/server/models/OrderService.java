@@ -1,30 +1,38 @@
 package com.carwash.server.models;
 
-import com.carwash.server.models.enums.ServiceStatus;
+import com.carwash.server.models.enums.OrderServiceStatus;
+import com.carwash.server.models.enums.PaidStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "service")
-public class Service {
+public class OrderService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private int id;
-    private LocalDateTime date;
+    private Long id;
+
+    private LocalDate date;
+
     private int time;
+
     private String description;
 
+    private PaidStatus paidStatus;
+
     @Enumerated(value = EnumType.STRING)
-    private ServiceStatus status;
+    private OrderServiceStatus status;
 
     @ManyToOne
     @JoinColumn(name = "car_id")

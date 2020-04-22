@@ -29,7 +29,7 @@ public class Car {
     private User user;
 
     @OneToMany(mappedBy = "car")
-    private Set<Service> services;
+    private Set<OrderService> orderServices;
 
     @Override
     public boolean equals(Object o) {

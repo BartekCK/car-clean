@@ -100,4 +100,9 @@ public class UserPrincipal implements UserDetails {
         UserPrincipal user = (UserPrincipal) obj;
         return Objects.equals(id, user.id);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email);
+    }
 }

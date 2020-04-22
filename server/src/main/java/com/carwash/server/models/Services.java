@@ -30,7 +30,7 @@ public class Services {
     private String image;
 
     @OneToMany(mappedBy = "serviceid")
-    private Set<Service> service;
+    private Set<OrderService> orderService;
 
     public Services(int id, String name, int price, String description, String image) {
         this.id = id;

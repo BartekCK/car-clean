@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class ServicesServiceImplTest {
+class ServicesOrderServiceImplTest {
 
     @Mock
     ServicesRepository servicesRepository;

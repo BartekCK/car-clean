@@ -22,8 +22,9 @@ public class Employee {
     private User user_id;
 
     private String name;
+
     private String position;
 
     @OneToMany(mappedBy = "employee")
-    private Set<Service> services;
+    private Set<OrderService> orderServices;
 }

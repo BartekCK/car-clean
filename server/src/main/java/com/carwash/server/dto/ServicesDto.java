@@ -1,11 +1,9 @@
 package com.carwash.server.dto;
 
 import com.carwash.server.models.Services;
-import lombok.AllArgsConstructor;
 import lombok.Value;
 
 @Value
-@AllArgsConstructor
 public class ServicesDto {
     private int id;
 
@@ -17,15 +15,12 @@ public class ServicesDto {
 
     private String image;
 
-    private ServicesDto(Services services) {
-        this.id = services.getId();
-        this.name = services.getName();
-        this.price = services.getPrice();
-        this.description = services.getDescription();
-        this.image = services.getImage();
-    }
-
-    public static ServicesDto createServiceDto(Services services) {
-        return new ServicesDto(services);
+    public static ServicesDto build(Services services) {
+        return new ServicesDto(
+                services.getId(),
+                services.getName(),
+                services.getPrice(),
+                services.getDescription(),
+                services.getImage());
     }
 }

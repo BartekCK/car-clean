@@ -21,12 +21,12 @@ public class ServicesServiceImpl implements ServicesService {
 
     @Override
     public List<ServicesDto> getAllServices() {
-        return servicesRepository.findAll().stream().map(service -> ServicesDto.createServiceDto(service)).collect(Collectors.toList());
+        return servicesRepository.findAll().stream().map(service -> ServicesDto.build(service)).collect(Collectors.toList());
     }
 
     @Override
     public ServicesDto getService(int id) {
-        return ServicesDto.createServiceDto
+        return ServicesDto.build
                 (servicesRepository
                         .findById(id)
                         .orElseThrow(

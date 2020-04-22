@@ -18,8 +18,11 @@ public class UserDto {
     private List<String> roles;
 
     public static UserDto build(User user) {
-        List<String> roles = user.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toList());
-        return new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getPhone(), roles);
+        if (user != null) {
+            List<String> roles = user.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toList());
+            return new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getPhone(), roles);
+        } else
+            return null;
     }
 
     public static UserDto build(UserPrincipal user) {
