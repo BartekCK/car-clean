@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class AuthorizationControllerTest {
+class AuthorizationControllerTestIntegration {
 
     @Autowired
     JwtProvider jwtProvider;
@@ -97,6 +97,5 @@ class AuthorizationControllerTest {
                 .andExpect(status().isOk());
 
         authorizationService.deleteUser(signUpDto.getUsername());
-
     }
 }

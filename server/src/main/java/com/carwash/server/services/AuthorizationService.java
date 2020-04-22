@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface AuthorizationService {
     ResponseEntity<String> createUser(SignUpDto signUpDto);
+
     ResponseEntity loginUser(SignInDto signInDto);
+
     ResponseEntity deleteUser(String username);
+
     UserDto getUser(Authentication authentication);
 }

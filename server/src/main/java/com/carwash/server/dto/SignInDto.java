@@ -1,6 +1,5 @@
 package com.carwash.server.dto;
 
-import lombok.Data;
 import lombok.Value;
 
 @Value

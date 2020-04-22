@@ -1,8 +1,7 @@
 package com.carwash.server.controllers;
 
-import com.carwash.server.models.Product;
-import com.carwash.server.services.ProductService;
 import com.carwash.server.dto.ProductDto;
+import com.carwash.server.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

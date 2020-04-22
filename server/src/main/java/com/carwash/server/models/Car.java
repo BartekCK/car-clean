@@ -1,13 +1,16 @@
 package com.carwash.server.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,7 +22,7 @@ public class Car {
 
     //private int user_id;
     private String brand;
-    private String plates_number;
+    private String platesNumber;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -27,4 +30,19 @@ public class Car {
 
     @OneToMany(mappedBy = "car")
     private Set<Service> services;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return id == car.id &&
+                Objects.equals(brand, car.brand) &&
+                Objects.equals(platesNumber, car.platesNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, brand, platesNumber);
+    }
 }
