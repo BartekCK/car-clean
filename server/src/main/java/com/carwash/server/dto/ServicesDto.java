@@ -1,9 +1,11 @@
 package com.carwash.server.dto;
 
 import com.carwash.server.models.Services;
+import lombok.AllArgsConstructor;
 import lombok.Value;
 
 @Value
+@AllArgsConstructor
 public class ServicesDto {
     private int id;
 
