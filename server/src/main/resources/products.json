@@ -1,0 +1,86 @@
+[
+  {
+    "name": "APC 1L",
+    "price": 16,
+    "category": "APC",
+    "description": "Uniwersalny środek czyszczący All Purpose Cleaner skutecznie wnika, rozbija i czyści brud, smar, trudne plamy i utrwalone zabrudzenia, których nie usuwają inne środki. APC wiąże zabrudzenia tworząc łatwą do usunięcia zawiesinę.",
+    "prod_photo": "http://localhost:8080/img/products/1.jpg"
+  },
+  {
+    "name": "Bug Remover 5L",
+    "price": 80,
+    "category": "OWADY",
+    "description": "Preparat do usuwania owadów Bug Remover skutecznie usuwa zaschnięte ślady po owadach oraz ptasich odchodach. Idealny do użycia przed myciem samochodu. Preparat jest bezpieczny dla lakierów i tworzyw sztucznych.",
+    "prod_photo": "http://localhost:8080/img/products/2.jpg"
+  },
+  {
+    "name": "GLASS CLEANER 150 ml",
+    "price": 8,
+    "category": "SZYBY",
+    "description": "Środek do mycia szyb Glass Cleaner skutecznie usuwa zaschnięty brud i tłuste plamy z tworzyw sztucznych, szyb samochodowych, okien i luster. Formuła CrystalGloss sprawia, że czyszczona powierzchnia pozostaje bez smug i nie wymaga polerowania.",
+    "prod_photo": "http://localhost:8080/img/products/3.jpg"
+  },
+  {
+    "name": "pasta do polerowania szkła",
+    "price": 39,
+    "category": "SZYBY",
+    "description": "Profesjonalna pasta polerska do polerowania i czyszczenia szyb samochodowych i szkła. Do zastosowania przy usuwaniu rys, zmatowień, plam po twardej wodzie czy zabrudzeń drogowych. Produkt przeznaczony dla profesjonalistów.",
+    "prod_photo": "http://localhost:8080/img/products/4.jpg"
+  },
+  {
+    "name": "Szampon 1L",
+    "price": 18,
+    "category": "SZAMPON",
+    "description": "Szampon samochodowy Shampoo to preparat do regularnego mycia i pielęgnacji lakieru samochodowego. Przed użyciem Szamponu samochodowego zaleca się zastosować aktywną pianę RRC  Active Foam. Bardzo wydajny, o neutralnym pH.",
+    "prod_photo": "http://localhost:8080/img/products/5.jpg"
+  },
+  {
+    "name": "Szampon 25L",
+    "price": 300,
+    "category": "SZAMPON",
+    "description": "Formuła o wysokim stopniu pienienia gwarantuje wysoką skuteczność usuwania zabrudzeń. Nie pozostawia śladów. Bezpieczny dla powłok woskowych i ceramicznych.",
+    "prod_photo": "http://localhost:8080/img/products/6.jpg"
+  },
+  {
+    "name": "Defroster 150 ml",
+    "price": 8,
+    "category": "ODMRAZACZ",
+    "description": "Odmrażacz do szyb Defroster usuwa szron z powierzchni szklanych bez konieczności skrobania. Działa błyskawicznie. Zapobiega ponownemu przymarzaniu.",
+    "prod_photo": "http://localhost:8080/img/products/7.jpg"
+  },
+  {
+    "name": "Piana aktywna 5L",
+    "price": 100,
+    "category": "PIANA_AKTYWNA",
+    "description": "Piana aktywna Active Foam to skoncentrowany preparat do bezpiecznego mycia wstępnego auta. Idealny kosmetyk do mycia detailingowego auta. Aktywna piana do mycia samochodu rozpuszcza i odseparowuje brud.",
+    "prod_photo": "http://localhost:8080/img/products/8.jpg"
+  },
+  {
+    "name": "WATER SPOT REMOVER LIQUID 1L",
+    "price": 81,
+    "category": "OSADY_MINERALNE",
+    "description": "Preparat do usuwania osadów mineralnych Water Spot Remover Liquid można również stosować do usuwania powłok ceramicznych, wosków oraz niewidzialnej wycieraczki z powierzchni szklanych i lakierowanych.",
+    "prod_photo": "http://localhost:8080/img/products/9.jpg"
+  },
+  {
+    "name": "WATER SPOT REMOVER LIGHT 1L",
+    "price": 33,
+    "category": "OSADY_MINERALNE",
+    "description": "Preparat do usuwania świeżych osadów mineralnych Water Spot Remover Light do stosowania na powierzchniach szklanych i lakierowanych. Zalecany do odblokowywania powłok ceramicznych i kwarcowych.",
+    "prod_photo": "http://localhost:8080/img/products/10.jpg"
+  },
+  {
+    "name": "Aktywny szampon 500 ml",
+    "price": 20,
+    "category": "AKTYWNY_SZAMPON",
+    "description": "Aktywny szampon samochodowy Active Shampoo – to preparat do mycia właściwego i pielęgnacji lakieru samochodowego. Bezpieczny dla powłok woskowych i ceramicznych.",
+    "prod_photo": "http://localhost:8080/img/products/11.jpg"
+  },
+  {
+    "name": "KWAŚNY SZAMPON",
+    "price": 144,
+    "category": "AKTYWNY_SZAMPON",
+    "description": "Aktywny Szampon Active Shampoo zawiera dodatki, które odtykają powłoki ceramiczne i woskowe. Bardzo wydajny, o lekko kwaśnym pH. Nowoczesna formuła.",
+    "prod_photo": "http://localhost:8080/img/products/12.jpg"
+  }
+]
