@@ -6,10 +6,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
-
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 @Table(name = "services")
 public class Services {
@@ -31,4 +30,12 @@ public class Services {
 
     @OneToMany(mappedBy = "serviceid")
     private Set<Service> service;
+
+    public Services(int id, String name, int price, String description, String image) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+    }
 }

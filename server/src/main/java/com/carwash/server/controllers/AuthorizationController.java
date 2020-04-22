@@ -2,9 +2,11 @@ package com.carwash.server.controllers;
 
 import com.carwash.server.dto.SignInDto;
 import com.carwash.server.dto.SignUpDto;
+import com.carwash.server.dto.UserDto;
 import com.carwash.server.services.AuthorizationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,5 +25,11 @@ public class AuthorizationController {
     @PostMapping("signup")
     public ResponseEntity<String> createUser(@RequestBody SignUpDto signUpDto) {
         return authorizationService.createUser(signUpDto);
+    }
+
+    @GetMapping("users")
+    public UserDto getUser(Authentication authentication) {
+        System.out.println(authentication.getPrincipal());
+        return authorizationService.getUser(authentication);
     }
 }

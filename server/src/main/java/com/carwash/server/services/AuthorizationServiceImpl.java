@@ -4,12 +4,15 @@ import com.carwash.server.configuration.jwt.JwtProvider;
 import com.carwash.server.dto.JwtTokenDto;
 import com.carwash.server.dto.SignInDto;
 import com.carwash.server.dto.SignUpDto;
+import com.carwash.server.dto.UserDto;
 import com.carwash.server.models.User;
+import com.carwash.server.models.UserPrincipal;
 import com.carwash.server.models.authority.Role;
 import com.carwash.server.models.authority.RoleName;
 import com.carwash.server.repositories.RoleRepository;
 import com.carwash.server.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,23 +29,23 @@ import java.util.Set;
 public class AuthorizationServiceImpl implements AuthorizationService {
 
     private final RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private UserRepository userRepository;
-    private JwtProvider provider;
-    private AuthenticationManager manager;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final JwtProvider provider;
+    private final AuthenticationManager manager;
 
 
     @Override
     public ResponseEntity<String> createUser(SignUpDto signUpDto) {
 
         if (userRepository.existsByUsername(signUpDto.getUsername())) {
-            return ResponseEntity.badRequest().body("Użytkownik "+ signUpDto.getUsername() + " już istnieje");
+            return ResponseEntity.badRequest().body("Użytkownik " + signUpDto.getUsername() + " już istnieje");
         }
         if (userRepository.existsByEmail(signUpDto.getEmail())) {
-            return ResponseEntity.badRequest().body("Użytkownik o adresie email "+ signUpDto.getEmail() + " już istnieje");
+            return ResponseEntity.badRequest().body("Użytkownik o adresie email " + signUpDto.getEmail() + " już istnieje");
         }
         if (userRepository.existsByUsername(signUpDto.getPhone())) {
-            return ResponseEntity.badRequest().body("Użytkownik o numerze telefonu "+ signUpDto.getPhone() + " już istnieje");
+            return ResponseEntity.badRequest().body("Użytkownik o numerze telefonu " + signUpDto.getPhone() + " już istnieje");
         }
 
         Set<Role> roles = new HashSet<>();
@@ -73,4 +77,18 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
         return ResponseEntity.ok(new JwtTokenDto(token));
     }
+
+    @Override
+    public ResponseEntity deleteUser(String username) {
+        User user = this.userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Użytkownik nie został znaleziony"));
+        this.userRepository.delete(user);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Override
+    public UserDto getUser(Authentication authentication) {
+        return UserDto.build((UserPrincipal) authentication.getPrincipal());
+    }
+
+
 }
