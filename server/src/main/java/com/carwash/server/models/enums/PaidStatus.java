@@ -4,8 +4,9 @@ public enum PaidStatus {
     NOT_PAID("Nie zapłacono"), PAID("Zapłacono");
 
     private final String name;
+
     PaidStatus(String s) {
-        name=s;
+        name = s;
     }
 
     @Override

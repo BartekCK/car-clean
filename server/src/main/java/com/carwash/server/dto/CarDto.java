@@ -1,7 +1,6 @@
 package com.carwash.server.dto;
 
 import com.carwash.server.models.Car;
-import lombok.AllArgsConstructor;
 import lombok.Value;
 
 @Value

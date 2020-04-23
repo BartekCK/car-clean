@@ -9,8 +9,9 @@ public enum OrderServiceStatus {
     private final String name;
 
     OrderServiceStatus(String s) {
-        name=s;
+        name = s;
     }
+
     public String toString() {
         return this.name;
     }

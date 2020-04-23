@@ -41,6 +41,10 @@ public class Services {
         this.image = image;
     }
 
+    public void setImage(String s) {
+        this.image = "http://localhost:8080" + s;
+    }
+
     @Override
     public String toString() {
         return "Services{" +
