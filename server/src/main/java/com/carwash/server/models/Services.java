@@ -31,4 +31,8 @@ public class Services {
 
     @OneToMany(mappedBy = "serviceid")
     private Set<Service> service;
+
+    public void setImage(String s) {
+        this.image = "http://localhost:8080" + s;
+    }
 }

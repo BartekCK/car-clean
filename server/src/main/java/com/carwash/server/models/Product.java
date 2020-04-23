@@ -37,4 +37,13 @@ public class Product {
 
     @ManyToMany(mappedBy = "basketProducts")
     private Set<Basket> basks;
+
+    public String getProd_photo() {
+        return this.prod_photo;
+    }
+
+    public void setProd_photo(String s) {
+        this.prod_photo = "http://localhost:8080" + s;
+    }
 }
+
