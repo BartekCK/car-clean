@@ -17,7 +17,7 @@ public class EmployeeDto {
 
     public static EmployeeDto build(Employee employee) {
         if (employee != null)
-            return new EmployeeDto(employee.getId(), UserDto.build(employee.getUser_id()), employee.getName(), employee.getPosition());
+            return new EmployeeDto(employee.getId(), UserDto.build(employee.getUserId()), employee.getName(), employee.getPosition());
         else
             return null;
     }

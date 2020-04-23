@@ -241,7 +241,7 @@ class OrderServiceControllerTest {
 
         CreateOrderServiceDto dto = objectMapper.readValue(result.getResponse().getContentAsString(), CreateOrderServiceDto.class);
 
-        MvcResult result2 = mockMvc.perform(put("/api/v1/users/services/{id}", dto.getId())
+        MvcResult result2 = mockMvc.perform(put("/api/v1/employees/services/{id}", dto.getId())
                 .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
                 .content(OrderServiceStatus.DONE.toString())
                 .contentType("application/json"))
@@ -251,13 +251,50 @@ class OrderServiceControllerTest {
         GetOrderServiceDto dto2 = objectMapper.readValue(result2.getResponse().getContentAsString(), GetOrderServiceDto.class);
 
         assertNotEquals(dto.getStatus(), dto2.getStatus());
+
+        authorizationService.deleteEmployee(user);
         orderServiceService.deleteOrderServiceById(dto.getId());
     }
-//
-//    @Test
-//    void payForServiceByUser() {
-//    }
-//
+
+
+    @Test
+    void should_return_services_by_day_for_employee() throws Exception {
+
+        User user = userRepository.findByUsername(carAdd.getUserAuthAdd().getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
+
+        LocalDate localDate = LocalDate.parse("1920-03-05");
+        List<Long> idList = new ArrayList<>();
+
+        for (int i = startWorkHour; i <= endWorkHour; i++) {
+
+            CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
+                    ((long) 1, localDate.toString(), i, " ", " ", carAdd.getCarId().intValue(),
+                            user.getId(), 1
+                    );
+
+            MvcResult result = mockMvc.perform(post("/api/v1/users/services")
+                    .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
+                    .content(objectMapper.writeValueAsString(createOrderServiceDto))
+                    .contentType("application/json"))
+                    .andReturn();
+            CreateOrderServiceDto dto = objectMapper.readValue(result.getResponse().getContentAsString(), CreateOrderServiceDto.class);
+            idList.add(dto.getId());
+        }
+
+        EmployeeDto employeeDto = new EmployeeDto(0, UserDto.build(user), "Adam", "Sprzedawca");
+        authorizationService.createEmployee(user, employeeDto);
+
+
+        MvcResult resultGet = mockMvc.perform(get("/api/v1/employees/services")
+                .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
+                .content(objectMapper.writeValueAsString(localDate))
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+
+        authorizationService.deleteEmployee(user);
+        idList.forEach(id -> orderServiceService.deleteOrderServiceById(id));
+    }
 
 
     @AfterAll()

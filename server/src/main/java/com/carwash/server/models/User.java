@@ -36,7 +36,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @OneToOne(mappedBy = "user_id", orphanRemoval = true)
+    @OneToOne(mappedBy = "userId", orphanRemoval = true)
     private Employee employee;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)

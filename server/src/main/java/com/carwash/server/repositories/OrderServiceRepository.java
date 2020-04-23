@@ -17,4 +17,6 @@ public interface OrderServiceRepository extends JpaRepository<OrderService, Long
 
     Optional<List<OrderService>> findAllByUserId(Long userId);
 
+    Optional<List<OrderService>> findAllByDate(LocalDate date);
+
 }

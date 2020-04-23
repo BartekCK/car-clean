@@ -133,6 +133,13 @@ public class OrderServiceServiceImpl implements OrderServiceService {
         return null;
     }
 
+    @Override
+    public ResponseEntity<List<GetOrderServiceDto>> getAllServiceByDay(LocalDate localDate) {
+        List<OrderService> orders = orderServiceRepository.findAllByDate(localDate).orElseThrow(() -> new RuntimeException("Brak rezerwacji tego dnia"));
+        List<GetOrderServiceDto> orderServiceDtoList = orders.stream().map(el -> GetOrderServiceDto.build(el)).collect(Collectors.toList());
+        return ResponseEntity.ok(orderServiceDtoList);
+    }
+
     public void deleteOrderServiceById(Long idService) {
         orderServiceRepository.deleteById(idService);
     }

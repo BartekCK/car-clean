@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -109,6 +110,24 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         employeeRepository.save(employee);
 
         return EmployeeDto.build(employee);
+    }
+
+    @Override
+    @Transactional
+    public UserDto deleteEmployee(User user) {
+        User updateUser = userRepository.findByUsername(user.getUsername()).orElseThrow(() ->
+                new UsernameNotFoundException("User not found: " + user.getUsername()));
+
+        Employee employee = employeeRepository.findById(updateUser.getEmployee().getId()).orElseThrow(() -> new RuntimeException("Wybrany użytkownik nie jest pracownikiem"));
+        employeeRepository.delete(employee);
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository
+                .findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Rola nie istnieje")));
+        updateUser.setRoles(roles);
+        userRepository.save(updateUser);
+        return UserDto.build(user);
     }
 
 }

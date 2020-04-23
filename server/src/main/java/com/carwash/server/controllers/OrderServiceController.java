@@ -42,12 +42,6 @@ public class OrderServiceController {
         return orderServiceService.getAllUserService(AuthMiner.getUsername(authentication));
     }
 
-    @PutMapping("{idService}")
-    @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<GetOrderServiceDto> changeServiceStatus(@PathVariable("idService") Long idService, @RequestBody String status) {
-        return orderServiceService.changeServiceStatus(idService, status);
-    }
-
     @PutMapping("{idService}/paid")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity payForServiceByUser(@PathVariable("idService") Long idService, Authentication authentication) {
