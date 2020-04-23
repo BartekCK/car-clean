@@ -1,6 +1,7 @@
 package com.carwash.server.controllers;
 
-import com.carwash.server.dto.OrderServiceDto;
+import com.carwash.server.dto.CreateOrderServiceDto;
+import com.carwash.server.dto.GetOrderServiceDto;
 import com.carwash.server.models.enums.OrderServiceStatus;
 import com.carwash.server.services.OrderServiceService;
 import com.carwash.server.utilies.AuthMiner;
@@ -23,11 +24,11 @@ public class OrderServiceController {
     private final OrderServiceService orderServiceService;
 
     @PostMapping
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<? extends Object> addReservationServiceByUser(
-//            Authentication authentication,
-            @RequestBody OrderServiceDto orderServiceDto) {
-        return orderServiceService.addReservationService(null, orderServiceDto);
+            Authentication authentication,
+            @RequestBody CreateOrderServiceDto createOrderServiceDto) {
+        return orderServiceService.addReservationService(AuthMiner.getUsername(authentication), createOrderServiceDto);
     }
 
     @GetMapping("hours")
@@ -38,13 +39,13 @@ public class OrderServiceController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<OrderServiceDto>> getAllUserService(Authentication authentication) {
+    public ResponseEntity<List<GetOrderServiceDto>> getAllUserService(Authentication authentication) {
         return orderServiceService.getAllUserService(AuthMiner.getUsername(authentication));
     }
 
     @PutMapping("{idService}")
     @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<OrderServiceDto> changeServiceStatus(@PathVariable("idService") Long idService, @RequestBody OrderServiceStatus orderServiceStatus) {
+    public ResponseEntity<CreateOrderServiceDto> changeServiceStatus(@PathVariable("idService") Long idService, @RequestBody OrderServiceStatus orderServiceStatus) {
         return orderServiceService.changeServiceStatus(idService, orderServiceStatus);
     }
 

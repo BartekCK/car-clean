@@ -27,4 +27,14 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private Set<OrderService> orderServices;
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", user_id=" + user_id +
+                ", name='" + name + '\'' +
+                ", position='" + position + '\'' +
+                '}';
+    }
 }

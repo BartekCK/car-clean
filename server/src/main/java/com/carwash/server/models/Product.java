@@ -37,4 +37,16 @@ public class Product {
 
     @ManyToMany(mappedBy = "basketProducts")
     private Set<Basket> basks;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", prod_photo='" + prod_photo + '\'' +
+                ", category=" + category +
+                '}';
+    }
 }

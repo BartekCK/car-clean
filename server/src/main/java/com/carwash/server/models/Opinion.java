@@ -28,4 +28,14 @@ public class Opinion {
     private String img_content1;
     private String img_content2;
     private String img_content3;
+
+    @Override
+    public String toString() {
+        return "Opinion{" +
+                "id=" + id +
+                ", mark=" + mark +
+                ", date=" + date +
+                ", text_content='" + text_content + '\'' +
+                '}';
+    }
 }

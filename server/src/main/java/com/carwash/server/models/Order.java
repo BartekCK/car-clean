@@ -29,4 +29,13 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", bill=" + bill +
+                ", paid_status=" + paid_status +
+                '}';
+    }
 }

@@ -4,7 +4,7 @@ import com.carwash.server.models.OrderService;
 import lombok.Value;
 
 @Value
-public class OrderServiceDto {
+public class CreateOrderServiceDto {
 
     private Long id;
 
@@ -16,25 +16,25 @@ public class OrderServiceDto {
 
     private String paidStatus;
 
-    private CarDto car;
+    private int carId;
 
-    private UserDto user;
+    private Long userId;
 
     private EmployeeDto employee;
 
-    private ServicesDto services;
+    private int servicesId;
 
-    static OrderServiceDto build(OrderService orderService) {
-        return new OrderServiceDto(
+    public static CreateOrderServiceDto build(OrderService orderService) {
+        return new CreateOrderServiceDto(
                 orderService.getId(),
                 orderService.getDate().toString(),
                 orderService.getTime(),
                 orderService.getStatus().toString(),
                 orderService.getPaidStatus().toString(),
-                CarDto.build(orderService.getCar()),
-                UserDto.build(orderService.getUser()),
+                orderService.getCar().getId(),
+                orderService.getUser().getId(),
                 EmployeeDto.build(orderService.getEmployee()),
-                ServicesDto.build(orderService.getServiceid())
+                orderService.getServiceid().getId()
         );
     }
 }

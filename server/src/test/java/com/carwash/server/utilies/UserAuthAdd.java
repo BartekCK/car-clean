@@ -5,34 +5,28 @@ import com.carwash.server.dto.SignUpDto;
 import com.carwash.server.services.AuthorizationService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import lombok.Data;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-public class UserAuth {
+@Data
+public class UserAuthAdd {
 
-    @Autowired
-    AuthorizationService authorizationService;
+    private AuthorizationService authorizationService;
 
-    @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    public UserAuthAdd(AuthorizationService authorizationService, MockMvc mockMvc) {
+        this.authorizationService = authorizationService;
+        this.mockMvc = mockMvc;
+    }
 
-    private String token;
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    private String bearerToken;
 
     SignUpDto signUpDto;
 
@@ -46,9 +40,7 @@ public class UserAuth {
 
         mockMvc.perform(post("/api/v1/signup")
                 .content(objectMapper.writeValueAsString(signUpDto))
-                .contentType("application/json"))
-                .andDo(print())
-                .andExpect(status().isOk());
+                .contentType("application/json"));
     }
 
     public void loginUser() throws Exception {
@@ -56,10 +48,7 @@ public class UserAuth {
 
         MvcResult result = mockMvc.perform(post("/api/v1/signin")
                 .content(objectMapper.writeValueAsString(signInDto))
-                .contentType("application/json"))
-                .andDo(print())
-                .andExpect(status().isOk()).andReturn();
-
+                .contentType("application/json")).andReturn();
         //GET TOKEN VALUE
         String jwtToken = result.getResponse().getContentAsString();
         JsonNode json = objectMapper.readTree(jwtToken);
@@ -67,8 +56,8 @@ public class UserAuth {
 
         //CHANE JSON TO STRING WITHOUT "..."
         String badToken = json.get("token").toString();
-        token = badToken.substring(1, badToken.length() - 1);
-        System.out.println(token);
+        String token = badToken.substring(1, badToken.length() - 1);
+        bearerToken = new StringBuilder().append("Bearer ").append(token).toString();
     }
 
     public void deleteUser() {

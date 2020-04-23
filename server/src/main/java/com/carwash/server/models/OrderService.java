@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Builder
 @Data
@@ -27,8 +28,7 @@ public class OrderService {
 
     private int time;
 
-    private String description;
-
+    @Enumerated(value = EnumType.STRING)
     private PaidStatus paidStatus;
 
     @Enumerated(value = EnumType.STRING)
@@ -38,7 +38,7 @@ public class OrderService {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -49,4 +49,35 @@ public class OrderService {
     @ManyToOne
     @JoinColumn(name = "services_id")
     private Services serviceid;
+
+
+    @Override
+    public String toString() {
+        return "OrderService{" +
+                "id=" + id +
+                ", date=" + date +
+                ", time=" + time +
+                ", paidStatus=" + paidStatus +
+                ", status=" + status +
+                ", car=" + car +
+                ", user=" + user +
+                ", employee=" + employee +
+                ", serviceid=" + serviceid +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderService that = (OrderService) o;
+        return time == that.time &&
+                id.equals(that.id) &&
+                Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date, time);
+    }
 }
