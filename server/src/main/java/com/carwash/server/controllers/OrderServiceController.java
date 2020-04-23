@@ -2,7 +2,6 @@ package com.carwash.server.controllers;
 
 import com.carwash.server.dto.CreateOrderServiceDto;
 import com.carwash.server.dto.GetOrderServiceDto;
-import com.carwash.server.models.enums.OrderServiceStatus;
 import com.carwash.server.services.OrderServiceService;
 import com.carwash.server.utilies.AuthMiner;
 import lombok.AllArgsConstructor;
@@ -45,8 +44,8 @@ public class OrderServiceController {
 
     @PutMapping("{idService}")
     @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<CreateOrderServiceDto> changeServiceStatus(@PathVariable("idService") Long idService, @RequestBody OrderServiceStatus orderServiceStatus) {
-        return orderServiceService.changeServiceStatus(idService, orderServiceStatus);
+    public ResponseEntity<GetOrderServiceDto> changeServiceStatus(@PathVariable("idService") Long idService, @RequestBody String status) {
+        return orderServiceService.changeServiceStatus(idService, status);
     }
 
     @PutMapping("{idService}/paid")

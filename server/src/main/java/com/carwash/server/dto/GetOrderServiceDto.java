@@ -29,9 +29,6 @@ public class GetOrderServiceDto {
 
     private Long userId;
 
-    private EmployeeDto employee;
-
-
     public static GetOrderServiceDto build(OrderService orderService) {
         return new GetOrderServiceDto(
                 orderService.getId(),
@@ -41,8 +38,6 @@ public class GetOrderServiceDto {
                 orderService.getTime(),
                 orderService.getStatus().toString(),
                 orderService.getPaidStatus().toString(),
-                orderService.getUser().getId(),
-                EmployeeDto.build(orderService.getEmployee())
-        );
+                orderService.getUser().getId());
     }
 }

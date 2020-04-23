@@ -2,7 +2,10 @@ package com.carwash.server.services;
 
 import com.carwash.server.dto.CreateOrderServiceDto;
 import com.carwash.server.dto.GetOrderServiceDto;
-import com.carwash.server.models.*;
+import com.carwash.server.models.Car;
+import com.carwash.server.models.OrderService;
+import com.carwash.server.models.Services;
+import com.carwash.server.models.User;
 import com.carwash.server.models.enums.OrderServiceStatus;
 import com.carwash.server.models.enums.PaidStatus;
 import com.carwash.server.repositories.CarRepository;
@@ -25,7 +28,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-//@AllArgsConstructor
 public class OrderServiceServiceImpl implements OrderServiceService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceServiceImpl.class);
@@ -60,13 +62,9 @@ public class OrderServiceServiceImpl implements OrderServiceService {
         }
 
         Car car = carRepository.findByUserUsernameAndId(username, createOrderServiceDto.getCarId()).orElseThrow(() -> new RuntimeException("Błędny pojazd"));
-        User user = userRepository.findByUsername(username).orElse(null);
-        Employee employee = null;
-        Services services = servicesRepository.findById(createOrderServiceDto.getServicesId()).orElseThrow(() -> new RuntimeException("Błędny wybrany serwis"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Brak osoby rozpoczynającej"));
 
-        if (user == null && employee == null) {
-            throw new RuntimeException("Brak osoby rozpoczynającej");
-        }
+        Services services = servicesRepository.findById(createOrderServiceDto.getServicesId()).orElseThrow(() -> new RuntimeException("Błędny wybrany serwis"));
 
         OrderService orderService = OrderService.builder()
                 .date(LocalDate.parse(createOrderServiceDto.getDate()))
@@ -75,7 +73,6 @@ public class OrderServiceServiceImpl implements OrderServiceService {
                 .paidStatus(PaidStatus.NOT_PAID)
                 .car(car)
                 .user(user)
-                .employee(null) //LATER
                 .serviceid(services)
                 .build();
 
@@ -119,8 +116,16 @@ public class OrderServiceServiceImpl implements OrderServiceService {
     }
 
     @Override
-    public ResponseEntity<CreateOrderServiceDto> changeServiceStatus(Long idService, OrderServiceStatus orderServiceStatus) {
-        return null;
+    @Transactional
+    public ResponseEntity<GetOrderServiceDto> changeServiceStatus(Long idService, String status) {
+        OrderServiceStatus orderServiceStatus = OrderServiceStatus.fromString(status);
+
+        OrderService order = orderServiceRepository.findById(idService).orElseThrow(() -> new RuntimeException("Brak serwisu"));
+        if (order.getStatus() == OrderServiceStatus.DONE || order.getStatus() == OrderServiceStatus.CANCEL)
+            return ResponseEntity.badRequest().body(GetOrderServiceDto.build(order));
+        order.setStatus(orderServiceStatus);
+        orderServiceRepository.save(order);
+        return ResponseEntity.ok(GetOrderServiceDto.build(order));
     }
 
     @Override

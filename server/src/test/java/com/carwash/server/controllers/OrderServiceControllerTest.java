@@ -1,8 +1,11 @@
 package com.carwash.server.controllers;
 
 import com.carwash.server.dto.CreateOrderServiceDto;
+import com.carwash.server.dto.EmployeeDto;
 import com.carwash.server.dto.GetOrderServiceDto;
+import com.carwash.server.dto.UserDto;
 import com.carwash.server.models.User;
+import com.carwash.server.models.enums.OrderServiceStatus;
 import com.carwash.server.repositories.OrderServiceRepository;
 import com.carwash.server.repositories.UserRepository;
 import com.carwash.server.services.AuthorizationService;
@@ -28,8 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,7 +81,7 @@ class OrderServiceControllerTest {
         User user = userRepository.findByUsername(carAdd.getUserAuthAdd().getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
         CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
                 ((long) 1, "2000-02-03", 12, " ", " ", carAdd.getCarId().intValue(),
-                        user.getId(), null, 1
+                        user.getId(), 1
                 );
 
         MvcResult result = mockMvc.perform(post("/api/v1/users/services")
@@ -99,7 +102,7 @@ class OrderServiceControllerTest {
         User user = userRepository.findByUsername(carAdd.getUserAuthAdd().getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
         CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
                 ((long) 1, "2000-02-03", 12, " ", " ", carAdd.getCarId().intValue(),
-                        user.getId(), null, 1
+                        user.getId(), 1
                 );
 
         MvcResult result = mockMvc.perform(post("/api/v1/users/services")
@@ -153,7 +156,7 @@ class OrderServiceControllerTest {
 
             CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
                     ((long) 1, localDate.toString(), i, " ", " ", carAdd.getCarId().intValue(),
-                            user.getId(), null, 1
+                            user.getId(), 1
                     );
 
             MvcResult result = mockMvc.perform(post("/api/v1/users/services")
@@ -190,7 +193,7 @@ class OrderServiceControllerTest {
 
             CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
                     ((long) 1, localDate.toString(), i, " ", " ", carAdd.getCarId().intValue(),
-                            user.getId(), null, 1
+                            user.getId(), 1
                     );
 
             MvcResult result = mockMvc.perform(post("/api/v1/users/services")
@@ -216,18 +219,46 @@ class OrderServiceControllerTest {
     }
 
 
-//
-//    @Test
-//    void changeServiceStatus() {
-//    }
+    @Test
+    void should_change_ServiceStatus() throws Exception {
+
+        User user = userRepository.findByUsername(carAdd.getUserAuthAdd().getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
+        CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
+                ((long) 1, "2000-02-03", 12, " ", " ", carAdd.getCarId().intValue(),
+                        user.getId(), 1
+                );
+
+        EmployeeDto employeeDto = new EmployeeDto(0, UserDto.build(user), "Adam", "Sprzedawca");
+        authorizationService.createEmployee(user, employeeDto);
+
+        MvcResult result = mockMvc.perform(post("/api/v1/users/services")
+                .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
+                .content(objectMapper.writeValueAsString(createOrderServiceDto))
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+
+
+        CreateOrderServiceDto dto = objectMapper.readValue(result.getResponse().getContentAsString(), CreateOrderServiceDto.class);
+
+        MvcResult result2 = mockMvc.perform(put("/api/v1/users/services/{id}", dto.getId())
+                .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
+                .content(OrderServiceStatus.DONE.toString())
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+
+        GetOrderServiceDto dto2 = objectMapper.readValue(result2.getResponse().getContentAsString(), GetOrderServiceDto.class);
+
+        assertNotEquals(dto.getStatus(), dto2.getStatus());
+        orderServiceService.deleteOrderServiceById(dto.getId());
+    }
 //
 //    @Test
 //    void payForServiceByUser() {
 //    }
 //
-//    @Test
-//    void noHandlerFoundException() {
-//    }
+
 
     @AfterAll()
     void clean() {

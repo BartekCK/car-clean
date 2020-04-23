@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -17,16 +16,13 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user_id;
 
     private String name;
 
     private String position;
-
-    @OneToMany(mappedBy = "employee")
-    private Set<OrderService> orderServices;
 
     @Override
     public String toString() {

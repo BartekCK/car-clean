@@ -2,7 +2,6 @@ package com.carwash.server.services;
 
 import com.carwash.server.dto.CreateOrderServiceDto;
 import com.carwash.server.dto.GetOrderServiceDto;
-import com.carwash.server.models.enums.OrderServiceStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public interface OrderServiceService {
 
     ResponseEntity<List<GetOrderServiceDto>> getAllUserService(String username);
 
-    ResponseEntity<CreateOrderServiceDto> changeServiceStatus(Long idService, OrderServiceStatus orderServiceStatus);
+    ResponseEntity<GetOrderServiceDto> changeServiceStatus(Long idService, String status);
 
     ResponseEntity payForServiceByUser(Long idService, String username);
 }

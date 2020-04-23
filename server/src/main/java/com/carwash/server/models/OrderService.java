@@ -43,13 +43,8 @@ public class OrderService {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
-    @ManyToOne
     @JoinColumn(name = "services_id")
     private Services serviceid;
-
 
     @Override
     public String toString() {
@@ -59,10 +54,6 @@ public class OrderService {
                 ", time=" + time +
                 ", paidStatus=" + paidStatus +
                 ", status=" + status +
-                ", car=" + car +
-                ", user=" + user +
-                ", employee=" + employee +
-                ", serviceid=" + serviceid +
                 '}';
     }
 

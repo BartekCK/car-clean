@@ -1,14 +1,13 @@
 package com.carwash.server.services;
 
 import com.carwash.server.configuration.jwt.JwtProvider;
-import com.carwash.server.dto.JwtTokenDto;
-import com.carwash.server.dto.SignInDto;
-import com.carwash.server.dto.SignUpDto;
-import com.carwash.server.dto.UserDto;
+import com.carwash.server.dto.*;
+import com.carwash.server.models.Employee;
 import com.carwash.server.models.User;
 import com.carwash.server.models.UserPrincipal;
 import com.carwash.server.models.authority.Role;
 import com.carwash.server.models.authority.RoleName;
+import com.carwash.server.repositories.EmployeeRepository;
 import com.carwash.server.repositories.RoleRepository;
 import com.carwash.server.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +33,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final UserRepository userRepository;
     private final JwtProvider provider;
     private final AuthenticationManager manager;
+    private final EmployeeRepository employeeRepository;
 
 
     @Override
@@ -90,5 +91,24 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         return UserDto.build((UserPrincipal) authentication.getPrincipal());
     }
 
+    @Override
+    public EmployeeDto createEmployee(User user, EmployeeDto employeeDto) {
+        User futureEmployee = userRepository.findByUsername(user.getUsername()).orElseThrow(() ->
+                new UsernameNotFoundException("User not found: " + user.getUsername()));
+        Employee employee = new Employee(0, futureEmployee, employeeDto.getName(), employeeDto.getPosition());
+
+        Role role = roleRepository
+                .findByName(RoleName.ROLE_EMPLOYEE)
+                .orElseThrow(() -> new RuntimeException("Rola nie istnieje"));
+
+        Set<Role> tempSetRoles = futureEmployee.getRoles();
+        tempSetRoles.add(role);
+        futureEmployee.setRoles(tempSetRoles);
+
+        userRepository.save(futureEmployee);
+        employeeRepository.save(employee);
+
+        return EmployeeDto.build(employee);
+    }
 
 }

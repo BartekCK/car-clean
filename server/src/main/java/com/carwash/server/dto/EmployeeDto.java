@@ -13,9 +13,11 @@ public class EmployeeDto {
 
     private String name;
 
+    private String position;
+
     public static EmployeeDto build(Employee employee) {
         if (employee != null)
-            return new EmployeeDto(employee.getId(), UserDto.build(employee.getUser_id()), employee.getName());
+            return new EmployeeDto(employee.getId(), UserDto.build(employee.getUser_id()), employee.getName(), employee.getPosition());
         else
             return null;
     }

@@ -15,4 +15,13 @@ public enum OrderServiceStatus {
     public String toString() {
         return this.name;
     }
+
+    public static OrderServiceStatus fromString(String text) {
+        for (OrderServiceStatus b : OrderServiceStatus.values()) {
+            if (b.name.equalsIgnoreCase(text)) {
+                return b;
+            }
+        }
+        throw new NullPointerException("Błędny status operacji");
+    }
 }

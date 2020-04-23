@@ -20,8 +20,6 @@ public class CreateOrderServiceDto {
 
     private Long userId;
 
-    private EmployeeDto employee;
-
     private int servicesId;
 
     public static CreateOrderServiceDto build(OrderService orderService) {
@@ -33,7 +31,6 @@ public class CreateOrderServiceDto {
                 orderService.getPaidStatus().toString(),
                 orderService.getCar().getId(),
                 orderService.getUser().getId(),
-                EmployeeDto.build(orderService.getEmployee()),
                 orderService.getServiceid().getId()
         );
     }
