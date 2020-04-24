@@ -256,6 +256,41 @@ class OrderServiceControllerTest {
         orderServiceService.deleteOrderServiceById(dto.getId());
     }
 
+    @Test
+    void should_not_change_ServiceStatus() throws Exception {
+
+        User user = userRepository.findByUsername(carAdd.getUserAuthAdd().getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
+        CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
+                ((long) 1, "2000-02-03", 12, " ", " ", carAdd.getCarId().intValue(),
+                        user.getId(), 1
+                );
+
+        EmployeeDto employeeDto = new EmployeeDto(0, UserDto.build(user), "Adam", "Sprzedawca");
+        authorizationService.createEmployee(user, employeeDto);
+
+        MvcResult result = mockMvc.perform(post("/api/v1/users/services")
+                .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
+                .content(objectMapper.writeValueAsString(createOrderServiceDto))
+                .contentType("application/json")).andReturn();
+
+        CreateOrderServiceDto dto = objectMapper.readValue(result.getResponse().getContentAsString(), CreateOrderServiceDto.class);
+
+        mockMvc.perform(put("/api/v1/employees/services/{id}", dto.getId())
+                .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
+                .content(OrderServiceStatus.DONE.toString())
+                .contentType("application/json"));
+
+        MvcResult result2 = mockMvc.perform(put("/api/v1/employees/services/{id}", dto.getId())
+                .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
+                .content(OrderServiceStatus.WAITING.toString())
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isBadRequest()).andReturn();
+
+        authorizationService.deleteEmployee(user);
+        orderServiceService.deleteOrderServiceById(dto.getId());
+    }
+
 
     @Test
     void should_return_services_by_day_for_employee() throws Exception {

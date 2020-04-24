@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -36,13 +37,15 @@ public class OrderServiceServiceImpl implements OrderServiceService {
     private final CarRepository carRepository;
     private final UserRepository userRepository;
     private final ServicesRepository servicesRepository;
+    private final MailService mailService;
 
     @Autowired
-    public OrderServiceServiceImpl(OrderServiceRepository orderServiceRepository, CarRepository carRepository, UserRepository userRepository, ServicesRepository servicesRepository) {
+    public OrderServiceServiceImpl(OrderServiceRepository orderServiceRepository, CarRepository carRepository, UserRepository userRepository, ServicesRepository servicesRepository, MailService mailService) {
         this.orderServiceRepository = orderServiceRepository;
         this.carRepository = carRepository;
         this.userRepository = userRepository;
         this.servicesRepository = servicesRepository;
+        this.mailService = mailService;
     }
 
     @Value("${com.hour.work.start}")
@@ -125,6 +128,11 @@ public class OrderServiceServiceImpl implements OrderServiceService {
             return ResponseEntity.badRequest().body(GetOrderServiceDto.build(order));
         order.setStatus(orderServiceStatus);
         orderServiceRepository.save(order);
+        try {
+            mailService.informationAboutServiceStatus(order.getUser().getEmail(), orderServiceStatus);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.ok(GetOrderServiceDto.build(order));
     }
 

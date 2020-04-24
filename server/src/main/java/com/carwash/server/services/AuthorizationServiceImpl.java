@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +36,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final JwtProvider provider;
     private final AuthenticationManager manager;
     private final EmployeeRepository employeeRepository;
+    private final MailService mailService;
 
 
     @Override
@@ -62,6 +64,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                 roles);
 
         userRepository.save(user);
+
+        try {
+            mailService.informationAboutRegistration(user);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.ok("Użytkownik pomyślnie został zarejestrowany");
     }
 
