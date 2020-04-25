@@ -1,8 +1,13 @@
 package com.carwash.server.controllers;
 
 import com.carwash.server.dto.CarDto;
+import com.carwash.server.dto.CreateOrderServiceDto;
 import com.carwash.server.dto.SignUpDto;
+import com.carwash.server.models.User;
+import com.carwash.server.models.enums.OrderServiceStatus;
+import com.carwash.server.repositories.UserRepository;
 import com.carwash.server.services.AuthorizationService;
+import com.carwash.server.services.OrderServiceServiceImpl;
 import com.carwash.server.utilies.UserAuthAdd;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +42,12 @@ class CarControllerTestIntegration {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    OrderServiceServiceImpl orderServiceService;
+
+    @Autowired
+    UserRepository userRepository;
+
     SignUpDto signUpDto;
 
     String token;
@@ -53,7 +64,7 @@ class CarControllerTestIntegration {
     }
 
     @Test
-    void addUserCar() throws Exception {
+    void should_addUserCar() throws Exception {
 
         CarDto carDto = new CarDto(1, "mercedes", "THI66666");
 
@@ -66,7 +77,7 @@ class CarControllerTestIntegration {
     }
 
     @Test
-    void getAllUserCars() throws Exception {
+    void should_getAllUserCars() throws Exception {
         for (int i = 0; i < 5; i++) {
             CarDto carDto = new CarDto(1, "mercedes", "THI66666");
 
@@ -87,7 +98,7 @@ class CarControllerTestIntegration {
 
 
     @Test
-    void deleteUserCar() throws Exception {
+    void should_deleteUserCar() throws Exception {
         CarDto carDto = new CarDto(1, "mercedes", "THI66666");
 
         MvcResult result = mockMvc.perform(post("/api/v1/users/cars")
@@ -99,12 +110,95 @@ class CarControllerTestIntegration {
 
         JsonNode json = objectMapper.readTree(result.getResponse().getContentAsString());
         int deleteCarId = json.get("id").asInt();
-        System.out.println(deleteCarId);
+
 
         mockMvc.perform(delete("/api/v1/users/cars/{id}", deleteCarId)
                 .header("authorization", userAuthAdd.getBearerToken()))
                 .andDo(print())
                 .andExpect(status().isOk()).andReturn();
+    }
+
+    @Test
+    void should_deleteUserCar_without_order_service() throws Exception {
+
+        //CREATE CAR
+        CarDto carDto = new CarDto(1, "mercedes", "THI66666");
+
+        MvcResult result = mockMvc.perform(post("/api/v1/users/cars")
+                .header("authorization", userAuthAdd.getBearerToken())
+                .content(objectMapper.writeValueAsString(carDto))
+                .contentType("application/json"))
+                .andReturn();
+
+        JsonNode json = objectMapper.readTree(result.getResponse().getContentAsString());
+        int deleteCarId = json.get("id").asInt();
+
+
+        //CREATE ORDER
+        User user = userRepository.findByUsername(userAuthAdd.getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
+        CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
+                ((long) 1, "2000-02-03", 12, " ", " ", deleteCarId,
+                        user.getId(), 1
+                );
+        MvcResult result2 = mockMvc.perform(post("/api/v1/users/services")
+                .header("authorization", userAuthAdd.getBearerToken())
+                .content(objectMapper.writeValueAsString(createOrderServiceDto))
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+
+        CreateOrderServiceDto dto = objectMapper.readValue(result2.getResponse().getContentAsString(), CreateOrderServiceDto.class);
+        //CHANGE STATUS TO DONE
+        orderServiceService.changeServiceStatus(dto.getId(), OrderServiceStatus.DONE.toString());
+
+        //DELETE CAR
+        mockMvc.perform(delete("/api/v1/users/cars/{id}", deleteCarId)
+                .header("authorization", userAuthAdd.getBearerToken()))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+
+        //DELETE ORDER WHERE CAR == NULL
+        orderServiceService.deleteOrderServiceById(dto.getId());
+    }
+
+    @Test
+    void should_not_deleteUserCar() throws Exception {
+//CREATE CAR
+        CarDto carDto = new CarDto(1, "mercedes", "THI66666");
+
+        MvcResult result = mockMvc.perform(post("/api/v1/users/cars")
+                .header("authorization", userAuthAdd.getBearerToken())
+                .content(objectMapper.writeValueAsString(carDto))
+                .contentType("application/json"))
+                .andReturn();
+
+        JsonNode json = objectMapper.readTree(result.getResponse().getContentAsString());
+        int deleteCarId = json.get("id").asInt();
+
+
+        //CREATE ORDER
+        User user = userRepository.findByUsername(userAuthAdd.getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
+        CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
+                ((long) 1, "2000-02-03", 12, " ", " ", deleteCarId,
+                        user.getId(), 1
+                );
+        MvcResult result2 = mockMvc.perform(post("/api/v1/users/services")
+                .header("authorization", userAuthAdd.getBearerToken())
+                .content(objectMapper.writeValueAsString(createOrderServiceDto))
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+
+        CreateOrderServiceDto dto = objectMapper.readValue(result2.getResponse().getContentAsString(), CreateOrderServiceDto.class);
+
+        //DELETE CAR
+        mockMvc.perform(delete("/api/v1/users/cars/{id}", deleteCarId)
+                .header("authorization", userAuthAdd.getBearerToken()))
+                .andDo(print())
+                .andExpect(status().is(404)).andReturn();
+
+        //DELETE ORDER WHERE CAR == NULL
+        orderServiceService.deleteOrderServiceById(dto.getId());
     }
 
     @AfterAll()
