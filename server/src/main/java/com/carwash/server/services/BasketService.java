@@ -9,9 +9,7 @@ import java.util.List;
 @Service
 public interface BasketService {
 
-    //List<BasketDto> getAllBaskets();
-
-    ResponseEntity<BasketDto> getUserBasket(String username, int basketId);
+    ResponseEntity<BasketDto> getUserBasket(String username);
 
     ResponseEntity<BasketDto> addProductToBasket(String username,int productId);
 

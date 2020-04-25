@@ -101,6 +101,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public ResponseEntity deleteUser(String username) {
         User user = this.userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Użytkownik nie został znaleziony"));
+        Basket basket = this.basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Użytkownik nie został znaleziony"));
+        this.basketRepository.delete(basket);
         this.userRepository.delete(user);
         return new ResponseEntity(HttpStatus.OK);
     }

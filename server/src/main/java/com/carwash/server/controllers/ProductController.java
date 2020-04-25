@@ -48,13 +48,13 @@ public class ProductController {
         return productService.deleteProduct(productId);
     }
 
-    @ExceptionHandler(value = {RuntimeException.class})
-    public ResponseEntity noHandlerFoundException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-
     @GetMapping("/category/{category}")
     public List<ProductDto> getProductsByCategory(@PathVariable("category") ProductCategory category) {
         return productService.getProductsByCategory(category);
+    }
+
+    @ExceptionHandler(value = {RuntimeException.class})
+    public ResponseEntity noHandlerFoundException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

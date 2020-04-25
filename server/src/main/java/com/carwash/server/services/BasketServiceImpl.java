@@ -24,20 +24,13 @@ public class BasketServiceImpl implements BasketService {
     private final BasketRepository basketRepository;
     private final ProductRepository productRepository;
 
-/*    @Override
-    public List<BasketDto> getAllBaskets() {
-        return basketRepository.findAll().stream().map(basket -> BasketDto.build(basket)).collect(Collectors.toList());
-    }*/
-
-
     @Override
-    public ResponseEntity<BasketDto> getUserBasket(String username, int basketId) {
+    public ResponseEntity<BasketDto> getUserBasket(String username) {
         Basket basket = basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Koszyk nie został znaleziony"));
         return ResponseEntity.ok(BasketDto.build(basket));
     }
 
     @Override
-   // @Transactional(propagation= Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
     public ResponseEntity<BasketDto> addProductToBasket(String username,int productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produkt nie został znaleziony"));
         Basket basket = basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Koszyk nie został znaleziony"));
@@ -66,11 +59,8 @@ public class BasketServiceImpl implements BasketService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produkt nie został znaleziony"));
         int newPrice = basket.getBill() - product.getPrice();
         basket.setBill(newPrice);
-        basket.getBasketProducts().remove(product.getId());
+        basket.getBasketProducts().removeIf(t -> t.getId()==productId);
         basketRepository.save(basket);
         return BasketDto.build(basket);
     }
-
-
 }
-//product.getId() (product.getId(),product.getName()),product.getPrice(),product.getProd_photo(),product.setDescription(),product.setCategory();

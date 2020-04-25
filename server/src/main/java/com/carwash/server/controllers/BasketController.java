@@ -22,10 +22,10 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @GetMapping("{id}")
+    @GetMapping
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<BasketDto> getUserBasket(Authentication authentication, @PathVariable("id") int basketId) {
-        return basketService.getUserBasket(AuthMiner.getUsername(authentication), basketId);
+    public ResponseEntity<BasketDto> getUserBasket(Authentication authentication) {
+        return basketService.getUserBasket(AuthMiner.getUsername(authentication));
     }
 
     @PutMapping("add/{productId}")
