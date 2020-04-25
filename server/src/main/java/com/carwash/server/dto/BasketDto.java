@@ -1,7 +1,13 @@
 package com.carwash.server.dto;
 
 import com.carwash.server.models.Basket;
+import com.carwash.server.dto.ProductDto;
+
+import com.carwash.server.models.Product;
 import lombok.Value;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Value
 public class BasketDto {
@@ -9,12 +15,18 @@ public class BasketDto {
 
     private final int bill;
 
-    private BasketDto(Basket basket) {
-        this.id = basket.getId();
-        this.bill = basket.getBill();
-    }
+    private final List<String> basketProducts;
+/*
+    private final String name;
 
-    public static BasketDto createBasketDto(Basket basket) {
-        return new BasketDto(basket);
+    private final int price;
+
+    private String description;*/
+
+    //private final List<Integer> prodIds
+
+    public static BasketDto build(Basket basket) {
+        List<String> li = basket.getBasketProducts().stream().map(product -> product.getName()).collect(Collectors.toList());
+        return new BasketDto(basket.getId(), basket.getBill(),li);
     }
 }

@@ -1,14 +1,18 @@
 package com.carwash.server.models;
 
 import com.carwash.server.models.enums.ProductCategory;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -32,11 +36,11 @@ public class Product {
 
     private ProductCategory category;
 
-    @ManyToMany(mappedBy = "orderProducts")
+    @ManyToMany(mappedBy = "orderProducts", fetch = FetchType.EAGER)
     private Set<Order> prods;
 
-    @ManyToMany(mappedBy = "basketProducts")
-    private Set<Basket> basks;
+    @ManyToMany(mappedBy = "basketProducts", fetch = FetchType.EAGER)
+    private List<Basket> basks;
 
     public String getProd_photo() {
         return this.prod_photo;

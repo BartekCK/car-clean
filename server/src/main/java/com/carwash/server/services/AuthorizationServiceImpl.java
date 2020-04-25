@@ -2,12 +2,14 @@ package com.carwash.server.services;
 
 import com.carwash.server.configuration.jwt.JwtProvider;
 import com.carwash.server.dto.*;
+import com.carwash.server.models.Basket;
 import com.carwash.server.models.Employee;
 import com.carwash.server.models.OrderService;
 import com.carwash.server.models.User;
 import com.carwash.server.models.UserPrincipal;
 import com.carwash.server.models.authority.Role;
 import com.carwash.server.models.authority.RoleName;
+import com.carwash.server.repositories.BasketRepository;
 import com.carwash.server.repositories.EmployeeRepository;
 import com.carwash.server.repositories.OrderServiceRepository;
 import com.carwash.server.repositories.RoleRepository;
@@ -47,6 +49,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final OrderServiceRepository orderServiceRepository;
     private final OpinionService opinionService;
 
+    private final BasketRepository basketRepository;
+
 
     @Override
     public ResponseEntity<String> createUser(SignUpDto signUpDto) {
@@ -74,6 +78,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
         userRepository.save(user);
 
+        Basket userbasket = Basket.builder()
+                .bill(0)
+                .basketProducts(null)
+                .user(user)
+                .build();
+        basketRepository.save(userbasket);
+
         try {
             mailService.informationAboutRegistration(user);
         } catch (MessagingException e) {
@@ -100,6 +111,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public ResponseEntity deleteUser(String username) {
         User user = this.userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Użytkownik nie został znaleziony"));
+
+        Basket basket = this.basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Użytkownik nie został znaleziony"));
+        this.basketRepository.delete(basket);
+
         try {
             List<OrderService> userOrders = orderServiceRepository
                     .findAllByUserId(user.getId()).get();

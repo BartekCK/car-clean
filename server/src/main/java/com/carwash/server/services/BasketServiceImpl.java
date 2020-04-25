@@ -1,39 +1,66 @@
 package com.carwash.server.services;
 
 import com.carwash.server.dto.BasketDto;
+import com.carwash.server.models.Basket;
+import com.carwash.server.models.Product;
 import com.carwash.server.repositories.BasketRepository;
+import com.carwash.server.repositories.ProductRepository;
+import com.carwash.server.repositories.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class BasketServiceImpl implements BasketService {
 
 
-    BasketRepository basketRepository;
+    private final BasketRepository basketRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    public BasketServiceImpl(BasketRepository basketRepository) {
-        this.basketRepository = basketRepository;
+    @Override
+    public ResponseEntity<BasketDto> getUserBasket(String username) {
+        Basket basket = basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Koszyk nie został znaleziony"));
+        return ResponseEntity.ok(BasketDto.build(basket));
     }
 
     @Override
-    public List<BasketDto> getAllBaskets() {
-        return basketRepository.findAll().stream().map(basket -> BasketDto.createBasketDto(basket)).collect(Collectors.toList());
+    public ResponseEntity<BasketDto> addProductToBasket(String username,int productId) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produkt nie został znaleziony"));
+        Basket basket = basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Koszyk nie został znaleziony"));
+
+        int newPrice = basket.getBill() + product.getPrice();
+        basket.setBill(newPrice);
+
+        basket.getBasketProducts().add(product);
+        basketRepository.save(basket);
+
+        return ResponseEntity.ok(BasketDto.build(basket));
     }
 
     @Override
-    public BasketDto getBasket(int id) {
-        return BasketDto.createBasketDto
-                (basketRepository
-                        .findById(id)
-                        .orElseThrow(
-                                () -> new RuntimeException("Koszyk o id " + id + " nie został znaleziony")
-                        )
-                );
+    public BasketDto clearUserBasket(String username) {
+        Basket basket = basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Koszyk nie został znaleziony"));
+        basket.getBasketProducts().clear();
+        basket.setBill(0);
+        basketRepository.save(basket);
+        return BasketDto.build(basket);
     }
 
-
+    @Override
+    public BasketDto removeProductFormBasket(String username, int productId) {
+        Basket basket = basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Koszyk nie został znaleziony"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produkt nie został znaleziony"));
+        int newPrice = basket.getBill() - product.getPrice();
+        basket.setBill(newPrice);
+        basket.getBasketProducts().removeIf(t -> t.getId()==productId);
+        basketRepository.save(basket);
+        return BasketDto.build(basket);
+    }
 }

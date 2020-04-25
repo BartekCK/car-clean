@@ -6,28 +6,25 @@ import lombok.Value;
 
 @Value
 public class ProductDto {
-    private final int id;
+    private int id;
 
-    private final String name;
+    private String name;
 
-    private final int price;
+    private int price;
 
-    private final String description;
+    private String description;
 
-    private final String prod_photo;
+    private String prod_photo;
 
-    private final ProductCategory category;
+    private ProductCategory category;
 
-    private ProductDto(Product product) {
-        this.id = product.getId();
-        this.name = product.getName();
-        this.price = product.getPrice();
-        this.description = product.getDescription();
-        this.prod_photo = product.getProd_photo();
-        this.category = product.getCategory();
-    }
-
-    public static ProductDto createProductDto(Product product) {
-        return new ProductDto(product);
+    public static ProductDto build(Product product) {
+        return new ProductDto(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getDescription(),
+                product.getProd_photo(),
+                product.getCategory());
     }
 }
