@@ -57,10 +57,4 @@ public class ProductController {
     public List<ProductDto> getProductsByCategory(@PathVariable("category") ProductCategory category) {
         return productService.getProductsByCategory(category);
     }
-
-    @PutMapping("{productId}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ProductDto> updateProduct(Authentication authentication, @PathVariable("productId")int productId, @RequestBody ProductDto productDto) {
-        return productService.updateProduct(productId, productDto);
-    }
 }

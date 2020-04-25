@@ -2,11 +2,13 @@ package com.carwash.server.services;
 
 import com.carwash.server.configuration.jwt.JwtProvider;
 import com.carwash.server.dto.*;
+import com.carwash.server.models.Basket;
 import com.carwash.server.models.Employee;
 import com.carwash.server.models.User;
 import com.carwash.server.models.UserPrincipal;
 import com.carwash.server.models.authority.Role;
 import com.carwash.server.models.authority.RoleName;
+import com.carwash.server.repositories.BasketRepository;
 import com.carwash.server.repositories.EmployeeRepository;
 import com.carwash.server.repositories.RoleRepository;
 import com.carwash.server.repositories.UserRepository;
@@ -37,6 +39,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final AuthenticationManager manager;
     private final EmployeeRepository employeeRepository;
     private final MailService mailService;
+    private final BasketRepository basketRepository;
 
 
     @Override
@@ -64,6 +67,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                 roles);
 
         userRepository.save(user);
+
+        Basket userbasket = Basket.builder()
+                .bill(0)
+                .basketProducts(null)
+                .user(user)
+                .build();
+        basketRepository.save(userbasket);
 
         try {
             mailService.informationAboutRegistration(user);

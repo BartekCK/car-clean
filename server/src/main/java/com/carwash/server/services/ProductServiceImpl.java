@@ -39,20 +39,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<ProductDto> updateProduct(int productId, ProductDto productDto) {
-        Optional<Product> prod = productRepository.findById(productId);
-        Product product = Product.builder()
-                .name(productDto.getName())
-                .price(productDto.getPrice())
-                .prod_photo(productDto.getProd_photo())
-                .description(productDto.getDescription())
-                .category(productDto.getCategory())
-                .build();
-        productRepository.save(product);
-        return ResponseEntity.ok(ProductDto.build(product));
-    }
-
-    @Override
     public ProductDto getProduct(int id) {
         return ProductDto.build
                 (productRepository
