@@ -26,12 +26,10 @@ public class OpinionServiceImpl implements OpinionService {
 
     @Value("${domain.full.name}")
     private String domainName;
-    private final String resourcePath = "/img/opinions/";
+    private final String folder = "media/opinions/";
 
     private final OpinionRepository opinionRepository;
     private final UserRepository userRepository;
-
-    private final String folder = "src/main/resources/static/img/opinions/";
 
 
     public OpinionServiceImpl(OpinionRepository opinionRepository, UserRepository userRepository) {
@@ -64,7 +62,8 @@ public class OpinionServiceImpl implements OpinionService {
         createOpinionDto.forEach(opinion -> opinion.setImage(
                 new StringBuilder()
                         .append(this.domainName)
-                        .append(this.resourcePath)
+                        .append("/")
+                        .append(this.folder)
                         .append(opinion.getImage())
                         .toString()
         ));
