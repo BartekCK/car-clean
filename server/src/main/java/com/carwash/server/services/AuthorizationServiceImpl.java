@@ -13,6 +13,8 @@ import com.carwash.server.repositories.OrderServiceRepository;
 import com.carwash.server.repositories.RoleRepository;
 import com.carwash.server.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +35,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class AuthorizationServiceImpl implements AuthorizationService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthorizationServiceImpl.class);
+
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -41,6 +45,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final EmployeeRepository employeeRepository;
     private final MailService mailService;
     private final OrderServiceRepository orderServiceRepository;
+    private final OpinionService opinionService;
 
 
     @Override
@@ -101,9 +106,21 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             userOrders.forEach(order -> order.setUser(null));
             orderServiceRepository.saveAll(userOrders);
         } catch (Exception e) {
+
+            try {
+                opinionService.deleteOpinion(username);
+            } catch (Exception ex) {
+                logger.info("Delete opinions {}", ex.getMessage());
+            }
             this.userRepository.delete(user);
             return new ResponseEntity(HttpStatus.OK);
         }
+        try {
+            opinionService.deleteOpinion(username);
+        } catch (Exception e) {
+            logger.info("Delete opinions {}", e.getMessage());
+        }
+
         this.userRepository.delete(user);
         return new ResponseEntity(HttpStatus.OK);
     }

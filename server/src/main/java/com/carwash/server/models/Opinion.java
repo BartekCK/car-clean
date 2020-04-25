@@ -1,12 +1,15 @@
 package com.carwash.server.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,25 +20,40 @@ public class Opinion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     private int mark;
 
     private LocalDateTime date;
-    private String text_content;
-    private String img_content1;
-    private String img_content2;
-    private String img_content3;
+
+    private String description;
+
+    private String image;
 
     @Override
     public String toString() {
         return "Opinion{" +
                 "id=" + id +
+                ", user=" + user +
                 ", mark=" + mark +
                 ", date=" + date +
-                ", text_content='" + text_content + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Opinion opinion = (Opinion) o;
+        return id == opinion.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

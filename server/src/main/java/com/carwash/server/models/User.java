@@ -48,8 +48,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<OrderService> orderServices;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Opinion> opinions;
+    @OneToOne(mappedBy = "user")
+    private Opinion opinion;
 
     @OneToMany(mappedBy = "user")
     private Set<Basket> baskets;
