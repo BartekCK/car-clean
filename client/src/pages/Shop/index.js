@@ -5,84 +5,63 @@ import {ProductCard} from '../../components/Product';
 import {ProductNav} from '../../components/ProductNav';
 
 export class Shop extends React.Component {
-  state = {
-    products: [
-      //TEMP DATA INSIDE
-      {
-        id: 0,
-        name: 'Piana K2',
-        price: 20,
-        prod_photo: 'https://mirapolnext.pl/images/26547.jpg',
-        description: 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
-      },
-      {
-        id: 1,
-        name: 'Piana K2',
-        price: 0,
-        prod_photo: 'https://mirapolnext.pl/images/26547.jpg',
-        description: 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
-      },
-      {
-        id: 2,
-        name: 'Piana K2',
-        price: 0,
-        prod_photo: 'https://mirapolnext.pl/images/26547.jpg',
-        description: 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
-      },
-      {
-        id: 3,
-        name: 'Piana K2',
-        price: 0,
-        prod_photo: 'https://mirapolnext.pl/images/26547.jpg',
-        description: 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
-      },
-      {
-        id: 4,
-        name: 'Piana K2',
-        price: 0,
-        prod_photo: 'https://mirapolnext.pl/images/26547.jpg',
-        description: 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
-      },
-    ],
-    activeCategory: '',
-  };
 
-  componentDidMount = () => {
-    //GET FROM API
-  };
-  componentDidUpdate = () => {
-    //GET FROM API WHEN CATEGORY CHANGE
-  };
+state = {
+  products: [],
+  activeCategory: ''
+};
+
+    componentDidMount = () => {
+      fetch('http://localhost:8080/api/v1/product')
+          .then(res => res.json())
+          .then(products => {
+            console.log(products);
+              this.setState({products});
+    }
+          );
+    };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if(this.state.activeCategory!==prevState.activeCategory) {
+        fetch(`http://localhost:8080/api/v1/product/category/${this.state.activeCategory}`)
+            .then(res => res.json())
+            .then(products => {
+                    console.log(products);
+                    this.setState({products});
+                }
+            );
+    }
+};
 
   setProductCategory = (chooseCategory) => {
-    this.setState({ activeCategory: chooseCategory });
+    this.setState({activeCategory: chooseCategory});
   };
 
   render() {
-    const { products, activeCategory } = this.state;
-    return (
-      <ShopContainer>
-        <ProductNav
-          setProductCategory={this.setProductCategory}
-          activeCategory={activeCategory}
-        />
-        <Container className='shadow my-3'>
-          <Row xs={1} sm={2} md={3} lg={4}>
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                prod_photo={product.prod_photo}
-                description={product.description}
-              />
-            ))}
-          </Row>
-        </Container>
-      </ShopContainer>
-    );
-  }
+    const {products, activeCategory} = this.state;
+      return (
+          <ShopContainer>
+            <ProductNav
+                setProductCategory={this.setProductCategory}
+                activeCategory={activeCategory}
+            />
+            <Container className='shadow my-3'>
+              <Row xs={1} sm={2} md={3} lg={4}>
+                {products.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        id={product.id}
+                        name={product.name}
+                        price={product.price}
+                        prod_photo={product.prod_photo}
+                        description={product.description}
+                    />
+                ))}
+              </Row>
+            </Container>
+          </ShopContainer>
+      );
+    }
 }
 
 const ShopContainer = styled.div`

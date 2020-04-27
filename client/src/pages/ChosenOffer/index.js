@@ -1,12 +1,13 @@
 import React from 'react';
 import {Badge, Button, Col, Container, ListGroup, Row} from 'react-bootstrap';
-import {offers} from '../../data/temp/OffersTemp';
+//import {offers} from '../../data/temp/OffersTemp';
 import {OfferDiv} from '../../components/Offer';
 import {CarTable} from '../../components/CarTable';
 import {Calendar} from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import {Redirect} from 'react-router-dom';
 import {ErrorModal} from '../../helpers/error';
+import axios from "axios";
 
 export class ChosenOffer extends React.Component {
   state = {
@@ -21,10 +22,13 @@ export class ChosenOffer extends React.Component {
   componentDidMount = () => {
     //POST TO CHECK USER IF WRONG THEN REDIRECT !!!
     //GET FROM API SERVICE WITH ID IN URL
-    const offer = offers.find(
-      (offer) => offer.id === Number(this.props.match.params.id)
-    );
-    this.setState({ offer: offer });
+    axios.get(`http://localhost:8080/api/v1/services/${this.props.match.params.id}`)
+        .then(response => {
+          this.setState({offer: response.data})
+        })
+        .catch(error => {
+          console.log('error')
+        })
   };
 
   setUserCar = (id) => {

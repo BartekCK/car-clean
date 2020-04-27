@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,6 +37,12 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findAllByCategory(category);
         List<ProductDto> productsDto = products.stream().map(el ->ProductDto.build(el)).collect(Collectors.toList());
         return productsDto;
+    }
+
+    @Override
+    public List<ProductCategory> getCategories() {
+        List<ProductCategory> enums = Arrays.asList(ProductCategory.values());
+        return enums;
     }
 
     @Override

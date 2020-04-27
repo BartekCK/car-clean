@@ -6,6 +6,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import {MdAccountCircle, MdLock, MdMail, MdPhone} from 'react-icons/md';
 import {Redirect} from 'react-router-dom';
 import {ErrorModal} from '../../helpers/error';
+import axios from 'axios'
 
 export const MyInput = ({
   value,
@@ -49,13 +50,23 @@ export const SignUp = () => {
   };
 
   const sendData = () => {
+    //console.log(data)
     if (!error) {
+      axios.post('http://localhost:8080/api/v1/signup', data)
+          .then(response => {
+            console.log(response)
+            setModal(false);
+          })
+          .catch(error => {
+            setModal(true);
+            setError('error while register')
+          })
+    }
       //POST DATA TO API
       //IF ERROR setModal(true) AND setError with message
-      setModal(true);
+      //setModal(true);
       //IF GOOD setModal(false)
-      setModal(false);
-    }
+      //setModal(false);
   };
 
   useEffect(() => {

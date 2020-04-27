@@ -1,16 +1,23 @@
 import React from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { OfferDiv } from '../../components/Offer';
-import { offers } from '../../data/temp/OffersTemp';
+//import { offers } from '../../data/temp/OffersTemp';
+import axios from 'axios'
 
 export class Offer extends React.Component {
   state = {
-    offers: null,
+    offers: []
   };
 
-  componentDidMount = () => {
-    this.setState({ offers: offers }); //GET FROM API
-  };
+    componentDidMount = () => {
+        axios.get('http://localhost:8080/api/v1/services')
+            .then(response => {
+                this.setState({offers: response.data})
+            })
+            .catch(error => {
+                console.log('error')
+            })
+    };
 
   render() {
     const { offers } = this.state;

@@ -20,4 +20,6 @@ public interface ProductService {
     ResponseEntity deleteProduct(int productId);
 
     List<ProductDto> getProductsByCategory(ProductCategory category);
+
+    List<ProductCategory> getCategories();
 }

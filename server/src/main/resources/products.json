@@ -25,7 +25,7 @@
     "price": 39,
     "category": "SZYBY",
     "description": "Profesjonalna pasta polerska do polerowania i czyszczenia szyb samochodowych i szkła. Do zastosowania przy usuwaniu rys, zmatowień, plam po twardej wodzie czy zabrudzeń drogowych. Produkt przeznaczony dla profesjonalistów.",
-    "prod_photo": "/img/products/4.jpg"
+    "prod_photo": "/img/products/4.png"
   },
   {
     "name": "Szampon 1L",
@@ -53,7 +53,7 @@
     "price": 100,
     "category": "PIANA_AKTYWNA",
     "description": "Piana aktywna Active Foam to skoncentrowany preparat do bezpiecznego mycia wstępnego auta. Idealny kosmetyk do mycia detailingowego auta. Aktywna piana do mycia samochodu rozpuszcza i odseparowuje brud.",
-    "prod_photo": "/img/products/8.jpg"
+    "prod_photo": "/img/products/8.png"
   },
   {
     "name": "WATER SPOT REMOVER LIQUID 1L",

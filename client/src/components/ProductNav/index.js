@@ -3,21 +3,17 @@ import {Button, Nav, Navbar} from 'react-bootstrap';
 
 export class ProductNav extends React.Component {
   state = {
-    categories: [
-      'APC',
-      'Owady',
-      'Szyby',
-      'Szampon',
-      'Odmrażacz',
-      'Piana aktywna',
-      'Osady mineralne',
-      'Aktywny szampon',
-      'Płyn do spryskiwaczy',
-    ],
+    categories: []
   };
 
   componentDidMount = () => {
-    //GET ALL CATEGORIES FROM API
+    fetch('http://localhost:8080/api/v1/product/categories')
+        .then(res => res.json())
+        .then(categories => {
+              console.log(categories);
+              this.setState({categories});
+            }
+        );
   };
 
   render() {
