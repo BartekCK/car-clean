@@ -130,7 +130,7 @@ class OrderServiceControllerTest {
 
         LocalDate localDate = LocalDate.parse("1920-03-05");
 
-        MvcResult result = mockMvc.perform(get("/api/v1/users/services/hours")
+        MvcResult result = mockMvc.perform(post("/api/v1/users/services/hours")
                 .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
                 .content(objectMapper.writeValueAsString(localDate))
                 .contentType("application/json"))
@@ -169,7 +169,7 @@ class OrderServiceControllerTest {
         }
 
 
-        mockMvc.perform(get("/api/v1/users/services/hours")
+        mockMvc.perform(post("/api/v1/users/services/hours")
                 .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
                 .content(objectMapper.writeValueAsString(localDate))
                 .contentType("application/json"))

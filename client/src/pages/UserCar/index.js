@@ -6,31 +6,50 @@ import { MdLocalCarWash, TiBusinessCard } from 'react-icons/all';
 import styled from 'styled-components';
 import CarImage from '../../resources/img/car/car-credentials.jpeg';
 import { ErrorModal } from '../../helpers/error';
+import {
+  addUserCars,
+  deleteUserCar,
+  getAllUserCars,
+} from '../../helpers/apiCommands';
 
 export class UserCar extends React.Component {
   state = {
     userId: 0,
     brand: '',
-    plates_number: '',
+    platesNumber: '',
     showModal: null,
+    cars: [],
   };
 
   componentDidMount = () => {
-    //GET USER ID
+    getAllUserCars()
+      .then((res) => {
+        this.setState({ cars: res.data });
+      })
+      .catch((err) => console.log(err));
   };
 
-  deleteUserCar = (carID) => {
-    //DELETE TO THE API CAR BY ID
-    console.log(carID);
+  deleteUserCar = async (carID) => {
+    try {
+      await deleteUserCar(carID);
+      const result = this.state.cars.filter((car) => car.id !== carID);
+      this.setState({ cars: result });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  addUserCar = () => {
-    const { userId, brand, plates_number } = this.state;
-    if (brand.length > 0 && plates_number.length > 0) {
+  addUserCar = async () => {
+    const { brand, platesNumber } = this.state;
+    if (brand.length > 0 && platesNumber.length > 0) {
       //POST TO API WITH DATA LOCATED IN STATE
-      console.log(userId);
-      this.setState({ showModal: true }); //IF GOOD
-      // this.setState({ showModal: false }); //IF WRONG
+      try {
+        await addUserCars({ brand, platesNumber });
+        const res = await getAllUserCars();
+        this.setState({ cars: res.data, showModal: true });
+      } catch (e) {
+        this.setState({ showModal: false }); //IF WRONG
+      }
     }
   };
 
@@ -39,7 +58,7 @@ export class UserCar extends React.Component {
   };
 
   render() {
-    const { userId, brand, plates_number, showModal } = this.state;
+    const { userId, brand, platesNumber, showModal } = this.state;
     return (
       <Container>
         <Row className='d-flex flex-column'>
@@ -57,10 +76,10 @@ export class UserCar extends React.Component {
               updateCredentials={this.updateCredentials}
             />
             <MyInput
-              name='plates_number'
+              name='platesNumber'
               placeholder='Numery rejestracyjne'
               SpecialIcon={TiBusinessCard}
-              value={plates_number}
+              value={platesNumber}
               updateCredentials={this.updateCredentials}
             />
             <Col>
@@ -81,6 +100,7 @@ export class UserCar extends React.Component {
               userId={userId}
               actionStart={this.deleteUserCar}
               actionTitle='Usuń pojazd'
+              cars={this.state.cars}
             />
           </Col>
         </Row>

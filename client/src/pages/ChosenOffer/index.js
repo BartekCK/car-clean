@@ -7,17 +7,25 @@ import { Calendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { Redirect } from 'react-router-dom';
 import { ErrorDiv, ErrorModal } from '../../helpers/error';
-import { getServiceById } from '../../helpers/apiCommands';
+import {
+  addReservationServices,
+  getAllUserCars,
+  getFreeHoursServices,
+  getServiceById,
+  getUserCars,
+} from '../../helpers/apiCommands';
 
 export class ChosenOffer extends React.Component {
   state = {
     offer: null,
-    currentCar: null,
-    chosenDate: new Date(),
+    carId: null,
+    date: new Date(),
     freeHours: [],
-    chosenHour: null,
+    time: null,
+    cars: [],
     isGood: null,
     error: '',
+    errorApiMessage: '',
   };
 
   componentDidMount = async () => {
@@ -25,50 +33,75 @@ export class ChosenOffer extends React.Component {
     //GET FROM API SERVICE WITH ID IN URL
     try {
       const result = await getServiceById(this.props.match.params.id);
-      this.setState({ offer: result });
+      const cars = await getAllUserCars();
+      this.setState({ cars: cars.data, showModal: true, offer: result });
     } catch (e) {
       if (e.response) this.setState({ error: e.response.data });
       else this.setState({ error: 'Brak oferty' });
     }
   };
 
-  setUserCar = (id) => {
-    //THIS ID IS CONNECTED WITH COMPOMENT CARTABLE SO EASY !!!
-    //GET FROM API THIS CAR WHERE OWNER IS USER BY ID USERID=> CARS === CARID
-    const temp = {
-      id: 0,
-      brand: 'Mercedes',
-      plates_number: 'THI66666',
-    };
-    this.setState({ currentCar: temp });
+  setUserCar = async (id) => {
+    try {
+      const res = await getUserCars(id);
+      this.setState({ carId: res.data });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  changeDate = (chosenDate) => {
-    //POST TO API THIS DATE AND GET FREE HOURS THIS DAY
-    this.setState({
-      chosenDate: chosenDate,
-      freeHours: ['10:00', '11:00'],
-      chosenHour: null,
-    });
+  changeDate = async (chosenDate) => {
+    const temp = new Date(Date.now()).setDate(
+      new Date(Date.now()).getDate() - 1
+    );
+    if (new Date(chosenDate) >= temp) {
+      try {
+        const result = await getFreeHoursServices(chosenDate);
+        const filterHours = result.data.filter(
+          (el) => el > chosenDate.getHours()
+        );
+        this.setState({
+          date: chosenDate,
+          freeHours: filterHours,
+          time: null,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      this.setState({
+        isGood: false,
+        errorApiMessage: 'Termin został niepoprawnie wybrany',
+      });
+    }
   };
 
   setHour = (e) => {
-    this.setState({ chosenHour: e.target.value });
+    this.setState({ time: e.target.value });
   };
 
-  saveAllData = () => {
-    //POST TO THE SERVER USERID CARID DATE AND OFFER ID
-    //IF GOOD THEN REDIRECT ELSE SHOW MODAL WITH ERROR
-    this.setState({ isGood: false });
+  saveAllData = async () => {
+    try {
+      await addReservationServices({
+        ...this.state,
+        date: this.state.date.toISOString().slice(0, 10),
+        carId: this.state.carId.id,
+        servicesId: this.state.offer.id,
+      });
+      this.setState({ isGood: true });
+    } catch (e) {
+      this.setState({ isGood: false, errorApiMessage: e.response.data });
+    }
   };
 
   render() {
     const {
       offer,
-      currentCar,
-      chosenDate,
+      carId,
+      date,
       freeHours,
-      chosenHour,
+      time,
+      cars,
       isGood,
       error,
     } = this.state;
@@ -96,23 +129,24 @@ export class ChosenOffer extends React.Component {
                 userId={0}
                 actionTitle={'Wybierz pojazd'}
                 actionStart={this.setUserCar}
+                cars={cars}
               />
             </Col>
-            {currentCar && (
+            {carId && (
               <Col>
                 <h4>Wybrany pojazd</h4>
                 <Badge pill={true} variant='primary'>
-                  Model: {currentCar.brand}
+                  Model: {carId.brand}
                 </Badge>
                 <Badge pill={true} variant='primary'>
-                  Model: {currentCar.plates_number}
+                  Model: {carId.platesNumber}
                 </Badge>
                 <Badge
                   onClick={() =>
                     this.setState({
-                      currentCar: null,
+                      carId: null,
                       freeHours: [],
-                      chosenHour: null,
+                      time: null,
                     })
                   }
                   pill={true}
@@ -126,15 +160,15 @@ export class ChosenOffer extends React.Component {
 
           {/*CHOOSE SERVICE DATE*/}
 
-          {currentCar && (
+          {carId && (
             <Row xs={1} sm={2} className='shadow my-3 p-2'>
               <Col>
-                <Calendar onChange={this.changeDate} value={chosenDate} />
+                <Calendar onChange={this.changeDate} value={date} />
               </Col>
               <Col>
                 <Badge variant='primary'>
-                  Wolne terminy dnia {chosenDate.getDate()}.
-                  {chosenDate.getMonth()}.{chosenDate.getFullYear()}
+                  Wolne terminy dnia {date.getDate()}.{date.getMonth()}.
+                  {date.getFullYear()}
                 </Badge>
                 <ListGroup as='ul' variant='flush'>
                   {freeHours.length > 0 &&
@@ -146,7 +180,7 @@ export class ChosenOffer extends React.Component {
                         value={hour}
                         onClick={this.setHour}
                       >
-                        {hour}
+                        {hour}:00
                       </ListGroup.Item>
                     ))}
                 </ListGroup>
@@ -155,16 +189,15 @@ export class ChosenOffer extends React.Component {
           )}
 
           {/*SHOW CONFIRM DATA*/}
-          {chosenHour && (
+          {time && (
             <Row className='shadow my-3 p-2 justify-content-between'>
               <div>
                 <h5>Twój termin: </h5>
                 <Badge pill={true} variant='primary'>
-                  Dzień: {chosenDate.getDate()}.{chosenDate.getMonth()}.
-                  {chosenDate.getFullYear()}
+                  Dzień: {date.getDate()}.{date.getMonth()}.{date.getFullYear()}
                 </Badge>
                 <Badge pill={true} variant='primary'>
-                  Godzina: {chosenHour}:00
+                  Godzina: {time}:00
                 </Badge>
               </div>
               <Button onClick={this.saveAllData} variant='outline-success'>
@@ -174,7 +207,10 @@ export class ChosenOffer extends React.Component {
           )}
           {isGood && <Redirect to='/' />}
           {isGood === false && (
-            <ErrorModal onHide={() => this.setState({ isGood: null })} />
+            <ErrorModal
+              text={this.state.errorApiMessage}
+              onHide={() => this.setState({ isGood: null })}
+            />
           )}
         </Container>
       );

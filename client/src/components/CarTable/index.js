@@ -1,23 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, Container, Table } from 'react-bootstrap';
 
-export const CarTable = ({ userId, actionStart, actionTitle }) => {
-  const [cars, setCars] = useState([]);
-
-  useEffect(() => {
-    //GET ALL USER CAR BY USER ID
-    //USER ID MUST BE IN props
-    const carsTemp = [
-      // TEMP
-      {
-        id: 0,
-        brand: 'Mercedes',
-        plates_number: 'THI66666',
-      },
-    ];
-    setCars(carsTemp);
-  }, []);
-
+export const CarTable = ({ userId, actionStart, actionTitle, cars }) => {
   return (
     <Container>
       {cars.length > 0 ? (
@@ -33,7 +17,7 @@ export const CarTable = ({ userId, actionStart, actionTitle }) => {
             {cars.map((car) => (
               <tr key={car.id}>
                 <td>{car.brand}</td>
-                <td>{car.plates_number}</td>
+                <td>{car.platesNumber}</td>
                 <td>
                   <Button onClick={() => actionStart(car.id)}>
                     {actionTitle}

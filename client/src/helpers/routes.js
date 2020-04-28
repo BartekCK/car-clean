@@ -6,3 +6,9 @@ export const createUserApiUrl = () => `${serverUrl}/signup`;
 export const loginUserApiUrl = () => `${serverUrl}/signin`;
 
 export const usersApiUrl = (id) => id ? `${serverUrl}/users/${id}` : `${serverUrl}/users`;
+
+export const carsUserApiUrl = (id) => id ? `${serverUrl}/users/cars/${id}` : `${serverUrl}/users/cars`;
+
+
+export const servicesUserApiUrl = (id) => id ? `${serverUrl}/users/services/${id}` : `${serverUrl}/users/services`;
+export const servicesFreeHoursApiUrl = () => `${serverUrl}/users/services/hours`;

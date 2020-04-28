@@ -30,7 +30,7 @@ public class OrderServiceController {
         return orderServiceService.addReservationService(AuthMiner.getUsername(authentication), createOrderServiceDto);
     }
 
-    @GetMapping("hours")
+    @PostMapping("hours")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Integer>> getFreeHoursByDay(@RequestBody LocalDate localDate) {
         return orderServiceService.getFreeHoursByDay(localDate);

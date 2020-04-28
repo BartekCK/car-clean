@@ -30,3 +30,33 @@ export const post = async (url, data) => {
     throw e;
   }
 };
+
+export const postSafe = async (url, body) => {
+  try {
+    const token = localStorage.getItem('@token');
+    if (token) {
+      return await axios.post(url, body, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const deleteSafe = async (url) => {
+  try {
+    const token = localStorage.getItem('@token');
+    if (token) {
+      return await axios.delete(url, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+    }
+  } catch (e) {
+    throw e;
+  }
+};
