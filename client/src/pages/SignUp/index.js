@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Button, Col, Row} from 'react-bootstrap';
-import {CredentialsWrapper} from '../SignIn';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
+import { CredentialsWrapper } from '../SignIn';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import {MdAccountCircle, MdLock, MdMail, MdPhone} from 'react-icons/md';
-import {Redirect} from 'react-router-dom';
-import {ErrorModal} from '../../helpers/error';
-import axios from 'axios'
+import { MdAccountCircle, MdLock, MdMail, MdPhone } from 'react-icons/md';
+import { Redirect } from 'react-router-dom';
+import { ErrorModal } from '../../helpers/error';
+import { postCreateUser } from '../../helpers/apiCommands';
 
 export const MyInput = ({
   value,
@@ -49,24 +49,18 @@ export const SignUp = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const sendData = () => {
-    //console.log(data)
+  const sendData = async () => {
     if (!error) {
-      axios.post('http://localhost:8080/api/v1/signup', data)
-          .then(response => {
-            console.log(response)
-            setModal(false);
-          })
-          .catch(error => {
-            setModal(true);
-            setError('error while register')
-          })
+      try {
+        await postCreateUser(data);
+        setModal(false);
+      } catch (e) {
+        if (e.response) {
+          setError({ message: e.response.data });
+          setModal(true);
+        }
+      }
     }
-      //POST DATA TO API
-      //IF ERROR setModal(true) AND setError with message
-      //setModal(true);
-      //IF GOOD setModal(false)
-      //setModal(false);
   };
 
   useEffect(() => {
@@ -143,7 +137,9 @@ export const SignUp = () => {
       </Row>
 
       {showModal === false && <Redirect to='/zaloguj' />}
-      {showModal === true && <ErrorModal onHide={() => setModal(null)} />}
+      {showModal === true && (
+        <ErrorModal text={error.message} onHide={() => setModal(null)} />
+      )}
     </CredentialsWrapper>
   );
 };

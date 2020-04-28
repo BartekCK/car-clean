@@ -1,7 +1,7 @@
 import { Badge, Button, Card, Col, Modal } from 'react-bootstrap';
-import React, { useContext } from 'react';
-import { AuthContext } from '../../context';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { AuthContext } from '../../context';
 
 const MyVerticallyCenteredModal = ({ name, price, onHide, show }) => (
   <Modal
@@ -27,12 +27,12 @@ const MyVerticallyCenteredModal = ({ name, price, onHide, show }) => (
 export const ProductCard = ({ id, name, price, prod_photo, description }) => {
   const [modalShow, setModalShow] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
-  const { isAuthenticated } = useContext(AuthContext);
+  const { authState } = React.useContext(AuthContext);
 
   const addToBasket = () => {
     //POST PRODUCT BY ID TO BASKET API
     //USE ID !!!
-    if (isAuthenticated) {
+    if (authState.isAuthenticated) {
       setModalShow(true);
     } else {
       setRedirect(true);
@@ -40,11 +40,11 @@ export const ProductCard = ({ id, name, price, prod_photo, description }) => {
   };
 
   return (
-    <Col>
+    <Col className='d-flex justify-content-center'>
       <Card
         className='p-1 m-2 '
         border='dark'
-        style={{ maxWidth: '18rem', minHeight: '25rem' }}
+        style={{ maxWidth: '18rem', maxHeight: '29rem' }}
       >
         <Card.Img
           className='mx-auto'
@@ -57,7 +57,7 @@ export const ProductCard = ({ id, name, price, prod_photo, description }) => {
           <Card.Title>
             {name} <Badge variant='primary'>{price} zł</Badge>
           </Card.Title>
-          <Card.Text>{description}</Card.Text>
+          <Card.Text className='overflow-auto'>{description}</Card.Text>
           <Button onClick={addToBasket} variant='outline-primary'>
             Dodaj do koszyka
           </Button>

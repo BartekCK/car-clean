@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -30,6 +31,20 @@ public class Basket {
     @JoinColumn(name = "user_id")
     private User user;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Basket basket = (Basket) o;
+        return id == basket.id &&
+                bill == basket.bill;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, bill);
+    }
 
     @Override
     public String toString() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Carousel, Col, Container, Image, Row} from 'react-bootstrap';
+import { Button, Carousel, Col, Container, Image, Row } from 'react-bootstrap';
 import CarPartsImage from '../../resources/img/add/car-parts.jpg';
 import CarWashImage from '../../resources/img/add/car-wash.png';
 import styled from 'styled-components';

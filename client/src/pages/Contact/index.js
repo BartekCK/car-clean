@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Media,
-  Form,
-  FormControl,
-  Modal,
-} from 'react-bootstrap';
+import { Button, Col, Container, Form, FormControl, Media, Modal, Row } from 'react-bootstrap';
 import tel from '../../resources/img/contact/tel.svg';
 import mail from '../../resources/img/contact/mail.svg';
 import fb from '../../resources/img/contact/fb.svg';

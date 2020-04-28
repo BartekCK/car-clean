@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Container,
-  Accordion,
-  Card,
-  Button,
-  Form,
-  Col,
-  Modal,
-  FormControl,
-} from 'react-bootstrap';
+import { Accordion, Button, Card, Col, Container, Form, FormControl, Modal } from 'react-bootstrap';
 import { SingleOpinion } from '../../components/Opinion';
 import { ErrorModal } from '../../helpers/error';
 

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Container, Table} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Container, Table } from 'react-bootstrap';
 
 export const CarTable = ({ userId, actionStart, actionTitle }) => {
   const [cars, setCars] = useState([]);

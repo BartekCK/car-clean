@@ -1,7 +1,7 @@
 import React from 'react';
-import {Col, Container, Row} from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import BasketImage from '../../resources/img/basket.png';
-import {AddDiv, AddImage, PaymentButton, SingleInputProduct,} from '../../components/Basket';
+import { AddDiv, AddImage, PaymentButton, SingleInputProduct } from '../../components/Basket';
 
 export class Basket extends React.Component {
   state = {

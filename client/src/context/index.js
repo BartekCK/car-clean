@@ -1,116 +1,44 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { authReducer, LOGIN } from './reducer';
+import { getUserByToken } from '../helpers/apiCommands';
 
 export const AuthContext = React.createContext();
 
-export const tempRoles = ['USER', 'EMPLOYEE'];
+const initialState = {
+  isAuthenticated: false,
+  token: null,
+  roles: [],
+};
 
-export class AuthContextProvider extends React.Component {
-  state = {
-    user: null,
-    isAuthenticated: false,
-    token: '',
-    roles: [],
-    error: null,
-  };
+export const AuthContextProvider = (props) => {
+  const [authState, dispatch] = React.useReducer(authReducer, initialState);
 
-  componentDidMount = async () => {
-    const token = localStorage.getItem('@token');
-    if (token) {
-      //POST TO API TO GET USER
-      const user = (
-        await axios.get('https://jsonplaceholder.typicode.com/users/1')
-      ).data;
-      user.roles = tempRoles;
-      if (user) {
-        await this.setState({
-          user,
-          isAuthenticated: true,
-          error: false,
-          token,
-          roles: user.roles,
-        });
+  useEffect(() => {
+    const searchUser = async () => {
+      const token = localStorage.getItem('@token');
+      if (token) {
+        try {
+          const user = (await getUserByToken()).data;
+          user.token = token;
+          dispatch({ type: LOGIN, user: { ...user } });
+        } catch (e) {
+          console.log(e);
+        }
       }
-    }
-    //IF PROBLEM TO GET USER CLEAR TOKEN !
-  };
+    };
+    searchUser();
+  }, []);
 
-  login = async (credentials) => {
-    //POST TO API CREDENTIALS FOR LOGIN IF GOOD
-    localStorage.setItem('@token', `${tempRoles[0]},${tempRoles[1]}`);
-    const token = localStorage.getItem('@token'); //TEMP
-    //POST TO API TO GET USER INFO
-    const user = (
-      await axios.get('https://jsonplaceholder.typicode.com/users/1')
-    ).data;
-    user.roles = tempRoles;
-    if (user && token) {
-      await this.setState({
-        user,
-        isAuthenticated: true,
-        error: false,
-        token,
-        roles: user.roles,
-      });
-    }
-
-    //IF WRONG
-    // this.setState({ error: true });
-  };
-
-  logout = () => {
-    localStorage.removeItem('@token');
-    this.setState({
-      user: null,
-      isAuthenticated: false,
-      token: '',
-      roles: [],
-      error: null,
-    });
-  };
-
-  getToken = () => {
-    const token = localStorage.getItem('@token');
-    //CHECK TOKEN BY POST TO API AND THEN GIVE IT IN IF DOWN
-    if (token && token.length > 3) {
-      // this.setState({ token: token });
-      return token;
-    }
-    return null;
-  };
-
-  getRole = async () => {
-    const token = this.getToken();
-    if (token) {
-      //POST TOKEN TO API TO RETURN roles DOWN
-      const roles = tempRoles;
-      return roles;
-    }
-    return this.state.roles;
-  };
-
-  resetError = async () => {
-    await this.setState({ error: null });
-  };
-
-  render() {
-    const { error, isAuthenticated, roles } = this.state;
-    return (
-      <AuthContext.Provider
-        value={{
-          login: this.login,
-          logout: this.logout,
-          getRole: this.getRole,
-          resetError: this.resetError,
-          isAuthenticated: isAuthenticated,
-          error: error,
-          roles: roles,
-        }}
-      >
-        {this.props.children}
-      </AuthContext.Provider>
-    );
-  }
-}
+  return (
+    <AuthContext.Provider
+      value={{
+        authState: authState,
+        dispatch: dispatch,
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
+  );
+};
 
 export const AuthContextConsumer = AuthContext.Consumer;

@@ -2,10 +2,15 @@ import { Button, Modal } from 'react-bootstrap';
 import React from 'react';
 import styled from 'styled-components';
 
-export const ErrorModal = ({ onHide }) => (
+export const ErrorModal = ({ text, onHide }) => (
   <Modal size='lg' centered show={true}>
     <Modal.Header>
-      <p>Wystąpił nieoczekiwany błąd, spróbuj ponownie za chwilę</p>
+      {text ? (
+        <p>{text}</p>
+      ) : (
+        <p>Wystąpił nieoczekiwany błąd, spróbuj ponownie za chwilę</p>
+      )}
+
       <Button variant='danger' onClick={onHide}>
         Dalej
       </Button>

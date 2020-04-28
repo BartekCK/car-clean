@@ -1,4 +1,4 @@
-import {Card, Container, Col} from 'react-bootstrap';
+import { Card, Col, Container } from 'react-bootstrap';
 import React from 'react';
 
 export const SingleOpinion = ({ id, name ,mark ,date, content, imgc1, imgc2, imgc3 }) => (

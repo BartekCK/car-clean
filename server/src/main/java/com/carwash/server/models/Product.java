@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -47,6 +48,21 @@ public class Product {
 
     public void setProd_photo(String s) {
         this.prod_photo = "http://localhost:8080" + s;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id &&
+                price == product.price &&
+                name.equals(product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price);
     }
 
     @Override
