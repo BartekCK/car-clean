@@ -1,9 +1,6 @@
 package com.carwash.server.dto;
 
 import com.carwash.server.models.Basket;
-import com.carwash.server.dto.ProductDto;
-
-import com.carwash.server.models.Product;
 import lombok.Value;
 
 import java.util.List;
@@ -27,6 +24,6 @@ public class BasketDto {
 
     public static BasketDto build(Basket basket) {
         List<String> li = basket.getBasketProducts().stream().map(product -> product.getName()).collect(Collectors.toList());
-        return new BasketDto(basket.getId(), basket.getBill(),li);
+        return new BasketDto(basket.getId(), basket.getBill(), li);
     }
 }

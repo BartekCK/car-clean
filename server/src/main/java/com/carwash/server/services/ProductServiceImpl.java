@@ -2,18 +2,14 @@ package com.carwash.server.services;
 
 import com.carwash.server.dto.ProductDto;
 import com.carwash.server.models.Product;
-import com.carwash.server.models.User;
 import com.carwash.server.models.enums.ProductCategory;
 import com.carwash.server.repositories.ProductRepository;
-import com.carwash.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getProductsByCategory(ProductCategory category) {
         List<Product> products = productRepository.findAllByCategory(category);
-        List<ProductDto> productsDto = products.stream().map(el ->ProductDto.build(el)).collect(Collectors.toList());
+        List<ProductDto> productsDto = products.stream().map(el -> ProductDto.build(el)).collect(Collectors.toList());
         return productsDto;
     }
 

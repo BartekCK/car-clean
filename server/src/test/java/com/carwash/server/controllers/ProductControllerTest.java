@@ -54,12 +54,10 @@ class ProductControllerTest {
     }
 
 
-
-
     @Test
     void addProduct() throws Exception {
 
-        ProductDto productDto = new ProductDto(1,"s",22,"sdsd","ss", ProductCategory.APC);
+        ProductDto productDto = new ProductDto(1, "s", 22, "sdsd", "ss", ProductCategory.APC);
 
         mockMvc.perform(post("/api/v1/product")
                 .header("authorization", userAuthAdd.getBearerToken())
@@ -73,7 +71,7 @@ class ProductControllerTest {
     @Test
     void getAllProducts() throws Exception {
         for (int i = 0; i < 5; i++) {
-            ProductDto productDto = new ProductDto(1,"s",22,"sdsd","ss", ProductCategory.APC);
+            ProductDto productDto = new ProductDto(1, "s", 22, "sdsd", "ss", ProductCategory.APC);
 
             mockMvc.perform(post("/api/v1/product")
                     .header("authorization", userAuthAdd.getBearerToken())
@@ -92,7 +90,7 @@ class ProductControllerTest {
 
     @Test
     void getProduct() throws Exception {
-            ProductDto productDto = new ProductDto(1,"s",22,"sdsd","ss", ProductCategory.APC);
+        ProductDto productDto = new ProductDto(1, "s", 22, "sdsd", "ss", ProductCategory.APC);
 
         MvcResult result = mockMvc.perform(post("/api/v1/product")
                 .header("authorization", userAuthAdd.getBearerToken())
@@ -105,7 +103,7 @@ class ProductControllerTest {
         int getProductId = json.get("id").asInt();
         System.out.println(getProductId);
 
-        mockMvc.perform(get("/api/v1/product/{id}",getProductId)
+        mockMvc.perform(get("/api/v1/product/{id}", getProductId)
                 .header("authorization", userAuthAdd.getBearerToken()))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -114,7 +112,7 @@ class ProductControllerTest {
 
     @Test
     void getProductsByCategory() throws Exception {
-        ProductDto productDto = new ProductDto(1,"s",22,"sdsd","ss", ProductCategory.APC);
+        ProductDto productDto = new ProductDto(1, "s", 22, "sdsd", "ss", ProductCategory.APC);
 
         MvcResult result = mockMvc.perform(post("/api/v1/product")
                 .header("authorization", userAuthAdd.getBearerToken())
@@ -126,7 +124,7 @@ class ProductControllerTest {
         JsonNode json = objectMapper.readTree(result.getResponse().getContentAsString());
         String getProductCategory = json.get("category").asText("APC");
         System.out.println(getProductCategory);
-        mockMvc.perform(get("/api/v1/product/category/{category}",getProductCategory)
+        mockMvc.perform(get("/api/v1/product/category/{category}", getProductCategory)
                 .header("authorization", userAuthAdd.getBearerToken()))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -136,7 +134,7 @@ class ProductControllerTest {
 
     @Test
     void deleteProduct() throws Exception {
-        ProductDto productDto = new ProductDto(1,"s",22,"sdsd","ss", ProductCategory.APC);
+        ProductDto productDto = new ProductDto(1, "s", 22, "sdsd", "ss", ProductCategory.APC);
 
         MvcResult result = mockMvc.perform(post("/api/v1/product")
                 .header("authorization", userAuthAdd.getBearerToken())

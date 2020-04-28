@@ -1,18 +1,14 @@
 package com.carwash.server.controllers;
 
 import com.carwash.server.dto.BasketDto;
-import com.carwash.server.models.Basket;
 import com.carwash.server.services.BasketService;
 import com.carwash.server.utilies.AuthMiner;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -31,7 +27,7 @@ public class BasketController {
     @PutMapping("add/{productId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BasketDto> addProductToBasket(Authentication authentication, @PathVariable("productId") int productId) {
-        return basketService.addProductToBasket(AuthMiner.getUsername(authentication),productId);
+        return basketService.addProductToBasket(AuthMiner.getUsername(authentication), productId);
     }
 
     @PutMapping("remove/{productId}")

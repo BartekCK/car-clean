@@ -5,16 +5,9 @@ import com.carwash.server.models.Basket;
 import com.carwash.server.models.Product;
 import com.carwash.server.repositories.BasketRepository;
 import com.carwash.server.repositories.ProductRepository;
-import com.carwash.server.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +24,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public ResponseEntity<BasketDto> addProductToBasket(String username,int productId) {
+    public ResponseEntity<BasketDto> addProductToBasket(String username, int productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produkt nie został znaleziony"));
         Basket basket = basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Koszyk nie został znaleziony"));
 
@@ -59,7 +52,7 @@ public class BasketServiceImpl implements BasketService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produkt nie został znaleziony"));
         int newPrice = basket.getBill() - product.getPrice();
         basket.setBill(newPrice);
-        basket.getBasketProducts().removeIf(t -> t.getId()==productId);
+        basket.getBasketProducts().removeIf(t -> t.getId() == productId);
         basketRepository.save(basket);
         return BasketDto.build(basket);
     }
