@@ -13,6 +13,7 @@ export const usersApiUrl = (id) => id ? `${serverUrl}/users/${id}` : `${serverUr
 
 export const carsUserApiUrl = (id) => id ? `${serverUrl}/users/cars/${id}` : `${serverUrl}/users/cars`;
 
+export const servicesEmployeeApiUrl = (id) => id ? `${serverUrl}/employees/services/${id}` : `${serverUrl}/employees/services`;
 
 export const servicesUserApiUrl = (id) => id ? `${serverUrl}/users/services/${id}` : `${serverUrl}/users/services`;
 export const servicesFreeHoursApiUrl = () => `${serverUrl}/users/services/hours`;
@@ -22,3 +23,5 @@ export const addToUserBasketApiUrl = (id) => id ? `${serverUrl}/basket/add/${id}
 export const removeFromUserBasketApiUrl = (id) => id ? `${serverUrl}/basket/remove/${id}` : `${serverUrl}/basket`;
 export const clearBasketUserApiUrl = () => `${serverUrl}/basket/clear`;
 
+
+export const mailApiUrl = () => `${serverUrl}/mails`;

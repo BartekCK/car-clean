@@ -38,6 +38,23 @@ export const postSafe = async (url, body) => {
       return await axios.post(url, body, {
         headers: {
           authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
+        },
+      });
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const putSafe = async (url, body) => {
+  try {
+    const token = localStorage.getItem('@token');
+    if (token) {
+      return await axios.put(url, body, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
         },
       });
     }

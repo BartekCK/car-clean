@@ -6,11 +6,7 @@ import { MdLocalCarWash, TiBusinessCard } from 'react-icons/all';
 import styled from 'styled-components';
 import CarImage from '../../resources/img/car/car-credentials.jpeg';
 import { ErrorModal } from '../../helpers/error';
-import {
-  addUserCars,
-  deleteUserCar,
-  getAllUserCars,
-} from '../../helpers/apiCommands';
+import { addUserCars, deleteUserCar, getAllUserCars } from '../../helpers/apiCommands';
 
 export class UserCar extends React.Component {
   state = {
@@ -19,6 +15,7 @@ export class UserCar extends React.Component {
     platesNumber: '',
     showModal: null,
     cars: [],
+    error: '',
   };
 
   componentDidMount = () => {
@@ -35,7 +32,7 @@ export class UserCar extends React.Component {
       const result = this.state.cars.filter((car) => car.id !== carID);
       this.setState({ cars: result });
     } catch (e) {
-      console.log(e);
+      this.setState({ error: e.response.data, showModal: false });
     }
   };
 
@@ -48,7 +45,7 @@ export class UserCar extends React.Component {
         const res = await getAllUserCars();
         this.setState({ cars: res.data, showModal: true });
       } catch (e) {
-        this.setState({ showModal: false }); //IF WRONG
+        this.setState({ error: e.response.data, showModal: false }); //IF WRONG
       }
     }
   };
@@ -108,7 +105,10 @@ export class UserCar extends React.Component {
           <AddCarModal onHide={() => this.setState({ showModal: null })} />
         )}
         {showModal === false && (
-          <ErrorModal onHide={() => this.setState({ showModal: null })} />
+          <ErrorModal
+            text={this.state.error}
+            onHide={() => this.setState({ showModal: null })}
+          />
         )}
       </Container>
     );

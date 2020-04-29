@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import { putServiceStatusById } from '../../helpers/apiCommands';
 
 export const StatusModal = ({
   show,
@@ -9,17 +10,29 @@ export const StatusModal = ({
   setServiceData,
 }) => {
   const [status, setStatus] = useState(null);
+  const [error, setError] = useState('');
 
   const saveStatusChanges = async () => {
     if (status) {
-      //AWAIT POST TO API FOR CHANGE STATUS BY SERVICE ID
-      serviceData.map((el) =>
-        el.serviceId === serviceId ? (el.status = status) : el
-      );
-      setServiceData(serviceData);
-      onHide();
+      try {
+        await putServiceStatusById(serviceId, status);
+        serviceData.map((el) =>
+          el.serviceId === serviceId ? (el.status = status) : el
+        );
+        setServiceData(serviceData);
+        onHide();
+      } catch (e) {
+        if (e.response.status === 400)
+          setError(
+            'Nie można zmienić statusu z Zakończono lub Anulowano na inny'
+          );
+      }
     }
   };
+
+  useEffect(() => {
+    setError('');
+  }, [status]);
 
   const setStatusByMethod = async (e) => {
     await setStatus(e.target.name);
@@ -48,10 +61,10 @@ export const StatusModal = ({
         </Button>
         <Button
           onClick={setStatusByMethod}
-          name='Zostalo 15 min'
+          name='Zostało 15 min'
           variant='outline-warning'
         >
-          Zostalo 15 min
+          Zostało 15 min
         </Button>
         <Button
           onClick={setStatusByMethod}
@@ -69,6 +82,7 @@ export const StatusModal = ({
         <Button onClick={saveStatusChanges} variant='success'>
           Zapisz zmiany
         </Button>
+        {error && <p>{error}</p>}
       </Modal.Footer>
     </Modal>
   );

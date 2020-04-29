@@ -3,7 +3,7 @@ import { Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { ProductCard } from '../../components/Product';
 import { ProductNav } from '../../components/ProductNav';
-import {getAllProducts, getProductsByCategory} from "../../helpers/apiCommands";
+import { getAllProducts, getProductsByCategory } from '../../helpers/apiCommands';
 
 export class Shop extends React.Component {
   state = {
