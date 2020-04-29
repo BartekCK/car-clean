@@ -6,13 +6,14 @@ import fb from '../../resources/img/contact/fb.svg';
 import local from '../../resources/img/contact/local.svg';
 import insta from '../../resources/img/contact/insta.svg';
 import { ErrorModal } from '../../helpers/error';
+import { postSendMail } from '../../helpers/apiCommands';
 
 export class Contact extends React.Component {
   state = {
-    name: '',
+    username: '',
     email: '',
-    topic: '',
-    content: '',
+    header: '',
+    message: '',
     errormodal: null,
   };
 
@@ -20,24 +21,28 @@ export class Contact extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  sendmail = () => {
-    const { name, email, topic, content } = this.state;
+  sendmail = async () => {
+    const { username, email, header, message } = this.state;
     if (
-      name.length > 0 &&
+      username.length > 0 &&
       email.length > 0 &&
-      topic.length > 0 &&
-      content.length > 0
+      header.length > 0 &&
+      message.length > 0
     ) {
-      //SEND EMAIL
-      this.setState({ errormodal: true }); //IF GOOD
-      // this.setState({ showModal: false }); //IF WRONG
+      try{
+        await postSendMail({...this.state});
+        this.setState({ errormodal: true });
+      }catch (e) {
+        console.log(e);
+        this.setState({ errormodal: false });
+      }
     } else {
       this.setState({ errormodal: false });
     }
   };
 
   render() {
-    const { name, email, topic, content, errormodal } = this.state;
+    const { username, email, header, message, errormodal } = this.state;
     return (
       <Container className='mt-4'>
         <Row>
@@ -99,9 +104,6 @@ export class Contact extends React.Component {
                 />
                 <Media.Body>
                   <h5>Facebook</h5>
-                  <a href={'/sklep'}>
-                    <p>link</p>
-                  </a>
                 </Media.Body>
               </Media>
               <br />
@@ -122,12 +124,11 @@ export class Contact extends React.Component {
           </Col>
           <Col>
             <h3>Masz pytania? Napisz do nas</h3>
-            <Form>
-              <Form.Group controlId='formBasicEmail'>
+              <Form.Group>
                 <Form.Label>Imie</Form.Label>
                 <FormControl
-                  value={name}
-                  name='name'
+                  value={username}
+                  name='username'
                   onChange={this.updateCredentials}
                   placeholder='imie'
                 />
@@ -142,16 +143,16 @@ export class Contact extends React.Component {
                 <br />
                 <Form.Label>Temat</Form.Label>
                 <FormControl
-                  value={topic}
-                  name='topic'
+                  value={header}
+                  name='header'
                   onChange={this.updateCredentials}
                   placeholder='temat'
                 />
                 <br />
                 <Form.Label>Treść</Form.Label>
                 <FormControl
-                  value={content}
-                  name='content'
+                  value={message}
+                  name='message'
                   onChange={this.updateCredentials}
                   placeholder='tresc'
                 />
@@ -160,7 +161,6 @@ export class Contact extends React.Component {
               <Button onClick={this.sendmail} variant='primary' type='submit'>
                 Wyślij
               </Button>
-            </Form>
           </Col>
         </Row>
         {errormodal === true && (

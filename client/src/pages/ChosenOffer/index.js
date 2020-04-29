@@ -14,6 +14,7 @@ import {
   getServiceById,
   getUserCars,
 } from '../../helpers/apiCommands';
+import { formatDate } from '../../helpers/time';
 
 export class ChosenOffer extends React.Component {
   state = {
@@ -56,13 +57,13 @@ export class ChosenOffer extends React.Component {
     );
     if (new Date(chosenDate) >= temp) {
       try {
-        const result = await getFreeHoursServices(chosenDate);
-        const filterHours = result.data.filter(
-          (el) => el > chosenDate.getHours()
+        const result = await getFreeHoursServices(
+          new Date(formatDate(chosenDate))
         );
+        console.log(result);
         this.setState({
           date: chosenDate,
-          freeHours: filterHours,
+          freeHours: result.data,
           time: null,
         });
       } catch (e) {
@@ -84,13 +85,15 @@ export class ChosenOffer extends React.Component {
     try {
       await addReservationServices({
         ...this.state,
-        date: this.state.date.toISOString().slice(0, 10),
+        date: this.formatDate(this.state.date),
         carId: this.state.carId.id,
         servicesId: this.state.offer.id,
       });
       this.setState({ isGood: true });
     } catch (e) {
-      this.setState({ isGood: false, errorApiMessage: e.response.data });
+      if (e.response)
+        this.setState({ isGood: false, errorApiMessage: e.response.data });
+      else this.setState({ isGood: false, errorApiMessage: 'Wystąpił błąd' });
     }
   };
 
@@ -167,7 +170,7 @@ export class ChosenOffer extends React.Component {
               </Col>
               <Col>
                 <Badge variant='primary'>
-                  Wolne terminy dnia {date.getDate()}.{date.getMonth()}.
+                  Wolne terminy dnia {date.getDate()}.{date.getMonth() + 1}.
                   {date.getFullYear()}
                 </Badge>
                 <ListGroup as='ul' variant='flush'>
@@ -194,7 +197,8 @@ export class ChosenOffer extends React.Component {
               <div>
                 <h5>Twój termin: </h5>
                 <Badge pill={true} variant='primary'>
-                  Dzień: {date.getDate()}.{date.getMonth()}.{date.getFullYear()}
+                  Dzień: {date.getDate()}.{date.getMonth() + 1}.
+                  {date.getFullYear()}
                 </Badge>
                 <Badge pill={true} variant='primary'>
                   Godzina: {time}:00

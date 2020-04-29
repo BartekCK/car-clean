@@ -320,7 +320,7 @@ class OrderServiceControllerTest {
         authorizationService.createEmployee(user, employeeDto);
 
 
-        MvcResult resultGet = mockMvc.perform(get("/api/v1/employees/services")
+        MvcResult resultGet = mockMvc.perform(post("/api/v1/employees/services")
                 .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
                 .content(objectMapper.writeValueAsString(localDate))
                 .contentType("application/json"))
