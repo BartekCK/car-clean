@@ -23,5 +23,6 @@ export const addToUserBasketApiUrl = (id) => id ? `${serverUrl}/basket/add/${id}
 export const removeFromUserBasketApiUrl = (id) => id ? `${serverUrl}/basket/remove/${id}` : `${serverUrl}/basket`;
 export const clearBasketUserApiUrl = () => `${serverUrl}/basket/clear`;
 
+export const opinionApiUrl = (id) => id ? `${serverUrl}/opinions/${id}` : `${serverUrl}/opinions`;
 
 export const mailApiUrl = () => `${serverUrl}/mails`;

@@ -1,23 +1,30 @@
-import { Card, Col, Container } from 'react-bootstrap';
+import { Card, Image, Row } from 'react-bootstrap';
 import React from 'react';
-
-export const SingleOpinion = ({ id, name ,mark ,date, content, imgc1, imgc2, imgc3 }) => (
-    <Container>
-        <Col>
-    <Card>
-{/*        <Card.Img variant="top" src={imgc1} />
-        <Card.Img variant="top" src={imgc2} />
-        <Card.Img variant="top" src={imgc3} />*/}
-        <Card.Header>{name}<br/><p>wystawiona ocena: {mark} </p></Card.Header>
-        <Card.Body>
-            <Card.Text>
-                {content}
-            </Card.Text>
-        </Card.Body>
-        <Card.Footer>
-            <p>Dodano: {date}</p>
-        </Card.Footer>
+import Rating from 'react-rating';
+import styled from 'styled-components';
+import { formatDate } from '../../helpers/time';
+export const SingleOpinion = ({ username, mark, date, description, image }) => (
+  <Row className='d-flex align-items-center justify-content-center my-3'>
+    <Image rounded src={image} style={{ width: '320px', height: '280px' }}/>
+    <Card style={{ width: '320px', height: '280px' }}>
+      <Card.Header className='d-flex align-items-center justify-content-center'>
+        <Span>Dodał: {username}</Span>
+        <Rating
+          placeholderRating={mark}
+          readonly={true}
+        />
+      </Card.Header>
+      <Card.Body>
+        <Card.Text className='overflow-auto'>{description}</Card.Text>
+      </Card.Body>
+      <Card.Footer>
+        <Span>Data Dodania: {formatDate(date)}</Span>
+      </Card.Footer>
     </Card>
-        </Col>
-    </Container>
+  </Row>
 );
+
+const Span = styled.span`
+font-weight: bold;
+margin: 0 5px 0 0;
+`

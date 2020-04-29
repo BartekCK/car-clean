@@ -1,185 +1,118 @@
-import React from 'react';
-import { Accordion, Button, Card, Col, Container, Form, FormControl, Modal } from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Modal } from 'react-bootstrap';
+import { AuthContext } from '../../context';
+import Rating from 'react-rating';
+import { addOpinionByUser, getAllOpinions } from '../../helpers/apiCommands';
 import { SingleOpinion } from '../../components/Opinion';
-import { ErrorModal } from '../../helpers/error';
 
-export class Opinions extends React.Component {
-  state = {
-    topinions: [
-      //TEMP DATA INSIDE
-      {
-        id: 0,
-        username: 'Michal',
-        mark: 4,
-        date: '2020-03-02',
-        text_content:
-          "dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-        img_content1: '../../resources/img/opinions/1.jpg',
-        img_content2: '../../resources/img/opinions/2.jpg',
-        img_content3: '../../resources/img/opinions/3.jpg',
-      },
-      {
-        id: 1,
-        username: 'Aleksander',
-        mark: 2,
-        date: '2019-02-05',
-        text_content:
-          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
-        img_content1: '../../resources/img/opinions/4.jpg',
-        img_content2: '../../resources/img/opinions/5.jpg',
-        img_content3: '../../resources/img/opinions/6.jpg',
-      },
-      {
-        id: 2,
-        username: 'Katarzyna',
-        mark: 5,
-        date: '2020-02-12',
-        text_content:
-          "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
-        img_content1: '../../resources/img/opinions/7.jpg',
-        img_content2: '../../resources/img/opinions/8.jpg',
-        img_content3: '../../resources/img/opinions/9.jpg',
-      },
-      {
-        id: 3,
-        username: 'Gargamel',
-        mark: 5,
-        date: '2020-01-13',
-        text_content:
-          'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33',
-        img_content1: '../../resources/img/opinions/10.jpg',
-        img_content2: '../../resources/img/opinions/11.jpg',
-        img_content3: '../../resources/img/opinions/12.jpg',
-      },
-      {
-        id: 4,
-        username: 'Marcin',
-        mark: 1,
-        date: '2019-05-02',
-        text_content:
-          'Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free',
-        img_content1: '../../resources/img/opinions/13.jpg',
-        img_content2: '../../resources/img/opinions/14.jpg',
-        img_content3: '../../resources/img/opinions/15.jpg',
-      },
-    ],
-    formcontent: '',
-    errormodal: null,
+const AddOpinion = ({ show, hide }) => {
+  const [opinion, setOpinion] = useState({
+    mark: 1,
+    description: '',
+  });
+
+  const [file, setFile] = useState(null);
+
+  const updateFile = (e) => {
+    setFile(e.target.files[0]);
   };
 
-  updateCredentials = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  const safeOpinion = async () => {
+    let formData = new FormData();
+    formData.append('file', file);
+    formData.append(
+      'createOpinionDto',
+      new Blob(
+        [
+          JSON.stringify({
+            ...opinion,
+          }),
+        ],
+        { type: 'application/json' }
+      )
+    );
 
-  addOpinion = () => {
-    const { formcontent, errormodal } = this.state;
-    if (formcontent.length > 0) {
-      //POST TO API WITH DATA LOCATED IN STATE
-      console.log(formcontent);
-      console.log(errormodal);
-      this.setState({ errormodal: true }); //IF GOOD
-      // this.setState({ showModal: false }); //IF WRONG
-    } else {
-      this.setState({ errormodal: false });
+    try {
+      await addOpinionByUser(formData);
+      hide();
+    } catch (e) {
+      console.log(e);
     }
   };
 
-  componentDidMount = () => {
-    // GET FROM API OPINIONS WITH NAME OF USER
-  };
-  render() {
-    const { topinions, formcontent, errormodal } = this.state;
-    return (
-      <Container className='mt-4'>
-        {/*BUTTON AVAILABLE ONLY FOR LOGGED USER*/}
+  return (
+    <Modal show={show}>
+      <Modal.Header>
+        <Modal.Title>Dodaj opinię</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Rating
+          placeholderRating={opinion.mark}
+          onClick={(mark) => setOpinion({ ...opinion, mark })}
+        />
+        <Form>
+          <Form.Group>
+            <Form.Label>Dodaj Wiadomość</Form.Label>
+            <Form.Control
+              as='textarea'
+              rows='3'
+              onChange={(e) =>
+                setOpinion({ ...opinion, description: e.target.value })
+              }
+            />
+          </Form.Group>
+        </Form>
+        <input name='file' type='file' onChange={updateFile} />
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant='danger' onClick={hide}>
+          Anuluj
+        </Button>
+        <Button onClick={safeOpinion}>Zapisz</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
 
-        <Accordion defaultActiveKey='1'>
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} variant='link' eventKey='0'>
-                Dodaj swoją opinię!
-              </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey='0'>
-              <Card.Body>
-                <Form>
-                  <Form.Group>
-                    <Form.Label>Treść</Form.Label>
-                    <FormControl
-                      value={formcontent}
-                      name='formcontent'
-                      onChange={this.updateCredentials}
-                      placeholder='opinia'
-                    />
-                    <br />
-                    <Form.Label>Wystaw ocenę</Form.Label>
-                    <Form.Control as='select' size='sm' custom>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                    </Form.Control>
-                  </Form.Group>
-                  <div className='mb-3'>
-                    <Form.File id='formcheck-api-regular'>
-                      <Form.File.Label>Dodaj zdjęcia do opinii</Form.File.Label>
-                      <Form.File.Input />
-                      <Form.File.Input />
-                      <Form.File.Input />
-                    </Form.File>
-                  </div>
-                  <Button
-                    onClick={this.addOpinion}
-                    variant='primary'
-                    type='submit'
-                  >
-                    Wyślij
-                  </Button>
-                </Form>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
-        <Col className='p-3 d-flex flex-column justify-content-center align-items-center'>
-          {topinions.length > 0 ? (
-            topinions.map((opinion) => (
-              <SingleOpinion
-                key={opinion.id}
-                id={opinion.id}
-                name={opinion.username}
-                mark={opinion.mark}
-                date={opinion.date}
-                content={opinion.text_content}
-                imgc1={opinion.img_content1}
-                imgc2={opinion.img_content2}
-                imgc3={opinion.img_content3}
-              />
-            ))
-          ) : (
-            <>
-              <h3>Nie ma tu jeszcze opini</h3>
-            </>
-          )}
+export const Opinions = (props) => {
+  const { authState } = useContext(AuthContext);
+
+  const [opinions, setOpinions] = useState([]);
+
+  const [isAddModalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    getAllOpinions()
+      .then((res) => {
+          setOpinions(res);
+      })
+      .catch((err) => console.log(err));
+  },[]);
+
+  return (
+    <Container className='shadow p-2'>
+      {authState.isAuthenticated && (
+        <Col className='mb-2'>
+          <Button onClick={() => setModalVisible(true)}>Dodaj opinię</Button>
+          <AddOpinion
+            show={isAddModalVisible}
+            hide={() => setModalVisible(false)}
+          />
         </Col>
-        {errormodal === true && (
-          <AddOpinionModal onHide={() => this.setState({ errormodal: null })} />
-        )}
-        {errormodal === false && (
-          <ErrorModal onHide={() => this.setState({ errormodal: null })} />
-        )}
-      </Container>
-    );
-  }
-}
-
-export const AddOpinionModal = ({ onHide }) => (
-  <Modal size='lg' centered show={true}>
-    <Modal.Header>
-      <p>Pomyślnie dodano opinie</p>
-      <Button variant='success' onClick={onHide}>
-        Dalej
-      </Button>
-    </Modal.Header>
-  </Modal>
-);
+      )}
+      <Col>
+        {opinions.length > 0 &&
+          opinions.map((opinion, id) => (
+            <SingleOpinion
+              key={id}
+              username={opinion.username}
+              description={opinion.description}
+              date={opinion.date}
+              image={opinion.image}
+              mark={opinion.mark}
+            />
+          ))}
+      </Col>
+    </Container>
+  );
+};

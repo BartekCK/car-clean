@@ -6,7 +6,7 @@ import {
   clearBasketUserApiUrl,
   createUserApiUrl,
   loginUserApiUrl,
-  mailApiUrl,
+  mailApiUrl, opinionApiUrl,
   removeFromUserBasketApiUrl,
   servicesApiUrl,
   servicesEmployeeApiUrl,
@@ -46,3 +46,6 @@ export const clearUserBasket = () => getSafe(clearBasketUserApiUrl());
 
 export const getAllEmployeeServicesByDay = (body) => postSafe(servicesEmployeeApiUrl(), body);
 export const putServiceStatusById = (id,body) => putSafe(servicesEmployeeApiUrl(id), body);
+
+export const addOpinionByUser = (body) => postSafe(opinionApiUrl(), body);
+export const getAllOpinions = () => get(opinionApiUrl());

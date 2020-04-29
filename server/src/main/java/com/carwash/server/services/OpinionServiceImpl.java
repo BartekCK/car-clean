@@ -42,6 +42,11 @@ public class OpinionServiceImpl implements OpinionService {
     public ResponseEntity<CreateOpinionDto> createOpinion(String username, MultipartFile file, CreateOpinionDto createOpinionDto) throws IOException {
 
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Użytkownik " + username + " nie został odnaleziony"));
+
+        if (user.getOpinion() != null)
+            this.deleteOpinion(user.getUsername());
+
+
         String image = saveFile(user.getId(), file);
         Opinion opinion = Opinion.builder()
                 .user(user)
