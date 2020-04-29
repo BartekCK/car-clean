@@ -3,32 +3,34 @@ import { Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { ProductCard } from '../../components/Product';
 import { ProductNav } from '../../components/ProductNav';
+import {getAllProducts, getProductsByCategory} from "../../helpers/apiCommands";
 
 export class Shop extends React.Component {
   state = {
     products: [],
     activeCategory: '',
+      error: null
   };
 
-  componentDidMount = () => {
-    fetch('http://192.168.8.100:8080/api/v1/product')
-      .then((res) => res.json())
-      .then((products) => {
-        console.log(products);
-        this.setState({ products });
-      });
-  };
+  componentDidMount = async () => {
+        try {
+            const result = await getAllProducts();
+            this.setState({ products: result });
+        } catch (e) {
+            const error = { message: 'Brak produktów w sklepie' };
+            this.setState({ error: error });
+        }
+    };
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = async (prevProps, prevState) => {
     if (this.state.activeCategory !== prevState.activeCategory) {
-      fetch(
-        `http://localhost:8080/api/v1/product/category/${this.state.activeCategory}`
-      )
-        .then((res) => res.json())
-        .then((products) => {
-          console.log(products);
-          this.setState({ products });
-        });
+        try {
+            const result = await getProductsByCategory(this.state.activeCategory);
+            this.setState({ products: result });
+        } catch (e) {
+            const error = { message: 'Brak produktów w sklepie' };
+            this.setState({ error: error });
+        }
     }
   };
 

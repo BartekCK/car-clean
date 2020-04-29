@@ -36,10 +36,10 @@ public class Product {
 
     private ProductCategory category;
 
-    @ManyToMany(mappedBy = "orderProducts", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "orderProducts")
     private Set<Order> prods;
 
-    @ManyToMany(mappedBy = "basketProducts", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "basketProducts")
     private List<Basket> basks;
 
     public String getProd_photo() {

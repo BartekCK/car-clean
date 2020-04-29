@@ -24,19 +24,19 @@ public class BasketController {
         return basketService.getUserBasket(AuthMiner.getUsername(authentication));
     }
 
-    @PutMapping("add/{productId}")
+    @GetMapping("add/{productId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BasketDto> addProductToBasket(Authentication authentication, @PathVariable("productId") int productId) {
         return basketService.addProductToBasket(AuthMiner.getUsername(authentication), productId);
     }
 
-    @PutMapping("remove/{productId}")
+    @GetMapping("remove/{productId}")
     @PreAuthorize("hasRole('USER')")
     public BasketDto removeProductFormBasket(Authentication authentication, @PathVariable("productId") int productId) {
         return basketService.removeProductFormBasket(AuthMiner.getUsername(authentication), productId);
     }
 
-    @PutMapping("clear")
+    @GetMapping("clear")
     @PreAuthorize("hasRole('USER')")
     public BasketDto clearUserBasket(Authentication authentication) {
         return basketService.clearUserBasket(AuthMiner.getUsername(authentication));

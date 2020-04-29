@@ -2,6 +2,7 @@ import { Badge, Button, Card, Col, Modal } from 'react-bootstrap';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../context';
+import {addToUserBasket, getUserBasket} from "../../helpers/apiCommands";
 
 const MyVerticallyCenteredModal = ({ name, price, onHide, show }) => (
   <Modal
@@ -29,14 +30,18 @@ export const ProductCard = ({ id, name, price, prod_photo, description }) => {
   const [redirect, setRedirect] = React.useState(false);
   const { authState } = React.useContext(AuthContext);
 
-  const addToBasket = () => {
+  const addToBasket = async () => {
     //POST PRODUCT BY ID TO BASKET API
     //USE ID !!!
-    if (authState.isAuthenticated) {
-      setModalShow(true);
-    } else {
-      setRedirect(true);
-    }
+      await addToUserBasket(id)
+          .then((res) => {
+            console.log(res)
+            setModalShow(true);
+          })
+          .catch((err) => {
+            console.log(err)
+            setRedirect(true)
+          });
   };
 
   return (

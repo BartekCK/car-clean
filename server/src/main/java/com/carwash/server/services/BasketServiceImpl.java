@@ -1,6 +1,7 @@
 package com.carwash.server.services;
 
 import com.carwash.server.dto.BasketDto;
+import com.carwash.server.dto.ProductDto;
 import com.carwash.server.models.Basket;
 import com.carwash.server.models.Product;
 import com.carwash.server.repositories.BasketRepository;
@@ -8,6 +9,8 @@ import com.carwash.server.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
