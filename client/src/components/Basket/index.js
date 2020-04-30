@@ -4,6 +4,7 @@ import VisaImage from '../../resources/img/add/visa.png';
 import { Accordion, Button, Card, FormControl, InputGroup } from 'react-bootstrap';
 import React from 'react';
 import styled from 'styled-components';
+import {createUserOrderProducts} from "../../helpers/apiCommands";
 
 export const AddDiv = () => (
   <AddContainer>
@@ -22,6 +23,17 @@ export const SingleInputProduct = ({ id, name, price, deleteProd }) => (
   </InputGroup>
 );
 
+const basketToOrder = async () => {
+    // ADD ORDER TO API FROM BASKET
+    try {
+        const result = await createUserOrderProducts();
+        console.log(result)
+    } catch (e) {
+        const error = { message: 'Błąd przy tworzeniu zamówienia' };
+        this.setState({ error: error });
+    }
+}
+
 export const PaymentButton = () => (
   <Accordion className='m-1 align-self-stretch'>
     <Card className='justify-content-between'>
@@ -30,10 +42,10 @@ export const PaymentButton = () => (
       </Accordion.Toggle>
       <Accordion.Collapse eventKey='0'>
         <Card.Body className='d-flex justify-content-between'>
-          <Button className='mr-1' variant='outline-primary'>
+          <Button onClick={basketToOrder} className='mr-1' variant='outline-primary'>
             Płatność przelewem
           </Button>
-          <Button variant='outline-success' >Płatność przy odbiorze</Button>
+          <Button onClick={basketToOrder} variant='outline-success' >Płatność przy odbiorze</Button>
         </Card.Body>
       </Accordion.Collapse>
     </Card>

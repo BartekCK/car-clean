@@ -53,9 +53,14 @@ public class BasketServiceImpl implements BasketService {
     public BasketDto removeProductFormBasket(String username, int productId) {
         Basket basket = basketRepository.findByUserUsername(username).orElseThrow(() -> new RuntimeException("Koszyk nie został znaleziony"));
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Produkt nie został znaleziony"));
-        int newPrice = basket.getBill() - product.getPrice();
-        basket.setBill(newPrice);
+        //int newPrice = basket.getBill() - product.getPrice();
+        //basket.setBill(newPrice);
         basket.getBasketProducts().removeIf(t -> t.getId() == productId);
+        int newPrice = 0;
+        for (final Product basprod : basket.getBasketProducts()) {
+            newPrice = newPrice + basprod.getPrice();
+        }
+        basket.setBill(newPrice);
         basketRepository.save(basket);
         return BasketDto.build(basket);
     }

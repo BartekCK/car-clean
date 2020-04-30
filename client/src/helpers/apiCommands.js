@@ -4,7 +4,7 @@ import {
   createUserApiUrl,
   loginUserApiUrl,
   servicesApiUrl, servicesFreeHoursApiUrl, servicesUserApiUrl, basketUserApiUrl, addToUserBasketApiUrl, removeFromUserBasketApiUrl, clearBasketUserApiUrl,
-  usersApiUrl, shopApiUrl, shopCategoryApiUrl,
+  usersApiUrl, shopApiUrl, shopCategoryApiUrl, createOrderApiUrl, orderProductsUserApiUrl,
 } from './routes';
 
 export const getAllServices = () => get(servicesApiUrl());
@@ -31,3 +31,6 @@ export const getUserBasket = () => getSafe(basketUserApiUrl());
 export const addToUserBasket = (id) => getSafe(addToUserBasketApiUrl(id));
 export const deleteFromUserBasket = (id) => getSafe(removeFromUserBasketApiUrl(id));
 export const clearUserBasket = () => getSafe(clearBasketUserApiUrl());
+
+export const getUserOrderProducts = () => getSafe(orderProductsUserApiUrl());
+export const createUserOrderProducts = () => getSafe(createOrderApiUrl());

@@ -67,6 +67,7 @@ export const AppNav = (props) => {
             >
               <Vlink to='/koszyk'>Koszyk</Vlink>
               <NavDropdown.Divider />
+              <Vlink to='/zamowienia'>Zamówienia</Vlink>
               <Vlink to='/pojazdy'>Moje pojazdy</Vlink>
               <Vlink to='/historia'>Serwisy</Vlink>
               <NavDropdown.Divider />
