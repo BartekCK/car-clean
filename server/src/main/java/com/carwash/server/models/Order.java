@@ -2,6 +2,7 @@ package com.carwash.server.models;
 
 import com.carwash.server.models.enums.PaidStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -20,10 +22,11 @@ public class Order {
     private int id;
 
     private int bill;
-    private String car_parameters;
+    //private String car_parameters;
+    //@Enumerated(value = EnumType.STRING)
     private PaidStatus paid_status;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "order_product")
     private List<Product> orderProducts;
 

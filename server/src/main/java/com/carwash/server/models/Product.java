@@ -37,7 +37,7 @@ public class Product {
     private ProductCategory category;
 
     @ManyToMany(mappedBy = "orderProducts")
-    private Set<Order> prods;
+    private List<Order> prods;
 
     @ManyToMany(mappedBy = "basketProducts")
     private List<Basket> basks;

@@ -1,20 +1,12 @@
 import { deleteSafe, get, getSafe, post, postSafe, putSafe } from './api';
 import {
-  addToUserBasketApiUrl,
-  basketUserApiUrl,
   carsUserApiUrl,
-  clearBasketUserApiUrl,
   createUserApiUrl,
   loginUserApiUrl,
   mailApiUrl, opinionApiUrl,
-  removeFromUserBasketApiUrl,
-  servicesApiUrl,
   servicesEmployeeApiUrl,
-  servicesFreeHoursApiUrl,
-  servicesUserApiUrl,
-  shopApiUrl,
-  shopCategoryApiUrl,
-  usersApiUrl,
+  servicesApiUrl, servicesFreeHoursApiUrl, servicesUserApiUrl, basketUserApiUrl, addToUserBasketApiUrl, removeFromUserBasketApiUrl, clearBasketUserApiUrl,
+  usersApiUrl, shopApiUrl, shopCategoryApiUrl, createOrderApiUrl, orderProductsUserApiUrl, changeOrderProductStatusApiUrl,
 } from './routes';
 
 export const getAllServices = () => get(servicesApiUrl());
@@ -44,8 +36,13 @@ export const addToUserBasket = (id) => getSafe(addToUserBasketApiUrl(id));
 export const deleteFromUserBasket = (id) => getSafe(removeFromUserBasketApiUrl(id));
 export const clearUserBasket = () => getSafe(clearBasketUserApiUrl());
 
+
 export const getAllEmployeeServicesByDay = (body) => postSafe(servicesEmployeeApiUrl(), body);
 export const putServiceStatusById = (id,body) => putSafe(servicesEmployeeApiUrl(id), body);
 
 export const addOpinionByUser = (body) => postSafe(opinionApiUrl(), body);
 export const getAllOpinions = () => get(opinionApiUrl());
+export const getUserOrderProducts = () => getSafe(orderProductsUserApiUrl());
+export const createUserOrderProducts = () => getSafe(createOrderApiUrl());
+
+export const changeStatusUserOrderProducts = (id) => getSafe(changeOrderProductStatusApiUrl(id));

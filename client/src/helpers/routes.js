@@ -1,5 +1,4 @@
 const serverUrl = 'http://192.168.8.100:8080/api/v1';
-//const serverUrl = 'http://localhost:8080/api/v1';
 
 export const servicesApiUrl = (id) => id ? `${serverUrl}/services/${id}` : `${serverUrl}/services`;
 
@@ -23,6 +22,12 @@ export const addToUserBasketApiUrl = (id) => id ? `${serverUrl}/basket/add/${id}
 export const removeFromUserBasketApiUrl = (id) => id ? `${serverUrl}/basket/remove/${id}` : `${serverUrl}/basket`;
 export const clearBasketUserApiUrl = () => `${serverUrl}/basket/clear`;
 
+
 export const opinionApiUrl = (id) => id ? `${serverUrl}/opinions/${id}` : `${serverUrl}/opinions`;
 
 export const mailApiUrl = () => `${serverUrl}/mails`;
+
+export const orderProductsUserApiUrl = () => `${serverUrl}/orders`;
+export const createOrderApiUrl = () => `${serverUrl}/orders/create`;
+export const changeOrderProductStatusApiUrl = (id) => id ? `${serverUrl}/orders/status/${id}` : `${serverUrl}/orders`;
+
