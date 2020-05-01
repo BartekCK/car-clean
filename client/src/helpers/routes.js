@@ -1,5 +1,4 @@
 const serverUrl = 'http://192.168.8.100:8080/api/v1';
-//const serverUrl = 'http://localhost:8080/api/v1';
 
 export const servicesApiUrl = (id) => id ? `${serverUrl}/services/${id}` : `${serverUrl}/services`;
 
@@ -24,4 +23,5 @@ export const clearBasketUserApiUrl = () => `${serverUrl}/basket/clear`;
 
 export const orderProductsUserApiUrl = () => `${serverUrl}/orders`;
 export const createOrderApiUrl = () => `${serverUrl}/orders/create`;
+export const changeOrderProductStatusApiUrl = (id) => id ? `${serverUrl}/orders/status/${id}` : `${serverUrl}/orders`;
 

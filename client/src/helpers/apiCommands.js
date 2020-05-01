@@ -1,10 +1,10 @@
-import { deleteSafe, get, getSafe, post, postSafe, putSafe } from './api';
+import { deleteSafe, get, getSafe, post, postSafe } from './api';
 import {
   carsUserApiUrl,
   createUserApiUrl,
   loginUserApiUrl,
   servicesApiUrl, servicesFreeHoursApiUrl, servicesUserApiUrl, basketUserApiUrl, addToUserBasketApiUrl, removeFromUserBasketApiUrl, clearBasketUserApiUrl,
-  usersApiUrl, shopApiUrl, shopCategoryApiUrl, createOrderApiUrl, orderProductsUserApiUrl,
+  usersApiUrl, shopApiUrl, shopCategoryApiUrl, createOrderApiUrl, orderProductsUserApiUrl, changeOrderProductStatusApiUrl,
 } from './routes';
 
 export const getAllServices = () => get(servicesApiUrl());
@@ -34,3 +34,4 @@ export const clearUserBasket = () => getSafe(clearBasketUserApiUrl());
 
 export const getUserOrderProducts = () => getSafe(orderProductsUserApiUrl());
 export const createUserOrderProducts = () => getSafe(createOrderApiUrl());
+export const changeStatusUserOrderProducts = (id) => getSafe(changeOrderProductStatusApiUrl(id));

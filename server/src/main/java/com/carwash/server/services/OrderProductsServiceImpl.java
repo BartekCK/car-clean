@@ -62,4 +62,15 @@ public class OrderProductsServiceImpl implements OrderProductsService {
         basketRepository.save(basket);
         return ResponseEntity.ok(OrderProductsDto.build(order));
     }
+
+    @Override
+    public ResponseEntity<OrderProductsDto> changeOrderStatus(String username, int orderId) {
+
+        Order order = orderProductsRepo.findByUserUsernameAndId(username,orderId);
+
+        if(order.getPaid_status()==PaidStatus.NOT_PAID) order.setPaid_status(PaidStatus.PAID);
+        orderProductsRepo.save(order);
+
+        return ResponseEntity.ok(OrderProductsDto.build(order));
+    }
 }

@@ -14,13 +14,13 @@ public class OrderProductsDto {
 
     private final int bill;
 
-    private final PaidStatus paid_status;
+    private final String paid_status;
 
     private final List<ProductDto> prods;
 
     public static OrderProductsDto build(Order order) {
 
         List <ProductDto> con = order.getOrderProducts().stream().map(product -> ProductDto.build(product)).collect(Collectors.toList());
-        return new OrderProductsDto(order.getId(), order.getBill(), order.getPaid_status(), con);
+        return new OrderProductsDto(order.getId(), order.getBill(), order.getPaid_status().toString(), con);
     }
 }

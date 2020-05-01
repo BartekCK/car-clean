@@ -1,12 +1,34 @@
 import React from 'react';
-import {Button, Col, Container, InputGroup, Row, Table} from 'react-bootstrap';
-import {SingleInputOrder} from "../../components/Order";
-import BasketImage from "../../resources/img/basket.png";
-import {getUserOrderProducts} from "../../helpers/apiCommands";
+import {Button, Container, Modal, Table} from 'react-bootstrap';
+import {getUserOrderProducts, changeStatusUserOrderProducts} from "../../helpers/apiCommands";
+
+const OrderDetailsModal = ({onHide, show, id }) => (
+    <Modal
+        show={show}
+        size='lg'
+        aria-labelledby='contained-modal-title-vcenter'
+        centered
+    >
+        <Modal.Header>
+            <Modal.Title>Szczegóły zamówienia</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <h6>Zamówione produkty:</h6>
+            <ul>
+                {id.map(i => <li key={i.id}>{i.name}<br/> Cena: {i.price} <br/>Kategoria: {i.category}<br/></li>)}
+            </ul>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button onClick={onHide}>Zamknij</Button>
+        </Modal.Footer>
+    </Modal>
+);
 
 export class OrderHistory extends React.Component {
     state = {
-        orders: []
+        orders: [],
+        modalShow: false,
+        tempOrder: []
     };
 
     componentDidMount = async () => {
@@ -23,10 +45,22 @@ export class OrderHistory extends React.Component {
 
     changeOrderStatus = async (id) => {
         //CHANGE STATUS OF ORDER, PAY
+        try {
+            const result = await changeStatusUserOrderProducts(id);
+            console.log(result);
+        } catch (e) {
+            const error = { message: 'Błąd' };
+            this.setState({ error: error });
+        }
+    };
+
+    showModal =(prods) => {
+        console.log(prods)
+        this.setState({tempOrder: prods, modalShow: true})
     };
 
     render() {
-        const { orders } = this.state;
+        const { orders, modalShow, tempOrder } = this.state;
 
         return (
             <Container className='shadow'>
@@ -34,10 +68,11 @@ export class OrderHistory extends React.Component {
                 <Table striped bordered hover>
                     <thead>
                     <tr>
-                        <th>ID zamówienia</th>
-                        <th>Zamówione produkty</th>
+                        <th>Numer zamówienia</th>
+                        <th>Zamówienie</th>
                         <th>Kwota do zapłaty</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -47,10 +82,14 @@ export class OrderHistory extends React.Component {
                                 <tr key={order.id}>
                                     <th>{order.id}</th>
                                     <th>
-                                        {order.prods.map(prod => <p key={prod.id}>{prod.name}</p>)}
+                                        {/*{order.prods.map(prod => <p key={prod.id}>{prod.name}</p>)}*/}
+                                        <Button onClick={() => this.showModal(order.prods)} variant='danger'>
+                                            Szczegóły
+                                        </Button>
                                     </th>
                                     <th>{order.bill}</th>
-                                    <th>{order.paid_status}<br/>
+                                    <th>{order.paid_status}</th>
+                                    <th>
                                         <Button onClick={() => this.changeOrderStatus(order.id)} variant='danger'>
                                             Opłać
                                         </Button>
@@ -60,6 +99,11 @@ export class OrderHistory extends React.Component {
                     }
                     </tbody>
                 </Table>
+                <OrderDetailsModal
+                    id = {tempOrder}
+                    show={modalShow}
+                    onHide={() => this.setState({modalShow: false})}
+                />
             </Container>
         );
     }

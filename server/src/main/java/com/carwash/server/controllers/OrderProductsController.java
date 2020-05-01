@@ -39,6 +39,12 @@ public class OrderProductsController {
         return orderProductsService.createOrder(AuthMiner.getUsername(authentication));
     }
 
+    @GetMapping("/status/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<OrderProductsDto> changeOrderStatus(Authentication authentication, @PathVariable("id")int orderId) {
+        return orderProductsService.changeOrderStatus(AuthMiner.getUsername(authentication),orderId);
+    }
+
     @ExceptionHandler(value = {RuntimeException.class})
     public ResponseEntity noHandlerFoundException(Exception ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

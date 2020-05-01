@@ -14,4 +14,6 @@ public interface OrderProductsService {
     List<OrderProductsDto> getUserOrders(String username);
 
     ResponseEntity<OrderProductsDto> createOrder(String username);
+
+    ResponseEntity<OrderProductsDto> changeOrderStatus(String username, int orderId);
 }
