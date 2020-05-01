@@ -4,7 +4,6 @@ import com.carwash.server.models.Product;
 import com.carwash.server.models.enums.ProductCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Value;
 
 @Data
 @AllArgsConstructor

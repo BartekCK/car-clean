@@ -1,7 +1,6 @@
 package com.carwash.server.services;
 
 import com.carwash.server.dto.OrderProductsDto;
-import com.carwash.server.dto.ProductDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

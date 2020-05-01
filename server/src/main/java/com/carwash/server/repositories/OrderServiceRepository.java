@@ -18,6 +18,8 @@ public interface OrderServiceRepository extends JpaRepository<OrderService, Long
 
     Optional<List<OrderService>> findAllByUserId(Long userId);
 
+    Optional<OrderService> findByIdAndAndUserUsername(Long orderServiceId, String username);
+
     Optional<List<OrderService>> findAllByDate(LocalDate date);
 
     List<OrderService> findAllByCar(Car car);

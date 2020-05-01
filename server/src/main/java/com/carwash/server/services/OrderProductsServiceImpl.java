@@ -1,11 +1,9 @@
 package com.carwash.server.services;
 
 import com.carwash.server.dto.OrderProductsDto;
-import com.carwash.server.dto.ProductDto;
 import com.carwash.server.models.Basket;
 import com.carwash.server.models.Order;
 import com.carwash.server.models.User;
-import com.carwash.server.models.enums.OrderServiceStatus;
 import com.carwash.server.models.enums.PaidStatus;
 import com.carwash.server.repositories.BasketRepository;
 import com.carwash.server.repositories.OrderProductsRepo;
@@ -65,10 +63,9 @@ public class OrderProductsServiceImpl implements OrderProductsService {
 
     @Override
     public ResponseEntity<OrderProductsDto> changeOrderStatus(String username, int orderId) {
+        Order order = orderProductsRepo.findByUserUsernameAndId(username, orderId);
 
-        Order order = orderProductsRepo.findByUserUsernameAndId(username,orderId);
-
-        if(order.getPaid_status()==PaidStatus.NOT_PAID) order.setPaid_status(PaidStatus.PAID);
+        if (order.getPaid_status() == PaidStatus.NOT_PAID) order.setPaid_status(PaidStatus.PAID);
         orderProductsRepo.save(order);
 
         return ResponseEntity.ok(OrderProductsDto.build(order));

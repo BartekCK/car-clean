@@ -1,7 +1,6 @@
 package com.carwash.server.controllers;
 
 import com.carwash.server.dto.OrderProductsDto;
-import com.carwash.server.dto.ProductDto;
 import com.carwash.server.services.OrderProductsService;
 import com.carwash.server.utilies.AuthMiner;
 import lombok.AllArgsConstructor;
@@ -29,8 +28,8 @@ public class OrderProductsController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<OrderProductsDto> getUserOrderById(Authentication authentication, @PathVariable("id")int orderId) {
-        return orderProductsService.getUserOrderById(AuthMiner.getUsername(authentication),orderId);
+    public ResponseEntity<OrderProductsDto> getUserOrderById(Authentication authentication, @PathVariable("id") int orderId) {
+        return orderProductsService.getUserOrderById(AuthMiner.getUsername(authentication), orderId);
     }
 
     @GetMapping("/create")
@@ -41,8 +40,8 @@ public class OrderProductsController {
 
     @GetMapping("/status/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<OrderProductsDto> changeOrderStatus(Authentication authentication, @PathVariable("id")int orderId) {
-        return orderProductsService.changeOrderStatus(AuthMiner.getUsername(authentication),orderId);
+    public ResponseEntity<OrderProductsDto> changeOrderStatus(Authentication authentication, @PathVariable("id") int orderId) {
+        return orderProductsService.changeOrderStatus(AuthMiner.getUsername(authentication), orderId);
     }
 
     @ExceptionHandler(value = {RuntimeException.class})

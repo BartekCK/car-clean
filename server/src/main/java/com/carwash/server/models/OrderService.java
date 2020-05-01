@@ -42,7 +42,7 @@ public class OrderService {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "services_id")
     private Services serviceid;
 
