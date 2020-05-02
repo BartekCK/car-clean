@@ -7,10 +7,13 @@ import com.carwash.server.utilies.AuthMiner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.paypal.base.rest.PayPalRESTException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.FileNotFoundException;
 
 @CrossOrigin
 @RestController
@@ -26,13 +29,10 @@ public class PaymentController {
         return paymentService.createPayment(AuthMiner.getUsername(authentication), paymentDto);
     }
 
-    @GetMapping("/false")
-    public ResponseEntity<String> cancelPay() {
-        return ResponseEntity.badRequest().body("Wystąpił błąd, spróbuj ponownie");
-    }
-
-    @GetMapping("/true")
-    public ResponseEntity<String> successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) throws PayPalRESTException, JsonProcessingException {
+    @GetMapping("/{paymentId}/{PayerID}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> successPay(@PathVariable("paymentId") String paymentId, @PathVariable("PayerID") String payerId) throws PayPalRESTException, JsonProcessingException {
         return paymentService.executePayment(paymentId, payerId);
     }
+
 }

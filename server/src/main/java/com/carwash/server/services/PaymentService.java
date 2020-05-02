@@ -34,6 +34,12 @@ public class PaymentService {
     @Value("${domain.full.name}")
     private String domain;
 
+    @Value("${paypal.client.cancelUrl}")
+    private String cancelUrl;
+
+    @Value("${paypal.client.returnUrl}")
+    private String returnUrl;
+
     @Autowired
     public PaymentService(APIContext apiContext, OrderProductsRepo orderProductsRepo, OrderServiceRepository orderServiceRepository) {
         this.apiContext = apiContext;
@@ -50,8 +56,8 @@ public class PaymentService {
         payer.setPaymentMethod(PaymentMethod.paypal.name());
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl(domain + "/api/v1/pay/false");
-        redirectUrls.setReturnUrl(domain + "/api/v1/pay/true");
+        redirectUrls.setCancelUrl(cancelUrl);
+        redirectUrls.setReturnUrl(returnUrl);
 
         Payment payment = new Payment();
         payment.setIntent("sale");
@@ -71,19 +77,22 @@ public class PaymentService {
     }
 
     public ResponseEntity<String> executePayment(String paymentId, String payerId) throws PayPalRESTException, JsonProcessingException {
+
         Payment payment = new Payment();
         payment.setId(paymentId);
         PaymentExecution paymentExecute = new PaymentExecution();
         paymentExecute.setPayerId(payerId);
-
-        Payment result = payment.execute(apiContext, paymentExecute);
-
+        Payment result;
+        try {
+            result = payment.execute(apiContext, paymentExecute);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Wystąpił bład, spróbuj ponownie później");
+        }
         if (result.getState().equals("approved")) {
             String descriptionResultString = result.getTransactions().get(0).getDescription();
             ObjectMapper objectMapper = new ObjectMapper();
 
             TypeOrderPay typeOrderPay = objectMapper.readValue(descriptionResultString, TypeOrderPay.class);
-            //PLACE TO CHANGE ORDER STATUS
             if (typeOrderPay.getOrderType() == OrderType.ORDER_SERVICE) {
                 OrderService orderService = orderServiceRepository.findById(typeOrderPay.getId()).orElseThrow(() -> new NullPointerException("Wystąpił nieoczekiwany błąd skontaktuj się z administratorem podająć kod " + paymentId));
                 orderService.setPaidStatus(PaidStatus.PAID);

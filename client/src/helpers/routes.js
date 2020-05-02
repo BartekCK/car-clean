@@ -28,6 +28,8 @@ export const opinionApiUrl = (id) => id ? `${serverUrl}/opinions/${id}` : `${ser
 export const mailApiUrl = () => `${serverUrl}/mails`;
 
 export const payApiUrl = () => `${serverUrl}/pay`;
+export const payAcceptApiUrl = (paymentId,PayerID) => `${serverUrl}/pay/${paymentId}/${PayerID}`;
+
 
 export const orderProductsUserApiUrl = (id) => id ? `${serverUrl}/orders/${id}` : `${serverUrl}/orders`;
 export const createOrderApiUrl = () => `${serverUrl}/orders/create`;

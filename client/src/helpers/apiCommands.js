@@ -10,7 +10,7 @@ import {
   loginUserApiUrl,
   mailApiUrl,
   opinionApiUrl,
-  orderProductsUserApiUrl,
+  orderProductsUserApiUrl, payAcceptApiUrl,
   payApiUrl,
   removeFromUserBasketApiUrl,
   servicesApiUrl,
@@ -64,3 +64,4 @@ export const createUserOrderProducts = () => getSafe(createOrderApiUrl());
 export const changeStatusUserOrderProducts = (id) => getSafe(changeOrderProductStatusApiUrl(id));
 
 export const payForOrder = (body) => postSafe(payApiUrl(), body);
+export const acceptPay = (paymentId,PayerID) => getSafe(payAcceptApiUrl(paymentId,PayerID));

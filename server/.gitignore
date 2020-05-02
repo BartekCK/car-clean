@@ -4,6 +4,8 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+./media/opinions/**
+
 ### STS ###
 .apt_generated
 .classpath
