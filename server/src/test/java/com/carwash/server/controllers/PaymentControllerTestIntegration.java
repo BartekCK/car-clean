@@ -62,7 +62,7 @@ class PaymentControllerTestIntegration {
 
 
     @Test
-    void payment() throws Exception {
+    void should_return_payment_link() throws Exception {
 
         User user = userRepository.findByUsername(carAdd.getUserAuthAdd().getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
         CreateOrderServiceDto createOrderServiceDto = new CreateOrderServiceDto
@@ -84,12 +84,12 @@ class PaymentControllerTestIntegration {
                 getOrderServiceDto.getServicesDto().getPrice(), 0, null, getOrderServiceDto, null);
 
 
-        MvcResult result2 = mockMvc.perform(post("/api/v1/pay")
+        mockMvc.perform(post("/api/v1/pay")
                 .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
                 .content(objectMapper.writeValueAsString(paymentDto))
                 .contentType("application/json"))
                 .andDo(print())
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isOk());
 
 
         orderServiceService.deleteOrderServiceById(dto.getId());

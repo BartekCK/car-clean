@@ -1,8 +1,8 @@
 import React from 'react';
-import {Button, Col, Container, Row} from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import BasketImage from '../../resources/img/basket.png';
 import { AddDiv, AddImage, PaymentButton, SingleInputProduct } from '../../components/Basket';
-import {getUserBasket, deleteFromUserBasket, clearUserBasket} from "../../helpers/apiCommands";
+import { clearUserBasket, deleteFromUserBasket, getUserBasket } from '../../helpers/apiCommands';
 
 export class Basket extends React.Component {
   state = {

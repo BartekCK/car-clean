@@ -4,7 +4,7 @@ import VisaImage from '../../resources/img/add/visa.png';
 import { Accordion, Button, Card, FormControl, InputGroup } from 'react-bootstrap';
 import React from 'react';
 import styled from 'styled-components';
-import {createUserOrderProducts} from "../../helpers/apiCommands";
+import { createUserOrderProducts } from '../../helpers/apiCommands';
 
 export const AddDiv = () => (
   <AddContainer>

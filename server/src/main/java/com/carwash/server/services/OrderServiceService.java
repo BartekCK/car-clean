@@ -18,7 +18,7 @@ public interface OrderServiceService {
 
     ResponseEntity<GetOrderServiceDto> changeServiceStatus(Long idService, String status);
 
-    ResponseEntity payForServiceByUser(Long idService, String username);
+    ResponseEntity<GetOrderServiceDto> getServiceByIdAndUser(Long idService, String username);
 
     ResponseEntity<List<GetOrderServiceDto>> getAllServiceByDay(LocalDate localDate);
 }

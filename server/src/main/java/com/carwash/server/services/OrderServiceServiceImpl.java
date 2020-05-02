@@ -137,8 +137,10 @@ public class OrderServiceServiceImpl implements OrderServiceService {
     }
 
     @Override
-    public ResponseEntity payForServiceByUser(Long idService, String username) {
-        return null;
+    public ResponseEntity<GetOrderServiceDto> getServiceByIdAndUser(Long idService, String username) {
+        OrderService orderService = orderServiceRepository.findByIdAndAndUserUsername(idService, username)
+                .orElseThrow(() -> new RuntimeException("Użytkownik " + username + " nie ma dostępu do serwisu o id " + idService));
+        return ResponseEntity.ok(GetOrderServiceDto.build(orderService));
     }
 
     @Override

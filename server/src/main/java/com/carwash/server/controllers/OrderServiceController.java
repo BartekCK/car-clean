@@ -42,10 +42,11 @@ public class OrderServiceController {
         return orderServiceService.getAllUserService(AuthMiner.getUsername(authentication));
     }
 
-    @PutMapping("{idService}/paid")
+
+    @GetMapping("{idService}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity payForServiceByUser(@PathVariable("idService") Long idService, Authentication authentication) {
-        return orderServiceService.payForServiceByUser(idService, AuthMiner.getUsername(authentication));
+    public ResponseEntity<GetOrderServiceDto> getServiceByIdAndUser(@PathVariable("idService") Long idService, Authentication authentication) {
+        return orderServiceService.getServiceByIdAndUser(idService, AuthMiner.getUsername(authentication));
     }
 
     @ExceptionHandler(value = {RuntimeException.class})

@@ -27,7 +27,9 @@ export const opinionApiUrl = (id) => id ? `${serverUrl}/opinions/${id}` : `${ser
 
 export const mailApiUrl = () => `${serverUrl}/mails`;
 
-export const orderProductsUserApiUrl = () => `${serverUrl}/orders`;
+export const payApiUrl = () => `${serverUrl}/pay`;
+
+export const orderProductsUserApiUrl = (id) => id ? `${serverUrl}/orders/${id}` : `${serverUrl}/orders`;
 export const createOrderApiUrl = () => `${serverUrl}/orders/create`;
 export const changeOrderProductStatusApiUrl = (id) => id ? `${serverUrl}/orders/status/${id}` : `${serverUrl}/orders`;
 

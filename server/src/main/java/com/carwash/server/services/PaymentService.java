@@ -6,6 +6,7 @@ import com.carwash.server.dto.payments.TypeOrderPay;
 import com.carwash.server.models.Order;
 import com.carwash.server.models.OrderService;
 import com.carwash.server.models.enums.OrderType;
+import com.carwash.server.models.enums.PaidStatus;
 import com.carwash.server.models.enums.PaymentMethod;
 import com.carwash.server.repositories.OrderProductsRepo;
 import com.carwash.server.repositories.OrderServiceRepository;
@@ -84,17 +85,13 @@ public class PaymentService {
             TypeOrderPay typeOrderPay = objectMapper.readValue(descriptionResultString, TypeOrderPay.class);
             //PLACE TO CHANGE ORDER STATUS
             if (typeOrderPay.getOrderType() == OrderType.ORDER_SERVICE) {
-
+                OrderService orderService = orderServiceRepository.findById(typeOrderPay.getId()).orElseThrow(() -> new NullPointerException("Wystąpił nieoczekiwany błąd skontaktuj się z administratorem podająć kod " + paymentId));
+                orderService.setPaidStatus(PaidStatus.PAID);
+                orderServiceRepository.save(orderService);
             } else if (typeOrderPay.getOrderType() == OrderType.ORDER_PRODUCT) {
-                // PLACE
-                // FOR
-                // MARCIN
-                // TO
-                // CHANGE
-                // ORDER
-                // PRODUCT
-                // PAYMENT
-                // STATUS
+                Order orderProduct = orderProductsRepo.findById(Math.toIntExact(typeOrderPay.getId())).orElseThrow(() -> new NullPointerException("Wystąpił nieoczekiwany błąd skontaktuj się z administratorem podająć kod " + paymentId));
+                orderProduct.setPaid_status(PaidStatus.PAID);
+                orderProductsRepo.save(orderProduct);
             } else
                 throw new NullPointerException("Wystąpił nieoczekiwany błąd skontaktuj się z administratorem podająć kod " + paymentId);
 

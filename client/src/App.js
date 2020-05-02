@@ -18,7 +18,8 @@ import { EmployeeService } from './pages/EmployeeServices';
 import { NotFound } from './pages/NotFound';
 import { AuthContextProvider } from './context';
 import { PrivateRoute } from './services/privateRoutes';
-import {OrderHistory} from "./pages/OrdersHistory";
+import { OrderHistory } from './pages/OrdersHistory';
+import { Payment } from './pages/Payment';
 
 const App = (props) => {
   return (
@@ -30,6 +31,12 @@ const App = (props) => {
           <Route exact path='/sklep' component={Shop} />
           <Route exact path='/kontakt' component={Contact} />
           <Route exact path='/opinie' component={Opinions} />
+          <PrivateRoute
+            roles={['ROLE_USER', 'ROLE_EMPLOYEE']}
+            exact
+            path='/payments/:type/:id'
+            component={Payment}
+          />
           {/*//PRIVATE ROUTE*/}
           <PrivateRoute
             roles={['ROLE_USER', 'ROLE_EMPLOYEE']}
@@ -39,10 +46,10 @@ const App = (props) => {
           />
           {/*//PRIVATE ROUTE*/}
           <PrivateRoute
-              roles={['ROLE_USER', 'ROLE_EMPLOYEE']}
-              exact
-              path='/zamowienia'
-              component={OrderHistory}
+            roles={['ROLE_USER', 'ROLE_EMPLOYEE']}
+            exact
+            path='/zamowienia'
+            component={OrderHistory}
           />
           <Route exact path='/oferta' component={Offer} />
           {/*//PRIVATE ROUTE*/}

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Table } from 'react-bootstrap';
+import { Button, Container, Table } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getAllUserServices } from '../../helpers/apiCommands';
+import { Redirect } from 'react-router-dom';
+import { ORDER_SERVICE } from '../../helpers/orderActions';
 
 export const UserService = () => {
   const [servicesData, setServicesData] = useState([]);
+  const [redirectLink, setRedirectLink] = useState(null);
 
   useEffect(() => {
     getAllUserServices()
@@ -26,6 +29,7 @@ export const UserService = () => {
             <th>Godzina</th>
             <th>Status</th>
             <th>Płatność</th>
+            <th>Zapłać</th>
           </tr>
         </thead>
         <tbody>
@@ -39,10 +43,25 @@ export const UserService = () => {
                 <td>{service.time}:00</td>
                 <Td title={service.status}>{service.status}</Td>
                 <td>{service.paidStatus}</td>
+                <td>
+                  {service.paidStatus === 'Nie zapłacono' && (
+                    <Button
+                      variant='outline-secondary'
+                      onClick={() =>
+                        setRedirectLink(
+                          `/payments/${ORDER_SERVICE}/${service.id}`
+                        )
+                      }
+                    >
+                      Zapłać
+                    </Button>
+                  )}
+                </td>
               </tr>
             ))}
         </tbody>
       </Table>
+      {redirectLink && <Redirect to={redirectLink} />}
     </Container>
   );
 };

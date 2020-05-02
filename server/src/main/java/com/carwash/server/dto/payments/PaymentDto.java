@@ -16,7 +16,6 @@ public class PaymentDto {
     private GetOrderServiceDto orderServiceDto;
     private OrderProductsDto orderProductsDto;
 
-
     public PaymentDto(Integer totalPrice, Integer subtotalPrice, Integer shippingPrice, ShippingDto shippingDto, GetOrderServiceDto orderServiceDto, OrderProductsDto orderProductsDto) {
         this.totalPrice = String.valueOf(totalPrice);
         this.subtotalPrice = String.valueOf(subtotalPrice);

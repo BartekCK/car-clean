@@ -3,6 +3,7 @@ import React from 'react';
 import Rating from 'react-rating';
 import styled from 'styled-components';
 import { formatDate } from '../../helpers/time';
+
 export const SingleOpinion = ({ username, mark, date, description, image }) => (
   <Row className='d-flex align-items-center justify-content-center my-3'>
     <Image rounded src={image} style={{ width: '320px', height: '280px' }}/>

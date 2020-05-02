@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, Container, Modal, Table} from 'react-bootstrap';
-import {getUserOrderProducts, changeStatusUserOrderProducts} from "../../helpers/apiCommands";
+import { Button, Container, Modal, Table } from 'react-bootstrap';
+import { changeStatusUserOrderProducts, getUserOrderProducts } from '../../helpers/apiCommands';
 
 const OrderDetailsModal = ({onHide, show, id }) => (
     <Modal

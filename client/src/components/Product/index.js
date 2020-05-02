@@ -3,7 +3,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../context';
 
-import {addToUserBasket} from "../../helpers/apiCommands";
+import { addToUserBasket } from '../../helpers/apiCommands';
 
 
 const MyVerticallyCenteredModal = ({ name, price, onHide, show }) => (

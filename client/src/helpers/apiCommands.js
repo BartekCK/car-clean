@@ -1,12 +1,25 @@
 import { deleteSafe, get, getSafe, post, postSafe, putSafe } from './api';
 import {
+  addToUserBasketApiUrl,
+  basketUserApiUrl,
   carsUserApiUrl,
+  changeOrderProductStatusApiUrl,
+  clearBasketUserApiUrl,
+  createOrderApiUrl,
   createUserApiUrl,
   loginUserApiUrl,
-  mailApiUrl, opinionApiUrl,
+  mailApiUrl,
+  opinionApiUrl,
+  orderProductsUserApiUrl,
+  payApiUrl,
+  removeFromUserBasketApiUrl,
+  servicesApiUrl,
   servicesEmployeeApiUrl,
-  servicesApiUrl, servicesFreeHoursApiUrl, servicesUserApiUrl, basketUserApiUrl, addToUserBasketApiUrl, removeFromUserBasketApiUrl, clearBasketUserApiUrl,
-  usersApiUrl, shopApiUrl, shopCategoryApiUrl, createOrderApiUrl, orderProductsUserApiUrl, changeOrderProductStatusApiUrl,
+  servicesFreeHoursApiUrl,
+  servicesUserApiUrl,
+  shopApiUrl,
+  shopCategoryApiUrl,
+  usersApiUrl,
 } from './routes';
 
 export const getAllServices = () => get(servicesApiUrl());
@@ -26,6 +39,7 @@ export const deleteUserCar = (id) => deleteSafe(carsUserApiUrl(id));
 
 export const getFreeHoursServices = (body) => postSafe(servicesFreeHoursApiUrl(), body);
 export const getAllUserServices = () => getSafe(servicesUserApiUrl());
+export const getUserServicesById = (id) => getSafe(servicesUserApiUrl(id));
 export const addReservationServices = (body) => postSafe(servicesUserApiUrl(), body);
 
 export const getAllProducts = () => get(shopApiUrl());
@@ -42,7 +56,11 @@ export const putServiceStatusById = (id,body) => putSafe(servicesEmployeeApiUrl(
 
 export const addOpinionByUser = (body) => postSafe(opinionApiUrl(), body);
 export const getAllOpinions = () => get(opinionApiUrl());
+
 export const getUserOrderProducts = () => getSafe(orderProductsUserApiUrl());
+export const getUserOrderProductsById = (id) => getSafe(orderProductsUserApiUrl(id));
 export const createUserOrderProducts = () => getSafe(createOrderApiUrl());
 
 export const changeStatusUserOrderProducts = (id) => getSafe(changeOrderProductStatusApiUrl(id));
+
+export const payForOrder = (body) => postSafe(payApiUrl(), body);
