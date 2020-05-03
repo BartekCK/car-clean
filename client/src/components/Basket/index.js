@@ -32,24 +32,12 @@ const basketToOrder = async () => {
         const error = { message: 'Błąd przy tworzeniu zamówienia' };
         this.setState({ error: error });
     }
-}
+};
 
 export const PaymentButton = () => (
-  <Accordion className='m-1 align-self-stretch'>
-    <Card className='justify-content-between'>
-      <Accordion.Toggle as={Button} variant='primary' eventKey='0'>
-        Kup teraz
-      </Accordion.Toggle>
-      <Accordion.Collapse eventKey='0'>
-        <Card.Body className='d-flex justify-content-between'>
-          <Button onClick={basketToOrder} className='mr-1' variant='outline-primary'>
-            Płatność przelewem
-          </Button>
-          <Button onClick={basketToOrder} variant='outline-success' >Płatność przy odbiorze</Button>
-        </Card.Body>
-      </Accordion.Collapse>
-    </Card>
-  </Accordion>
+    <Button onClick={basketToOrder} className='mr-1 align-self-stretch' variant='primary'>
+        Zatwierdź koszyk
+    </Button>
 );
 
 export const AddImage = styled.img`

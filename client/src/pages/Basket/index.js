@@ -3,11 +3,14 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import BasketImage from '../../resources/img/basket.png';
 import { AddDiv, AddImage, PaymentButton, SingleInputProduct } from '../../components/Basket';
 import { clearUserBasket, deleteFromUserBasket, getUserBasket } from '../../helpers/apiCommands';
+import {ORDER_PRODUCT} from "../../helpers/orderActions";
+import { Redirect } from 'react-router-dom';
 
 export class Basket extends React.Component {
   state = {
     products: [],
     price: 0,
+      redirectToOrder: false,
   };
 
   componentDidMount = () => {
@@ -42,8 +45,12 @@ export class Basket extends React.Component {
         .catch((err) => console.log(err));
   };
 
+    redirectToOrders = () => {
+        this.setState({redirectToOrder: `/zamowienia`})
+    };
+
   render() {
-    const { products, price } = this.state;
+    const { products, price, redirectToOrder } = this.state;
 
     return (
       <Container className='shadow'>

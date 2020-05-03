@@ -20,6 +20,7 @@ import {
   shopApiUrl,
   shopCategoryApiUrl,
   usersApiUrl,
+    addShippingApiUrl,
 } from './routes';
 
 export const getAllServices = () => get(servicesApiUrl());
@@ -65,3 +66,5 @@ export const changeStatusUserOrderProducts = (id) => getSafe(changeOrderProductS
 
 export const payForOrder = (body) => postSafe(payApiUrl(), body);
 export const acceptPay = (paymentId,PayerID) => getSafe(payAcceptApiUrl(paymentId,PayerID));
+
+export const addShipping = (id, body) => postSafe(addShippingApiUrl(id), body);

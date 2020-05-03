@@ -1,6 +1,7 @@
 package com.carwash.server.controllers;
 
 import com.carwash.server.dto.OrderProductsDto;
+import com.carwash.server.dto.payments.ShippingDto;
 import com.carwash.server.services.OrderProductsService;
 import com.carwash.server.utilies.AuthMiner;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,12 @@ public class OrderProductsController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<OrderProductsDto> changeOrderStatus(Authentication authentication, @PathVariable("id") int orderId) {
         return orderProductsService.changeOrderStatus(AuthMiner.getUsername(authentication), orderId);
+    }
+
+    @PostMapping("/shipping/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> addShippingData(Authentication authentication,@PathVariable("id") int orderId, @RequestBody ShippingDto shippingDto) {
+        return orderProductsService.addShippingData(AuthMiner.getUsername(authentication), orderId, shippingDto);
     }
 
     @ExceptionHandler(value = {RuntimeException.class})

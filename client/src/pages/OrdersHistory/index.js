@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Container, Modal, Table } from 'react-bootstrap';
-import { changeStatusUserOrderProducts, getUserOrderProducts } from '../../helpers/apiCommands';
+import { getUserOrderProducts } from '../../helpers/apiCommands';
+import {ORDER_PRODUCT} from "../../helpers/orderActions";
+import { Redirect } from 'react-router-dom';
 
 const OrderDetailsModal = ({onHide, show, id }) => (
     <Modal
@@ -28,7 +30,9 @@ export class OrderHistory extends React.Component {
     state = {
         orders: [],
         modalShow: false,
-        tempOrder: []
+        tempOrder: [],
+        setRedirectLink: null,
+        redirectLink: null
     };
 
     componentDidMount = async () => {
@@ -43,7 +47,7 @@ export class OrderHistory extends React.Component {
         }
     };
 
-    changeOrderStatus = async (id) => {
+/*    changeOrderStatus = async (id) => {
         //CHANGE STATUS OF ORDER, PAY
         try {
             const result = await changeStatusUserOrderProducts(id);
@@ -52,6 +56,10 @@ export class OrderHistory extends React.Component {
             const error = { message: 'Błąd' };
             this.setState({ error: error });
         }
+    };*/
+
+    changeOrderStatus = (id) => {
+        this.setState({redirectLink: `/payments/${ORDER_PRODUCT}/${id}`})
     };
 
     showModal =(prods) => {
@@ -60,7 +68,7 @@ export class OrderHistory extends React.Component {
     };
 
     render() {
-        const { orders, modalShow, tempOrder } = this.state;
+        const { orders, modalShow, tempOrder, redirectLink} = this.state;
 
         return (
             <Container className='shadow'>
@@ -90,8 +98,16 @@ export class OrderHistory extends React.Component {
                                     <th>{order.bill}</th>
                                     <th>{order.paid_status}</th>
                                     <th>
-                                        <Button onClick={() => this.changeOrderStatus(order.id)} variant='danger'>
+{/*                                        <Button onClick={() => this.changeOrderStatus(order.id)} variant='danger'>
                                             Opłać
+                                        </Button>*/}
+                                        <Button
+                                            variant='outline-secondary'
+                                            onClick={() =>
+                                                this.changeOrderStatus(order.id)
+                                            }
+                                        >
+                                            Zapłać
                                         </Button>
                                     </th>
                                 </tr>
@@ -104,6 +120,8 @@ export class OrderHistory extends React.Component {
                     show={modalShow}
                     onHide={() => this.setState({modalShow: false})}
                 />
+{/*                {console.log(this.state.redirectLink)}*/}
+                {redirectLink && <Redirect to={redirectLink} />}
             </Container>
         );
     }

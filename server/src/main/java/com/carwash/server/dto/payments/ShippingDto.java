@@ -16,5 +16,7 @@ public class ShippingDto {
     private String phone;
     private String countryCode = "PL";
 
+    }
 
-}
+
+

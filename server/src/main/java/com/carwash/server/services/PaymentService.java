@@ -98,7 +98,7 @@ public class PaymentService {
                 orderService.setPaidStatus(PaidStatus.PAID);
                 orderServiceRepository.save(orderService);
             } else if (typeOrderPay.getOrderType() == OrderType.ORDER_PRODUCT) {
-                Order orderProduct = orderProductsRepo.findById(Math.toIntExact(typeOrderPay.getId())).orElseThrow(() -> new NullPointerException("Wystąpił nieoczekiwany błąd skontaktuj się z administratorem podająć kod " + paymentId));
+                Order orderProduct = orderProductsRepo.findById(Math.toIntExact(typeOrderPay.getId()));
                 orderProduct.setPaid_status(PaidStatus.PAID);
                 orderProductsRepo.save(orderProduct);
             } else

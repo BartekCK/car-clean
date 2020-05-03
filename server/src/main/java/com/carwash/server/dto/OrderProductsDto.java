@@ -1,5 +1,6 @@
 package com.carwash.server.dto;
 
+import com.carwash.server.models.Adress;
 import com.carwash.server.models.Order;
 import lombok.Value;
 
@@ -16,6 +17,8 @@ public class OrderProductsDto {
     private final String paid_status;
 
     private final List<ProductDto> prods;
+
+    //private final Adress shippingDto;
 
     public static OrderProductsDto build(Order order) {
 

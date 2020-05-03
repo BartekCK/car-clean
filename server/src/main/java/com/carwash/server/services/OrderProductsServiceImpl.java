@@ -1,14 +1,13 @@
 package com.carwash.server.services;
 
 import com.carwash.server.dto.OrderProductsDto;
+import com.carwash.server.dto.payments.ShippingDto;
+import com.carwash.server.models.Adress;
 import com.carwash.server.models.Basket;
 import com.carwash.server.models.Order;
 import com.carwash.server.models.User;
 import com.carwash.server.models.enums.PaidStatus;
-import com.carwash.server.repositories.BasketRepository;
-import com.carwash.server.repositories.OrderProductsRepo;
-import com.carwash.server.repositories.ProductRepository;
-import com.carwash.server.repositories.UserRepository;
+import com.carwash.server.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,10 +24,13 @@ public class OrderProductsServiceImpl implements OrderProductsService {
     private final OrderProductsRepo orderProductsRepo;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final AdressRepository adressRepository;
 
     @Override
     public ResponseEntity<OrderProductsDto> getUserOrderById(String username, int orderId) {
-        return null;
+
+        Order order = orderProductsRepo.findByUserUsernameAndId(username, orderId);
+        return ResponseEntity.ok(OrderProductsDto.build(order));
     }
 
     @Override
@@ -69,5 +71,28 @@ public class OrderProductsServiceImpl implements OrderProductsService {
         orderProductsRepo.save(order);
 
         return ResponseEntity.ok(OrderProductsDto.build(order));
+    }
+
+    @Override
+    public ResponseEntity<String> addShippingData(String username, int orderId, ShippingDto shippingDto) {
+
+        Order order = orderProductsRepo.findById(orderId);
+
+        System.out.println(shippingDto.getName());
+
+        Adress adress = Adress.builder()
+                .name(shippingDto.getName())
+                .surname(shippingDto.getSurname())
+                .street(shippingDto.getStreet())
+                .additional(shippingDto.getAdditional())
+                .city(shippingDto.getCity())
+                .postalCode(shippingDto.getPostalCode())
+                .phone(shippingDto.getPhone())
+                .countryCode(shippingDto.getCountryCode())
+                .orderId(order)
+                .build();
+
+        adressRepository.save(adress);
+        return ResponseEntity.ok("ok");
     }
 }
