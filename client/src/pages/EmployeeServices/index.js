@@ -22,7 +22,7 @@ export const EmployeeService = () => {
       .then((res) => {
         if (res.status === 200) setServiceData(res.data);
       })
-      .catch((err) => console.log(err.response.data));
+      .catch((err) => console.log(err));
   }, [chosenDate, isModalVisible]);
 
   return (

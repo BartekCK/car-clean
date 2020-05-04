@@ -35,7 +35,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "orderId", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "orderId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Adress adress;
 
     @Override

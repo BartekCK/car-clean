@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Container, Modal, Table } from 'react-bootstrap';
 import { getUserOrderProducts } from '../../helpers/apiCommands';
-import {ORDER_PRODUCT, ORDER_SERVICE} from '../../helpers/orderActions';
+import { ORDER_PRODUCT } from '../../helpers/orderActions';
 import { Redirect } from 'react-router-dom';
 
 const OrderDetailsModal = ({ onHide, show, id }) => (
@@ -107,14 +107,15 @@ export class OrderHistory extends React.Component {
                     <th>{order.bill}</th>
                     <th>{order.paid_status}</th>
                     <th>
-                      {order.paid_status === 'Nie zapłacono' && (
-                          <Button
-                              variant='outline-secondary'
-                              onClick={() => this.changeOrderStatus(order.id)}
-                          >
-                            Zapłać
-                          </Button>
-                      )}
+                      <PaidButton order={order} changeOrderStatus={this.changeOrderStatus}/>
+                      {/*{order.paid_status === 'Nie zapłacono' && (*/}
+                      {/*  <Button*/}
+                      {/*    variant='outline-secondary'*/}
+                      {/*    onClick={() => this.changeOrderStatus(order.id)}*/}
+                      {/*  >*/}
+                      {/*    Zapłać*/}
+                      {/*  </Button>*/}
+                      {/*)}*/}
                     </th>
                   </tr>
                 ))
@@ -132,3 +133,22 @@ export class OrderHistory extends React.Component {
     );
   }
 }
+
+const PaidButton = ({ order, changeOrderStatus }) => {
+  if (order.paid_status === 'Nie zapłacono' && order.shippingDto === null)
+    return (
+      <Button
+        variant='outline-secondary'
+        onClick={() => changeOrderStatus(order.id)}
+      >
+        Zapłać
+      </Button>
+    );
+  else if (order.paid_status === 'Nie zapłacono' && order.shippingDto !== null)
+    return null;
+  else if (order.paid_status !== 'Nie zapłacono' && order.shippingDto !== null)
+    return null
+  else if (order.paid_status !== 'Nie zapłacono' && order.shippingDto === null)
+    return null;
+  else return null;
+};

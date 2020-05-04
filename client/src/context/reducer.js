@@ -4,7 +4,7 @@ export const LOGOUT = 'LOGOUT';
 export const authReducer = (state, action) => {
   switch (action.type) {
     case LOGIN:
-      localStorage.setItem('token', state.token);
+      localStorage.setItem('@token', action.user.token);
       const temp = {
         isAuthenticated: true,
         token: action.user.token,

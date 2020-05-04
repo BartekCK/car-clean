@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import BasketImage from '../../resources/img/basket.png';
 import { AddDiv, AddImage, SingleInputProduct } from '../../components/Basket';
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import {
   clearUserBasket,
   createUserOrderProducts,
@@ -39,9 +39,9 @@ export const Basket = () => {
     }
   };
 
-  const clearBasket = async () => {
+  const clearBasket = () => {
     if (data.products.length > 0) {
-      await clearUserBasket()
+      clearUserBasket()
         .then((res) => {
           console.log(res);
           setData({ ...data, products: res.data.prods, price: res.data.bill });
@@ -55,7 +55,7 @@ export const Basket = () => {
       try {
         const result = await createUserOrderProducts();
         console.log(result);
-        history.push(`/payments/${ORDER_PRODUCT}/${result.data.id}`)
+        history.push(`/payments/${ORDER_PRODUCT}/${result.data.id}`);
       } catch (e) {
         console.log(e);
       }
@@ -67,7 +67,7 @@ export const Basket = () => {
       <Row xs={1} sm={2}>
         <Col className='p-3 d-flex flex-column justify-content-center align-items-center'>
           {data.products.length > 0 ? (
-            data.products.map((product,mapId) => (
+            data.products.map((product, mapId) => (
               <SingleInputProduct
                 key={mapId}
                 id={product.id}

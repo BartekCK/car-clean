@@ -95,19 +95,13 @@ export const Payment = () => {
       setPayments({ ...payments, shippingPrice: 0, totalPrice: temp });
   }, [settings]);
 
-  // const setShippingPrice = () => {
-  //   console.log(settings.shipping + ' ' + settings.paypal);
-  //   if (settings.shipping && settings.paypal)
-  //     setPayments({ ...payments, shippingPrice: 15 });
-  //   else if (settings.shipping === true && settings.paypal === false)
-  //     setPayments({ ...payments, shippingPrice: 20 });
-  //   else if (settings.shipping === false)
-  //     setPayments({ ...payments, shippingPrice: 0 });
-  // };
-
   const redirectToPayPal = async () => {
     if (type === ORDER_PRODUCT) {
       if (settings.paypal === false && orderProductsDto) {
+        if (settings.shipping) {
+          await addShipping(orderProductsDto.id, shippingDto);
+        }
+
         history.push('/');
       } else {
         const tempTotalPrice = payments.subtotalPrice + payments.shippingPrice;

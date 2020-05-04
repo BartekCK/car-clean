@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -29,6 +30,35 @@ public class Adress {
     private String countryCode;
 
     @OneToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", unique = true)
     private Order orderId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Adress adress = (Adress) o;
+        return id == adress.id &&
+                orderId.equals(adress.orderId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, orderId);
+    }
+
+    @Override
+    public String toString() {
+        return "Adress{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", street='" + street + '\'' +
+                ", additional='" + additional + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", phone='" + phone + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                '}';
+    }
 }

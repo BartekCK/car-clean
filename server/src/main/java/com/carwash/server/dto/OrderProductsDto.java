@@ -1,6 +1,6 @@
 package com.carwash.server.dto;
 
-import com.carwash.server.models.Adress;
+import com.carwash.server.dto.payments.ShippingDto;
 import com.carwash.server.models.Order;
 import lombok.Value;
 
@@ -18,11 +18,17 @@ public class OrderProductsDto {
 
     private final List<ProductDto> prods;
 
-    //private final Adress shippingDto;
+    private final ShippingDto shippingDto;
 
     public static OrderProductsDto build(Order order) {
 
         List<ProductDto> con = order.getOrderProducts().stream().map(product -> ProductDto.build(product)).collect(Collectors.toList());
-        return new OrderProductsDto(order.getId(), order.getBill(), order.getPaid_status().toString(), con);
+        ShippingDto tempShippingDto =  ShippingDto.build(order.getAdress());
+        return new OrderProductsDto(order.getId(),
+                order.getBill(),
+                order.getPaid_status().toString(),
+                con,
+                tempShippingDto
+               );
     }
 }

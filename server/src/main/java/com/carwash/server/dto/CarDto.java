@@ -10,6 +10,8 @@ public class CarDto {
     private final String platesNumber;
 
     public static CarDto build(Car car) {
+        if (car == null)
+            return null;
         return new CarDto(car.getId(), car.getBrand(), car.getPlatesNumber());
     }
 
