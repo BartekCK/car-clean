@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Container, Spinner } from 'react-bootstrap';
 import { acceptPay } from '../../helpers/apiCommands';
 import styled from 'styled-components';
+
 export const PaymentSuccess = () => {
   const location = useLocation();
 

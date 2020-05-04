@@ -1,5 +1,6 @@
 import { deleteSafe, get, getSafe, post, postSafe, putSafe } from './api';
 import {
+  addShippingApiUrl,
   addToUserBasketApiUrl,
   basketUserApiUrl,
   carsUserApiUrl,
@@ -10,7 +11,8 @@ import {
   loginUserApiUrl,
   mailApiUrl,
   opinionApiUrl,
-  orderProductsUserApiUrl, payAcceptApiUrl,
+  orderProductsUserApiUrl,
+  payAcceptApiUrl,
   payApiUrl,
   removeFromUserBasketApiUrl,
   servicesApiUrl,
@@ -20,7 +22,6 @@ import {
   shopApiUrl,
   shopCategoryApiUrl,
   usersApiUrl,
-    addShippingApiUrl,
 } from './routes';
 
 export const getAllServices = () => get(servicesApiUrl());

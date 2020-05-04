@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Alert, Badge, Button, Col, Container, Modal, Row} from 'react-bootstrap';
+import { Alert, Badge, Button, Col, Container, Row } from 'react-bootstrap';
 import { MyInput } from '../SignUp';
 import {
   MdAccountCircle,
@@ -11,10 +11,10 @@ import { FaRoute } from 'react-icons/fa';
 import { useHistory, useParams } from 'react-router-dom';
 import { ORDER_PRODUCT, ORDER_SERVICE } from '../../helpers/orderActions';
 import {
-    getUserOrderProductsById,
-    getUserServicesById,
-    payForOrder,
-    addShipping, addUserCars, getAllUserCars,
+  addShipping,
+  getUserOrderProductsById,
+  getUserServicesById,
+  payForOrder,
 } from '../../helpers/apiCommands';
 
 export const Payment = () => {
@@ -28,6 +28,7 @@ export const Payment = () => {
     phone: '',
     countryCode: 'PL',
   });
+
   const [orderServiceDto, setOrderServiceDto] = useState(null);
   const [orderProductsDto, setOrderProductsDto] = useState(null);
   const [error, setError] = useState(null);
@@ -69,13 +70,13 @@ export const Payment = () => {
     } else if (type === ORDER_PRODUCT) {
       getUserOrderProductsById(id)
         .then((res) => {
-            setOrderProductsDto(res.data);
-            setPayments({
-                totalPrice: res.data.bill,
-                subtotalPrice: res.data.bill,
-                shippingPrice: 0,
-            });
-            console.log(res)
+          setOrderProductsDto(res.data);
+          setPayments({
+            totalPrice: res.data.bill,
+            subtotalPrice: res.data.bill,
+            shippingPrice: 0,
+          });
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -84,64 +85,68 @@ export const Payment = () => {
     } else throw new Error('BŁAD');
   }, [id, type]);
 
-    const setShippingPrice = () => {
-        //SOMETHING LIKE THIS
-        if (settings.shipping && settings.paypal)
-            setPayments({ ...payments, shippingPrice: 15 });
-        else if (settings.shipping === true && settings.paypal === false)
-            setPayments({ ...payments, shippingPrice: 20 });
-        else if (settings.shipping === false)
-            setPayments({ ...payments, shippingPrice: 0 });
-    };
+  useEffect(() => {
+    const temp = payments.subtotalPrice;
+    if (settings.shipping && settings.paypal)
+      setPayments({ ...payments, shippingPrice: 15, totalPrice: temp + 15 });
+    else if (settings.shipping === true && settings.paypal === false)
+      setPayments({ ...payments, shippingPrice: 20, totalPrice: temp + 20 });
+    else if (settings.shipping === false)
+      setPayments({ ...payments, shippingPrice: 0, totalPrice: temp });
+  }, [settings]);
 
-/*  const redirectToPayPal = () => {
-    if (settings.paypal === false && orderProductsDto) {
-      history.push('/');
-    } else {
-        console.log(payments.shippingPrice);
-        console.log(payments.subtotalPrice);
-        console.log(payments.totalPrice);
-        payments.totalPrice = payments.subtotalPrice + payments.shippingPrice;
-        addShipping(orderProductsDto.id, shippingDto);
-        payForOrder({ ...payments, orderProductsDto })
-      //payForOrder({ ...payments, orderServiceDto })
-        .then((res) => {
-          if (res.data) window.location.assign(res.data);
-        })
-        .catch((err) => console.log(err));
+  // const setShippingPrice = () => {
+  //   console.log(settings.shipping + ' ' + settings.paypal);
+  //   if (settings.shipping && settings.paypal)
+  //     setPayments({ ...payments, shippingPrice: 15 });
+  //   else if (settings.shipping === true && settings.paypal === false)
+  //     setPayments({ ...payments, shippingPrice: 20 });
+  //   else if (settings.shipping === false)
+  //     setPayments({ ...payments, shippingPrice: 0 });
+  // };
+
+  const redirectToPayPal = async () => {
+    if (type === ORDER_PRODUCT) {
+      if (settings.paypal === false && orderProductsDto) {
+        history.push('/');
+      } else {
+        const tempTotalPrice = payments.subtotalPrice + payments.shippingPrice;
+        setPayments({ ...payments, totalPrice: tempTotalPrice });
+
+        try {
+          if (settings.shipping) {
+            await addShipping(orderProductsDto.id, shippingDto);
+            const result = await payForOrder({
+              ...payments,
+              totalPrice: tempTotalPrice,
+              orderProductsDto,
+              shippingDto,
+            });
+            window.location.assign(result.data);
+          } else {
+            const result = await payForOrder({
+              ...payments,
+              orderProductsDto,
+            });
+            window.location.assign(result.data);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    } else if (type === ORDER_SERVICE) {
+      if (settings.paypal === false && orderServiceDto) {
+        history.push('/');
+      } else {
+        try {
+          const result = await payForOrder({ ...payments, orderServiceDto });
+          window.location.assign(result.data);
+        } catch (e) {
+          console.log(e);
+        }
+      }
     }
-  };*/
-
-    const redirectToPayPal = () => {
-        if(type === ORDER_PRODUCT) {
-            if (settings.paypal === false && orderProductsDto) {
-                history.push('/');
-            } else {
-                console.log(payments.shippingPrice);
-                console.log(payments.subtotalPrice);
-                console.log(payments.totalPrice);
-                payments.totalPrice = payments.subtotalPrice + payments.shippingPrice;
-                addShipping(orderProductsDto.id, shippingDto);
-                payForOrder({ ...payments, orderProductsDto, shippingDto })
-                //payForOrder({ ...payments, orderServiceDto })
-                    .then((res) => {
-                        if (res.data) window.location.assign(res.data);
-                    })
-                    .catch((err) => console.log(err));
-            }
-        }
-        else if(type === ORDER_SERVICE) {
-            if (settings.paypal === false && orderServiceDto) {
-                history.push('/');
-            } else {
-                payForOrder({ ...payments, orderServiceDto })
-                    .then((res) => {
-                        if (res.data) window.location.assign(res.data);
-                    })
-                    .catch((err) => console.log(err));
-            }
-        }
-    };
+  };
 
   if (error) history.push('/');
 
@@ -156,8 +161,7 @@ export const Payment = () => {
                 className='my-2'
                 variant='outline-primary'
                 onClick={() => {
-                    setSettings({ ...settings, shipping: true });
-                    setShippingPrice();
+                  setSettings({ ...settings, shipping: true });
                 }}
               >
                 Kurier GLS{' '}
@@ -172,8 +176,7 @@ export const Payment = () => {
                 className='my-2'
                 variant='outline-success'
                 onClick={() => {
-                    setSettings({ ...settings, shipping: false });
-                    setShippingPrice();
+                  setSettings({ ...settings, shipping: false });
                 }}
               >
                 Odbiór w sklepie <Badge>0 zł</Badge>
@@ -214,7 +217,7 @@ export const Payment = () => {
         <Row className='shadow p-2 my-3'>
           <Col>
             <Alert variant='primary' className='text-center'>
-              Razem: {payments.totalPrice + payments.shippingPrice} zł
+              Razem: {payments.subtotalPrice + payments.shippingPrice} zł
             </Alert>
           </Col>
           <Col className='float-right'>
@@ -288,11 +291,16 @@ const OrderServiceDetails = ({ orderServiceDto }) => (
 );
 
 const OrderProductsDetails = ({ orderProductsDto }) => (
-    <Badge>
-        <ul>
-            {orderProductsDto.prods.map(prod => <li key={prod.id}>{prod.name}<br/> Cena: {prod.price + ' zł'} <br/></li>)}
-        </ul>
-    </Badge>
+  <Badge>
+    <ul>
+      {orderProductsDto.prods.map((prod, id) => (
+        <li key={id}>
+          {prod.name}
+          <br /> Cena: {prod.price + ' zł'} <br />
+        </li>
+      ))}
+    </ul>
+  </Badge>
 );
 
 const ShippingInputs = ({ shippingDto, updateData }) => (

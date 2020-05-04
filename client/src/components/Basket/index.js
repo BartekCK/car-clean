@@ -1,10 +1,9 @@
 import Payments24 from '../../resources/img/add/przelewy24.png';
 import MastercardImage from '../../resources/img/add/mastercard.png';
 import VisaImage from '../../resources/img/add/visa.png';
-import { Accordion, Button, Card, FormControl, InputGroup } from 'react-bootstrap';
+import { Button, FormControl, InputGroup } from 'react-bootstrap';
 import React from 'react';
 import styled from 'styled-components';
-import { createUserOrderProducts } from '../../helpers/apiCommands';
 
 export const AddDiv = () => (
   <AddContainer>
@@ -21,23 +20,6 @@ export const SingleInputProduct = ({ id, name, price, deleteProd }) => (
       -
     </Button>
   </InputGroup>
-);
-
-const basketToOrder = async () => {
-    // ADD ORDER TO API FROM BASKET
-    try {
-        const result = await createUserOrderProducts();
-        console.log(result)
-    } catch (e) {
-        const error = { message: 'Błąd przy tworzeniu zamówienia' };
-        this.setState({ error: error });
-    }
-};
-
-export const PaymentButton = () => (
-    <Button onClick={basketToOrder} className='mr-1 align-self-stretch' variant='primary'>
-        Zatwierdź koszyk
-    </Button>
 );
 
 export const AddImage = styled.img`

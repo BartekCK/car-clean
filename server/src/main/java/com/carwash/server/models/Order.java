@@ -23,7 +23,7 @@ public class Order {
     private int id;
 
     private int bill;
-    //private String car_parameters;
+
     //@Enumerated(value = EnumType.STRING)
     private PaidStatus paid_status;
 
