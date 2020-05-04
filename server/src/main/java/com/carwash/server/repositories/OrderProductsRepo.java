@@ -1,5 +1,6 @@
 package com.carwash.server.repositories;
 
+import com.carwash.server.models.Adress;
 import com.carwash.server.models.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 

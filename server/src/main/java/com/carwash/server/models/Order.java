@@ -24,7 +24,7 @@ public class Order {
 
     private int bill;
 
-    //@Enumerated(value = EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private PaidStatus paid_status;
 
     @ManyToMany(fetch = FetchType.EAGER)

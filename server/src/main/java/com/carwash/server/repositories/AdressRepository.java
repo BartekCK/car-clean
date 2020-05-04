@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdressRepository extends JpaRepository<Adress, Integer> {
+
+    Adress findByOrderId(int orderId);
+
+    //boolean existsBy
 }

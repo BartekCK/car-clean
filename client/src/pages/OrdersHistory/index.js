@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Container, Modal, Table } from 'react-bootstrap';
 import { getUserOrderProducts } from '../../helpers/apiCommands';
-import { ORDER_PRODUCT } from '../../helpers/orderActions';
+import {ORDER_PRODUCT, ORDER_SERVICE} from '../../helpers/orderActions';
 import { Redirect } from 'react-router-dom';
 
 const OrderDetailsModal = ({ onHide, show, id }) => (
@@ -107,12 +107,14 @@ export class OrderHistory extends React.Component {
                     <th>{order.bill}</th>
                     <th>{order.paid_status}</th>
                     <th>
-                      <Button
-                        variant='outline-secondary'
-                        onClick={() => this.changeOrderStatus(order.id)}
-                      >
-                        Zapłać
-                      </Button>
+                      {order.paid_status === 'Nie zapłacono' && (
+                          <Button
+                              variant='outline-secondary'
+                              onClick={() => this.changeOrderStatus(order.id)}
+                          >
+                            Zapłać
+                          </Button>
+                      )}
                     </th>
                   </tr>
                 ))

@@ -76,9 +76,19 @@ public class OrderProductsServiceImpl implements OrderProductsService {
     @Override
     public ResponseEntity<String> addShippingData(String username, int orderId, ShippingDto shippingDto) {
 
-        Order order = orderProductsRepo.findById(orderId);
 
-        System.out.println(shippingDto.getName());
+
+/*        boolean exist = adressRepository.existsById(orderId);
+
+        System.out.println(exist);
+
+        if(exist) {
+            Adress temp = adressRepository.findByOrderId(orderId);
+            adressRepository.delete(temp);
+
+        }*/
+
+        Order order = orderProductsRepo.findById(orderId);
 
         Adress adress = Adress.builder()
                 .name(shippingDto.getName())
@@ -91,6 +101,7 @@ public class OrderProductsServiceImpl implements OrderProductsService {
                 .countryCode(shippingDto.getCountryCode())
                 .orderId(order)
                 .build();
+
 
         adressRepository.save(adress);
         return ResponseEntity.ok("ok");
