@@ -44,18 +44,10 @@ export const UserService = () => {
                 <Td title={service.status}>{service.status}</Td>
                 <td>{service.paidStatus}</td>
                 <td>
-                  {service.paidStatus === 'Nie zapłacono' && (
-                    <Button
-                      variant='outline-secondary'
-                      onClick={() =>
-                        setRedirectLink(
-                          `/payments/${ORDER_SERVICE}/${service.id}`
-                        )
-                      }
-                    >
-                      Zapłać
-                    </Button>
-                  )}
+                  <PaidButton
+                    service={service}
+                    setRedirectLink={setRedirectLink}
+                  />
                 </td>
               </tr>
             ))}
@@ -64,6 +56,22 @@ export const UserService = () => {
       {redirectLink && <Redirect to={redirectLink} />}
     </Container>
   );
+};
+
+const PaidButton = ({ service, setRedirectLink }) => {
+  if (service.status === 'Anulowano') return null;
+  else if (service.paidStatus === 'Nie zapłacono')
+    return (
+      <Button
+        variant='outline-secondary'
+        onClick={() =>
+          setRedirectLink(`/payments/${ORDER_SERVICE}/${service.id}`)
+        }
+      >
+        Zapłać
+      </Button>
+    );
+  else return null;
 };
 
 export const Td = styled.td`

@@ -86,13 +86,12 @@ export const Payment = () => {
   }, [id, type]);
 
   useEffect(() => {
-    const temp = payments.subtotalPrice;
     if (settings.shipping && settings.paypal)
-      setPayments({ ...payments, shippingPrice: 15, totalPrice: temp + 15 });
+      setPayments(elem => ({ ...elem, shippingPrice: 15, totalPrice: elem.subtotalPrice + 15 }));
     else if (settings.shipping === true && settings.paypal === false)
-      setPayments({ ...payments, shippingPrice: 20, totalPrice: temp + 20 });
+      setPayments(elem => ({ ...elem, shippingPrice: 20, totalPrice: elem.subtotalPrice + 20 }));
     else if (settings.shipping === false)
-      setPayments({ ...payments, shippingPrice: 0, totalPrice: temp });
+      setPayments(elem => ({ ...elem, shippingPrice: 0, totalPrice: elem.subtotalPrice }));
   }, [settings]);
 
   const redirectToPayPal = async () => {

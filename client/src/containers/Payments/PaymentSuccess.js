@@ -18,7 +18,11 @@ export const PaymentSuccess = () => {
       .then((res) => {
         setMessage(res.data);
       })
-      .catch((res) => setMessage(res.response.data));
+      .catch((res) => {
+        console.log(res);
+        if(res.response)
+          setMessage(res.response.data);
+      });
   }, [location]);
 
   return (
