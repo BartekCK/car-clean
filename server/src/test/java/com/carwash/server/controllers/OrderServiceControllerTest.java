@@ -205,6 +205,11 @@ class OrderServiceControllerTest {
             idList.add(dto.getId());
         }
 
+        mockMvc.perform(get("/api/v1/users/services/{id}", idList.get(0))
+                .header("authorization", carAdd.getUserAuthAdd().getBearerToken()))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+
 
         MvcResult resultGet = mockMvc.perform(get("/api/v1/users/services")
                 .header("authorization", carAdd.getUserAuthAdd().getBearerToken()))
@@ -331,6 +336,26 @@ class OrderServiceControllerTest {
         idList.forEach(id -> orderServiceService.deleteOrderServiceById(id));
     }
 
+
+    @Test
+    void should_catch_not_found_by_day_for_employee() throws Exception {
+
+        User user = userRepository.findByUsername(carAdd.getUserAuthAdd().getSignUpDto().getUsername()).orElseThrow(() -> new Exception());
+
+        LocalDate localDate = LocalDate.parse("1920-03-05");
+
+        EmployeeDto employeeDto = new EmployeeDto(0, UserDto.build(user), "Adam", "Sprzedawca");
+        authorizationService.createEmployee(user, employeeDto);
+
+        mockMvc.perform(post("/api/v1/employees/services")
+                .header("authorization", carAdd.getUserAuthAdd().getBearerToken())
+                .content(objectMapper.writeValueAsString(localDate))
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().is(404));
+
+        authorizationService.deleteEmployee(user);
+    }
 
     @AfterAll()
     void clean() {

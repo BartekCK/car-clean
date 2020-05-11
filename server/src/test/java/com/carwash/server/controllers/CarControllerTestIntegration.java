@@ -96,6 +96,27 @@ class CarControllerTestIntegration {
 
     }
 
+    @Test
+    void should_getUserCar_by_id() throws Exception {
+
+        CarDto carDto = new CarDto(1, "mercedes", "THI66666");
+
+        MvcResult result = mockMvc.perform(post("/api/v1/users/cars")
+                .header("authorization", userAuthAdd.getBearerToken())
+                .content(objectMapper.writeValueAsString(carDto))
+                .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isOk()).andReturn();
+        CarDto dto = objectMapper.readValue(result.getResponse().getContentAsString(), CarDto.class);
+
+
+        mockMvc.perform(get("/api/v1/users/cars/{id}",dto.getId())
+                .header("authorization", userAuthAdd.getBearerToken()))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
+
 
     @Test
     void should_deleteUserCar() throws Exception {

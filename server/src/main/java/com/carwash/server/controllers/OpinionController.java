@@ -27,11 +27,6 @@ public class OpinionController {
         return opinionService.createOpinion(AuthMiner.getUsername(authentication), file, createOpinionDto);
     }
 
-//    @PostMapping("test")
-//    public ResponseEntity<CreateOpinionDto> upload(@RequestPart("file") MultipartFile file, @RequestPart CreateOpinionDto createOpinionDto) {
-//        return opinionService.createOpinionTemp(file, createOpinionDto);
-//    }
-
     @GetMapping
     public ResponseEntity<List<CreateOpinionDto>> getAllOpinions() {
         return opinionService.getAllOpinions();
