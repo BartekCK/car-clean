@@ -58,8 +58,17 @@ export const EmployeeService = () => {
                     }}
                     key={service.id}
                   >
-                    <td>{service.carDto.brand}</td>
-                    <td>{service.carDto.platesNumber}</td>
+                    {service.carDto ? (
+                      <>
+                        <td>{service.carDto.brand}</td>
+                        <td>{service.carDto.platesNumber}</td>
+                      </>
+                    ) : (
+                      <>
+                        <td>-</td>
+                        <td>-</td>
+                      </>
+                    )}
                     <td>{service.servicesDto.name}</td>
                     <td>{service.date}</td>
                     <td>{service.time}:00</td>
