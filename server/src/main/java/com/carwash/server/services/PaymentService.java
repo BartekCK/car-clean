@@ -3,6 +3,7 @@ package com.carwash.server.services;
 import com.carwash.server.dto.payments.PaymentDto;
 import com.carwash.server.dto.payments.ShippingDto;
 import com.carwash.server.dto.payments.TypeOrderPay;
+import com.carwash.server.models.Adress;
 import com.carwash.server.models.Order;
 import com.carwash.server.models.OrderService;
 import com.carwash.server.models.enums.OrderType;
@@ -147,6 +148,22 @@ public class PaymentService {
                                                     String.valueOf(product.getPrice()),
                                                     "PLN"))
                     );
+
+            if (paymentDto.getShippingDto() != null) {
+                Adress adress = Adress.builder()
+                        .name(paymentDto.getShippingDto().getName())
+                        .surname(paymentDto.getShippingDto().getSurname())
+                        .street(paymentDto.getShippingDto().getStreet())
+                        .additional(paymentDto.getShippingDto().getAdditional())
+                        .city(paymentDto.getShippingDto().getCity())
+                        .postalCode(paymentDto.getShippingDto().getPostalCode())
+                        .phone(paymentDto.getShippingDto().getPhone())
+                        .countryCode(paymentDto.getShippingDto().getCountryCode())
+                        .orderId(order)
+                        .build();
+                order.setAdress(adress);
+                orderProductsRepo.save(order);
+            }
         } else if (paymentDto.getOrderServiceDto() != null) {
             OrderService orderService = orderServiceRepository.findByIdAndAndUserUsername(
                     paymentDto.getOrderServiceDto().getId(), username).orElseThrow(

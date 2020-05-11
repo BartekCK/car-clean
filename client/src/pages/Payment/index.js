@@ -87,18 +87,32 @@ export const Payment = () => {
 
   useEffect(() => {
     if (settings.shipping && settings.paypal)
-      setPayments(elem => ({ ...elem, shippingPrice: 15, totalPrice: elem.subtotalPrice + 15 }));
+      setPayments((elem) => ({
+        ...elem,
+        shippingPrice: 15,
+        totalPrice: elem.subtotalPrice + 15,
+      }));
     else if (settings.shipping === true && settings.paypal === false)
-      setPayments(elem => ({ ...elem, shippingPrice: 20, totalPrice: elem.subtotalPrice + 20 }));
+      setPayments((elem) => ({
+        ...elem,
+        shippingPrice: 20,
+        totalPrice: elem.subtotalPrice + 20,
+      }));
     else if (settings.shipping === false)
-      setPayments(elem => ({ ...elem, shippingPrice: 0, totalPrice: elem.subtotalPrice }));
+      setPayments((elem) => ({
+        ...elem,
+        shippingPrice: 0,
+        totalPrice: elem.subtotalPrice,
+      }));
   }, [settings]);
 
   const redirectToPayPal = async () => {
     if (type === ORDER_PRODUCT) {
       if (settings.paypal === false && orderProductsDto) {
         if (settings.shipping) {
-          await addShipping(orderProductsDto.id, shippingDto);
+          addShipping(orderProductsDto.id, shippingDto)
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
         }
 
         history.push('/');
@@ -108,7 +122,6 @@ export const Payment = () => {
 
         try {
           if (settings.shipping) {
-            await addShipping(orderProductsDto.id, shippingDto);
             const result = await payForOrder({
               ...payments,
               totalPrice: tempTotalPrice,
