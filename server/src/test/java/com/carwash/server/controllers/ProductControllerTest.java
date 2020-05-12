@@ -108,6 +108,11 @@ class ProductControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
+        mockMvc.perform(get("/api/v1/product/category/APC")
+                .header("authorization", userAuthAdd.getBearerToken()))
+                .andDo(print())
+                .andExpect(status().isOk());
+
     }
 
     @Test
@@ -151,6 +156,11 @@ class ProductControllerTest {
                 .header("authorization", userAuthAdd.getBearerToken()))
                 .andDo(print())
                 .andExpect(status().isOk()).andReturn();
+    }
+
+    @Test
+    void should_get_error_status_404() throws Exception {
+        this.mockMvc.perform(get("/api/v1/product/{prod}", 200)).andDo(print()).andExpect(status().is(404));
     }
 
     @AfterAll()
