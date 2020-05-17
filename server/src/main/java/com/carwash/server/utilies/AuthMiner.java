@@ -9,8 +9,4 @@ public class AuthMiner {
         return ((UserPrincipal) authentication.getPrincipal()).getUsername();
     }
 
-    public static long getUserId(Authentication authentication) {
-        return ((UserPrincipal) authentication).getId();
-    }
-
 }
