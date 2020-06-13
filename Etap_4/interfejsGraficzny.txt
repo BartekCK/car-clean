@@ -1,0 +1,3 @@
+Szanowny Panie Doktorze,
+
+interfejs graficzny został od razu wykonany w docelowej technologii przed dniem 20.04.2020. Jego wstępna wersja znajduje się na stronie https://car-clean.now.sh/
